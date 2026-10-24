@@ -2,11 +2,13 @@ import api from './api';
 
 export const partnerAuthService = {
   login: async (email, password) => {
-    return api.post('/partner/auth/login', { email, password });
+    const res = await api.post('/partner/auth/login', { email, password });
+    return res.data || res;
   },
 
   getMe: async () => {
-    return api.get('/partner/auth/me');
+    const res = await api.get('/partner/auth/me');
+    return res.data || res;
   },
 };
 

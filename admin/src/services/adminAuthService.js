@@ -2,12 +2,13 @@ import api from './api';
 
 export const adminAuthService = {
   login: async (email, password) => {
-    // raw axios post via api.post helper returns res.data
-    return api.post('/admin/auth/login', { email, password });
+    const res = await api.post('/admin/auth/login', { email, password });
+    return res.data || res;
   },
 
   getMe: async () => {
-    return api.get('/admin/auth/me');
+    const res = await api.get('/admin/auth/me');
+    return res.data || res;
   },
 };
 

@@ -21,7 +21,9 @@ export const useAdminAuthStore = create((set, get) => ({
   error: null,
 
   setAuth: (adminUser, tokens = {}) => {
-    const { accessToken, refreshToken } = tokens;
+    const accessToken = tokens.accessToken || tokens.access_token || null;
+    const refreshToken = tokens.refreshToken || tokens.refresh_token || null;
+
     if (accessToken) {
       localStorage.setItem('bigchamp_admin_token', accessToken);
     }
@@ -33,9 +35,9 @@ export const useAdminAuthStore = create((set, get) => ({
     }
     set({
       adminUser,
-      accessToken: accessToken || null,
-      refreshToken: refreshToken || null,
-      isAuthenticated: !!accessToken,
+      accessToken,
+      refreshToken,
+      isAuthenticated: Boolean(accessToken),
       error: null,
     });
   },
@@ -56,7 +58,8 @@ export const useAdminAuthStore = create((set, get) => ({
   login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
-      const data = await adminAuthService.login(email.trim(), password);
+      const response = await adminAuthService.login(email.trim(), password);
+      const data = response.data || response;
       get().setAuth(data.user, {
         accessToken: data.access_token,
         refreshToken: data.refresh_token,
@@ -80,7 +83,8 @@ export const useAdminAuthStore = create((set, get) => ({
     const token = get().accessToken;
     if (!token) return null;
     try {
-      const user = await adminAuthService.getMe();
+      const response = await adminAuthService.getMe();
+      const user = response.data || response;
       localStorage.setItem('bigchamp_admin_user', JSON.stringify(user));
       set({ adminUser: user, isAuthenticated: true });
       return user;

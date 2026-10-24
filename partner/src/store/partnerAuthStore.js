@@ -21,7 +21,9 @@ export const usePartnerAuthStore = create((set, get) => ({
   error: null,
 
   setAuth: (partnerUser, tokens = {}) => {
-    const { accessToken, refreshToken } = tokens;
+    const accessToken = tokens.accessToken || tokens.access_token || null;
+    const refreshToken = tokens.refreshToken || tokens.refresh_token || null;
+
     if (accessToken) {
       localStorage.setItem('bigchamp_partner_token', accessToken);
     }
@@ -33,9 +35,9 @@ export const usePartnerAuthStore = create((set, get) => ({
     }
     set({
       partnerUser,
-      accessToken: accessToken || null,
-      refreshToken: refreshToken || null,
-      isAuthenticated: !!accessToken,
+      accessToken,
+      refreshToken,
+      isAuthenticated: Boolean(accessToken),
       error: null,
     });
   },
@@ -56,7 +58,8 @@ export const usePartnerAuthStore = create((set, get) => ({
   login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
-      const data = await partnerAuthService.login(email.trim(), password);
+      const response = await partnerAuthService.login(email.trim(), password);
+      const data = response.data || response;
       get().setAuth(data.user, {
         accessToken: data.access_token,
         refreshToken: data.refresh_token,
@@ -80,7 +83,8 @@ export const usePartnerAuthStore = create((set, get) => ({
     const token = get().accessToken;
     if (!token) return null;
     try {
-      const user = await partnerAuthService.getMe();
+      const response = await partnerAuthService.getMe();
+      const user = response.data || response;
       localStorage.setItem('bigchamp_partner_user', JSON.stringify(user));
       set({ partnerUser: user, isAuthenticated: true });
       return user;
