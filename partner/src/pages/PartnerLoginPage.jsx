@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { usePartnerAuthStore } from '../store/partnerAuthStore';
-import { Building2 } from 'lucide-react';
+import { Building2, ShieldAlert, Loader2 } from 'lucide-react';
 
 export default function PartnerLoginPage() {
+  const [email, setEmail] = useState('partner@apexphysio.in');
+  const [password, setPassword] = useState('Partner@123');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-  const setAuth = usePartnerAuthStore((state) => state.setAuth);
+  const { login, isLoading } = usePartnerAuthStore();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setAuth({ name: 'Apex Sports Physio Clinic', type: 'clinic' }, { accessToken: 'dummy-partner-token' });
-    navigate('/dashboard');
+    setErrorMessage('');
+
+    if (!email.trim() || !password) {
+      setErrorMessage('Please enter both email and access password.');
+      return;
+    }
+
+    const result = await login(email, password);
+    if (result.success) {
+      navigate('/dashboard');
+    } else {
+      setErrorMessage(result.error || 'Invalid partner credentials. Access denied.');
+    }
   };
 
   return (
@@ -31,11 +45,46 @@ export default function PartnerLoginPage() {
           </p>
         </div>
 
+        {errorMessage && (
+          <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700 flex items-center gap-2">
+            <ShieldAlert className="w-4 h-4 text-red-500 shrink-0" />
+            <span>{errorMessage}</span>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Input label="Partner ID / Email" placeholder="partner@clinic.in" defaultValue="partner@apexphysio.in" />
-          <Input label="Access Key / Password" type="password" placeholder="••••••••" defaultValue="password" />
-          <Button variant="primary" type="submit" className="w-full mt-2">
-            Access Partner Dashboard
+          <Input
+            label="Partner ID / Email"
+            type="email"
+            placeholder="partner@apexphysio.in"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isLoading}
+            required
+          />
+          <Input
+            label="Access Key / Password"
+            type="password"
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoading}
+            required
+          />
+          <Button
+            variant="primary"
+            type="submit"
+            className="w-full mt-2"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <span className="flex items-center justify-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Verifying Partner...
+              </span>
+            ) : (
+              'Access Partner Dashboard'
+            )}
           </Button>
         </form>
       </Card>

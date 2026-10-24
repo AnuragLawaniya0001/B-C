@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { useAdminAuthStore } from '../store/adminAuthStore';
+import { ShieldAlert, Loader2 } from 'lucide-react';
 
 export default function AdminLoginPage() {
+  const [email, setEmail] = useState('admin@bigchamp.in');
+  const [password, setPassword] = useState('Admin@123');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-  const setAuth = useAdminAuthStore((state) => state.setAuth);
+  const { login, isLoading } = useAdminAuthStore();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Temporary stub auth for development demonstration
-    setAuth({ name: 'Admin', role: 'admin' }, { accessToken: 'dummy-admin-token' });
-    navigate('/dashboard');
+    setErrorMessage('');
+
+    if (!email.trim() || !password) {
+      setErrorMessage('Please enter both email and password.');
+      return;
+    }
+
+    const result = await login(email, password);
+    if (result.success) {
+      navigate('/dashboard');
+    } else {
+      setErrorMessage(result.error || 'Invalid credentials. Access denied.');
+    }
   };
 
   return (
@@ -28,11 +42,46 @@ export default function AdminLoginPage() {
           </p>
         </div>
 
+        {errorMessage && (
+          <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700 flex items-center gap-2">
+            <ShieldAlert className="w-4 h-4 text-red-500 shrink-0" />
+            <span>{errorMessage}</span>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Input label="Admin Email" placeholder="admin@bigchamp.in" defaultValue="admin@bigchamp.in" />
-          <Input label="Password" type="password" placeholder="••••••••" defaultValue="password" />
-          <Button variant="primary" type="submit" className="w-full mt-2">
-            Enter Admin Console
+          <Input
+            label="Admin Email"
+            type="email"
+            placeholder="admin@bigchamp.in"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isLoading}
+            required
+          />
+          <Input
+            label="Password"
+            type="password"
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoading}
+            required
+          />
+          <Button
+            variant="primary"
+            type="submit"
+            className="w-full mt-2"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <span className="flex items-center justify-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Authenticating...
+              </span>
+            ) : (
+              'Enter Admin Console'
+            )}
           </Button>
         </form>
       </Card>

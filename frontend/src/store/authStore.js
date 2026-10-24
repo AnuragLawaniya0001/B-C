@@ -49,6 +49,7 @@ export const useAuthStore = create((set, get) => ({
       get().setAuth(data.user, data.access_token, data.refresh_token);
       return { success: true, user: data.user };
     } catch (err) {
+      get().clearAuth();
       const msg = err.response?.data?.detail || 'Login failed';
       set({ error: msg });
       return {

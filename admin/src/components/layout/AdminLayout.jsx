@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, Outlet, useNavigate, Navigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   Users,
@@ -25,8 +25,18 @@ import { useAdminAuthStore } from '../../store/adminAuthStore';
 export function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { adminUser, clearAuth } = useAdminAuthStore();
+  const { adminUser, isAuthenticated, clearAuth, fetchMe } = useAdminAuthStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchMe();
+    }
+  }, [isAuthenticated, fetchMe]);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
   const handleLogout = () => {
     clearAuth();
@@ -146,12 +156,12 @@ export function AdminLayout() {
               <span className="absolute top-1 right-1 w-2 h-2 bg-accent-500 rounded-full" />
             </div>
             <div className="flex items-center gap-3 pl-3 border-l border-slate-200">
-              <div className="w-8 h-8 rounded-full bg-primary-900 text-white flex items-center justify-center font-bold text-xs">
-                AD
+              <div className="w-8 h-8 rounded-full bg-primary-900 text-white flex items-center justify-center font-bold text-xs uppercase">
+                {(adminUser?.full_name || adminUser?.name || 'AD').slice(0, 2)}
               </div>
               <div className="hidden sm:block text-left">
-                <p className="text-xs font-bold text-slate-800">Admin User</p>
-                <p className="text-[10px] text-slate-500">Super Administrator</p>
+                <p className="text-xs font-bold text-slate-800">{adminUser?.full_name || adminUser?.name || 'Admin User'}</p>
+                <p className="text-[10px] text-slate-500">{adminUser?.role || 'Super Administrator'}</p>
               </div>
             </div>
           </div>

@@ -1,9 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timezone
+from app.core.security import hash_password
 
 
 async def seed_partners(db) -> dict:
-    """Seed verified offline partners: athlete dormitories and sports physiotherapy clinics (idempotent)."""
-    now = datetime.utcnow()
+    """Seed verified offline partners and partner user accounts (idempotent)."""
+    now = datetime.now(timezone.utc)
     partners_data = [
         {
             "name": "Delhi Sports Dormitory",
@@ -83,6 +84,41 @@ async def seed_partners(db) -> dict:
         else:
             await db.partners.insert_one(partner)
             print(f"[SEED] Inserted partner '{partner['name']}' ({partner['type']} in {partner['city']})")
+            seeded += 1
+
+    # Seed default partner login accounts into partner_users
+    physio_partner = await db.partners.find_one({"name": "Delhi Sports Physio Clinic"})
+    dorm_partner = await db.partners.find_one({"name": "Delhi Sports Dormitory"})
+
+    partner_users_data = [
+        {
+            "email": "partner@apexphysio.in",
+            "password_hash": hash_password("Partner@123"),
+            "full_name": "Dr. Aryan Mehta",
+            "role": "PARTNER",
+            "partner_id": str(physio_partner["_id"]) if physio_partner else "",
+            "is_active": True,
+            "created_at": now,
+        },
+        {
+            "email": "partner@dormitory.in",
+            "password_hash": hash_password("Partner@123"),
+            "full_name": "Delhi Dormitory Host",
+            "role": "PARTNER",
+            "partner_id": str(dorm_partner["_id"]) if dorm_partner else "",
+            "is_active": True,
+            "created_at": now,
+        },
+    ]
+
+    for pu in partner_users_data:
+        existing_pu = await db.partner_users.find_one({"email": pu["email"]})
+        if existing_pu:
+            print(f"[SKIP] Partner user '{pu['email']}' already exists.")
+            skipped += 1
+        else:
+            await db.partner_users.insert_one(pu)
+            print(f"[SEED] Created default partner user: {pu['email']} / Partner@123")
             seeded += 1
 
     return {"seeded": seeded, "skipped": skipped}

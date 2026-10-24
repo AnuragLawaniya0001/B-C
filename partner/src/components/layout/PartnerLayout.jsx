@@ -1,11 +1,21 @@
-import React from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { NavLink, Outlet, useNavigate, Navigate } from 'react-router-dom';
 import { QrCode, LayoutDashboard, History, LogOut, Building2 } from 'lucide-react';
 import { usePartnerAuthStore } from '../../store/partnerAuthStore';
 
 export function PartnerLayout() {
-  const { partnerUser, clearAuth } = usePartnerAuthStore();
+  const { partnerUser, isAuthenticated, clearAuth, fetchMe } = usePartnerAuthStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchMe();
+    }
+  }, [isAuthenticated, fetchMe]);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
   const handleLogout = () => {
     clearAuth();
