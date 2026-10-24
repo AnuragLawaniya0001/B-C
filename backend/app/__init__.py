@@ -1,0 +1,1 @@
+"""Bigchamp backend application package."""
