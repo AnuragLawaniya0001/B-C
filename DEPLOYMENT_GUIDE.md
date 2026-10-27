@@ -35,16 +35,19 @@ cp .env.example .env
 Ya direct `nano .env` karke apni values check karein:
 ```ini
 # Environment Mode
-ENVIRONMENT=production
+ENV=production
+PORT=3050
 
 # MongoDB Atlas Database URI (Cloud cluster already linked)
-MONGODB_URI="mongodb+srv://anuraglawaniya0001_db_user:TUyWPN8p5Bj0Cm6x@cluster0.hhqvt0i.mongodb.net/bigchamp?retryWrites=true&w=majority"
-MONGODB_DB_NAME="bigchamp"
+MONGO_URI=mongodb+srv://anuraglawaniya0001_db_user:TUyWPN8p5Bj0Cm6x@cluster0.hhqvt0i.mongodb.net/?retryWrites=true&w=majority
+MONGO_DB_NAME=bigchamp
 
-# Security & Tokens
-JWT_SECRET_KEY="bigchamp_production_secret_key_change_me_if_needed"
-ALGORITHM="HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES="1440"
+# Security Secrets
+JWT_SECRET=super_secret_jwt_key_bigchamp_dev_1234567890
+JWT_ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=15
+REFRESH_TOKEN_EXPIRE_DAYS=7
+QR_SIGNING_SECRET=super_secret_qr_signing_key_bigchamp_dev_1234567890
 
 # CORS Configuration (* allows external VPS IP and localhost)
 CORS_ORIGINS=["*"]
