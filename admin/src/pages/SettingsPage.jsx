@@ -106,7 +106,56 @@ export default function SettingsPage() {
     updateBusinessRule('payment_routing', updated);
   };
 
+  const membershipSettings = settings?.membership_settings || {
+    enabled: true,
+    price_paise: 10000,
+    validity_days: 334,
+    renewal_policy: 'EXTEND_FROM_EXPIRY',
+    allow_renewal_while_active: true,
+    allow_renewal_after_expiry: true,
+    display_name: 'BIGCHAMP Athlete Club',
+    description: 'Year-round sports perks, exclusive partner discounts, and verified athlete membership.',
+    benefits: [
+      'Discounts on certified partner sports facilities',
+      'Exclusive sports nutrition & equipment store offers',
+      'Priority physio & athlete recovery clinic access',
+      'Verified digital athlete membership card',
+    ],
+    version: 1,
+  };
+
+  const updateMembershipSetting = (field, val) => {
+    setSettings((prev) => ({
+      ...prev,
+      membership_settings: {
+        ...(prev.membership_settings || membershipSettings),
+        [field]: val,
+      },
+    }));
+  };
+
+  const handleSaveMembership = async () => {
+    setSaving(true);
+    setStatusMessage(null);
+    try {
+      const res = await api.put('/admin/membership/settings', membershipSettings);
+      const updated = res.data || res;
+      setSettings((prev) => ({ ...prev, membership_settings: updated }));
+      setStatusMessage({
+        type: 'success',
+        text: `Membership configuration (Version ${updated.version || 1}) successfully saved to MongoDB!`,
+      });
+      setTimeout(() => setStatusMessage(null), 4000);
+    } catch (err) {
+      const msg = err.response?.data?.detail || err.message || 'Error saving membership settings';
+      setStatusMessage({ type: 'error', text: msg });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const tabs = [
+    { id: 'membership', label: 'Membership Plan & Rules', icon: ShieldCheck },
     { id: 'business_rules', label: 'Business & Pricing', icon: Sliders },
     { id: 'payment_routing', label: 'Payment Gateway Config', icon: CreditCard },
     { id: 'contact', label: 'Contact & Support', icon: Phone },
@@ -175,6 +224,214 @@ export default function SettingsPage() {
         </Card>
       ) : (
         <>
+          {/* TAB 0: Dynamic Membership Configuration */}
+          {activeTab === 'membership' && (
+            <Card className="p-6 space-y-6">
+              <div className="border-b border-slate-100 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-base font-bold text-slate-900">Dynamic Membership Configuration</h2>
+                    <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
+                      Version {membershipSettings.version || 1}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Authoritative business settings stored in MongoDB{' '}
+                    <code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-[11px]">
+                      db.settings: membership_settings
+                    </code>
+                    . Never hardcoded.
+                  </p>
+                  {membershipSettings.updated_at && (
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      Last updated by <span className="font-medium text-slate-600">{membershipSettings.updated_by || 'admin'}</span> on{' '}
+                      {new Date(membershipSettings.updated_at).toLocaleString()}
+                    </p>
+                  )}
+                </div>
+                <Button
+                  variant="primary"
+                  onClick={handleSaveMembership}
+                  disabled={saving}
+                  rightIcon={<Save className="w-4 h-4" />}
+                >
+                  {saving ? 'Saving...' : 'Save Membership Settings'}
+                </Button>
+              </div>
+
+              {/* Status Alert Banner */}
+              <div className="p-4 rounded-lg bg-blue-50 border border-blue-200 text-xs text-blue-800 flex items-start gap-2">
+                <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold">Snapshot Immutability Rule</p>
+                  <p className="mt-0.5">
+                    Modifying price or validity updates the configuration version for <strong>future purchases</strong>.
+                    Existing active memberships and pending checkout sessions preserve their snapshotted price and duration without retroactive alteration.
+                  </p>
+                </div>
+              </div>
+
+              {/* Core Settings Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Enabled Toggle */}
+                <div className="flex items-center justify-between p-3.5 border rounded-lg bg-slate-50">
+                  <div>
+                    <p className="text-xs font-bold text-slate-800">Membership Purchase Enabled</p>
+                    <p className="text-[11px] text-slate-500">Allow customers to purchase new memberships</p>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={membershipSettings.enabled !== false}
+                    onChange={(e) => updateMembershipSetting('enabled', e.target.checked)}
+                    className="w-5 h-5 text-primary-600 rounded border-slate-300"
+                  />
+                </div>
+
+                {/* Membership Price */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Membership Price (₹ INR)
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={Math.round((membershipSettings.price_paise || 10000) / 100)}
+                    onChange={(e) =>
+                      updateMembershipSetting('price_paise', Math.max(100, Number(e.target.value) * 100))
+                    }
+                    className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 focus:ring-2 focus:ring-primary-500"
+                  />
+                  <span className="text-[11px] text-slate-400">
+                    Stored internally as integer paise: {membershipSettings.price_paise || 10000}
+                  </span>
+                </div>
+
+                {/* Membership Validity */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Membership Validity (Days)
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="3650"
+                    value={membershipSettings.validity_days || 334}
+                    onChange={(e) =>
+                      updateMembershipSetting('validity_days', Math.max(1, Number(e.target.value)))
+                    }
+                    className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 focus:ring-2 focus:ring-primary-500"
+                  />
+                  <span className="text-[11px] text-slate-400">Default: 334 days (~11 months)</span>
+                </div>
+
+                {/* Renewal Policy */}
+                <div className="lg:col-span-2">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Renewal Policy Behavior
+                  </label>
+                  <select
+                    value={membershipSettings.renewal_policy || 'EXTEND_FROM_EXPIRY'}
+                    onChange={(e) => updateMembershipSetting('renewal_policy', e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 focus:ring-2 focus:ring-primary-500"
+                  >
+                    <option value="EXTEND_FROM_EXPIRY">
+                      EXTEND_FROM_EXPIRY — Extend from existing expiry if active, or from payment date if expired (Recommended)
+                    </option>
+                    <option value="START_FROM_ACTIVATION">
+                      START_FROM_ACTIVATION — Start from payment activation date regardless of remaining validity
+                    </option>
+                  </select>
+                  <span className="text-[11px] text-slate-400">
+                    Controls boundary calculation when an existing member renews.
+                  </span>
+                </div>
+
+                {/* Renewal while active */}
+                <div className="flex items-center justify-between p-3.5 border rounded-lg bg-slate-50">
+                  <div>
+                    <p className="text-xs font-bold text-slate-800">Allow Renewal While Active</p>
+                    <p className="text-[11px] text-slate-500">Permit renewals before current expiry</p>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={membershipSettings.allow_renewal_while_active !== false}
+                    onChange={(e) =>
+                      updateMembershipSetting('allow_renewal_while_active', e.target.checked)
+                    }
+                    className="w-5 h-5 text-primary-600 rounded border-slate-300"
+                  />
+                </div>
+
+                {/* Renewal after expiry */}
+                <div className="flex items-center justify-between p-3.5 border rounded-lg bg-slate-50">
+                  <div>
+                    <p className="text-xs font-bold text-slate-800">Allow Renewal After Expiry</p>
+                    <p className="text-[11px] text-slate-500">Permit re-activation after membership expires</p>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={membershipSettings.allow_renewal_after_expiry !== false}
+                    onChange={(e) =>
+                      updateMembershipSetting('allow_renewal_after_expiry', e.target.checked)
+                    }
+                    className="w-5 h-5 text-primary-600 rounded border-slate-300"
+                  />
+                </div>
+
+                {/* Display Name */}
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Membership Display Name
+                  </label>
+                  <input
+                    type="text"
+                    value={membershipSettings.display_name || ''}
+                    onChange={(e) => updateMembershipSetting('display_name', e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 focus:ring-2 focus:ring-primary-500"
+                    placeholder="e.g. BIGCHAMP Athlete Club"
+                  />
+                </div>
+
+                {/* Description */}
+                <div className="md:col-span-2 lg:col-span-3">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Storefront Description
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={membershipSettings.description || ''}
+                    onChange={(e) => updateMembershipSetting('description', e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 focus:ring-2 focus:ring-primary-500"
+                    placeholder="Customer-facing description of membership privileges"
+                  />
+                </div>
+
+                {/* Benefits List */}
+                <div className="md:col-span-2 lg:col-span-3">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Informational Benefits (One item per line)
+                  </label>
+                  <textarea
+                    rows={4}
+                    value={Array.isArray(membershipSettings.benefits) ? membershipSettings.benefits.join('\n') : ''}
+                    onChange={(e) => {
+                      const lines = e.target.value
+                        .split('\n')
+                        .map((l) => l.trim())
+                        .filter(Boolean);
+                      updateMembershipSetting('benefits', lines);
+                    }}
+                    className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 font-mono text-xs focus:ring-2 focus:ring-primary-500"
+                    placeholder="Discounts on certified partner sports facilities&#10;Exclusive sports nutrition & equipment store offers&#10;Priority physio clinic access"
+                  />
+                  <span className="text-[11px] text-slate-400">
+                    Enter benefit bullet points separated by line breaks. Rendered dynamically on the customer membership storefront.
+                  </span>
+                </div>
+              </div>
+            </Card>
+          )}
+
           {/* TAB 1: Business Rules */}
           {activeTab === 'business_rules' && (
             <Card className="p-6 space-y-6">
@@ -365,6 +622,134 @@ export default function SettingsPage() {
                     }
                     className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 focus:ring-2 focus:ring-primary-500"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Standard Delivery Fee (₹)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={Math.round((businessRules.standard_delivery_charge_paise ?? 0) / 100)}
+                    onChange={(e) =>
+                      updateBusinessRule('standard_delivery_charge_paise', Math.max(0, Number(e.target.value) * 100))
+                    }
+                    className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 focus:ring-2 focus:ring-primary-500"
+                  />
+                  <span className="text-[11px] text-slate-400">
+                    Paise: {businessRules.standard_delivery_charge_paise ?? 0} (0 = Free standard shipping)
+                  </span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Free Delivery Threshold (₹)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={Math.round((businessRules.free_delivery_threshold_paise ?? 50000) / 100)}
+                    onChange={(e) =>
+                      updateBusinessRule('free_delivery_threshold_paise', Math.max(0, Number(e.target.value) * 100))
+                    }
+                    className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 focus:ring-2 focus:ring-primary-500"
+                  />
+                  <span className="text-[11px] text-slate-400">
+                    Orders at or above this subtotal qualify for free shipping
+                  </span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Member Store Privilege Discount (%)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={businessRules.default_member_discount_percent ?? 10}
+                    onChange={(e) =>
+                      updateBusinessRule('default_member_discount_percent', Number(e.target.value))
+                    }
+                    className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 focus:ring-2 focus:ring-primary-500"
+                  />
+                  <span className="text-[11px] text-slate-400">
+                    Default member store discount when product has no custom member_price
+                  </span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Minimum Order Subtotal (₹)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={Math.round((businessRules.min_order_value_paise ?? 0) / 100)}
+                    onChange={(e) =>
+                      updateBusinessRule('min_order_value_paise', Math.max(0, Number(e.target.value) * 100))
+                    }
+                    className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 focus:ring-2 focus:ring-primary-500"
+                  />
+                  <span className="text-[11px] text-slate-400">
+                    0 = No minimum order value enforced
+                  </span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Maximum Items Per Order
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="500"
+                    value={businessRules.max_items_per_order ?? 50}
+                    onChange={(e) =>
+                      updateBusinessRule('max_items_per_order', Math.max(1, Number(e.target.value)))
+                    }
+                    className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 focus:ring-2 focus:ring-primary-500"
+                  />
+                  <span className="text-[11px] text-slate-400">Maximum cumulative item quantity</span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Default Partner Commission (%)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={businessRules.partner_default_commission_percent ?? 15}
+                    onChange={(e) =>
+                      updateBusinessRule('partner_default_commission_percent', Number(e.target.value))
+                    }
+                    className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 focus:ring-2 focus:ring-primary-500"
+                  />
+                  <span className="text-[11px] text-slate-400">
+                    Platform standard commission for partner bookings
+                  </span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Tax / GST Rate (%)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={businessRules.tax_percent ?? 0}
+                    onChange={(e) =>
+                      updateBusinessRule('tax_percent', Number(e.target.value))
+                    }
+                    className="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-800 focus:ring-2 focus:ring-primary-500"
+                  />
+                  <span className="text-[11px] text-slate-400">
+                    0 = Prices inclusive of all taxes
+                  </span>
                 </div>
 
                 {/* AutoPay Configuration Toggle */}

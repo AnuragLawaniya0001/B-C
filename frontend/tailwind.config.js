@@ -38,6 +38,12 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+      },
+      boxShadow: {
+        'glow-accent': '0 0 25px -5px rgba(249, 115, 22, 0.3)',
+        'premium': '0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.05)',
+        'premium-hover': '0 25px 50px -12px rgba(15, 23, 42, 0.15), 0 0 0 1px rgba(249, 115, 22, 0.2)',
       },
     },
   },

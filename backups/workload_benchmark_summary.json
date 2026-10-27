@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-10-25T17:55:24.978775+00:00",
+  "profiles": [
+    {
+      "name": "Profile A: Public Browsing",
+      "requests": 100,
+      "concurrency": 10,
+      "success_count": 100,
+      "error_rate": 0.0,
+      "throughput_rps": 214.0,
+      "duration_seconds": 0.467,
+      "latency_ms": {
+        "p50": 44.93,
+        "p95": 52.73,
+        "p99": 57.3,
+        "mean": 44.21
+      }
+    },
+    {
+      "name": "Profile B: Admin Telemetry & Diagnostics",
+      "requests": 50,
+      "concurrency": 5,
+      "success_count": 50,
+      "error_rate": 0.0,
+      "throughput_rps": 29.9,
+      "duration_seconds": 1.675,
+      "latency_ms": {
+        "p50": 162.69,
+        "p95": 198.24,
+        "p99": 233.57,
+        "mean": 161.08
+      }
+    },
+    {
+      "name": "Profile C: Financial Overview & Aggregations",
+      "requests": 30,
+      "concurrency": 3,
+      "success_count": 30,
+      "error_rate": 0.0,
+      "throughput_rps": 45.5,
+      "duration_seconds": 0.66,
+      "latency_ms": {
+        "p50": 56.42,
+        "p95": 157.74,
+        "p99": 160.08,
+        "mean": 63.74
+      }
+    }
+  ],
+  "environment": {
+    "runtime": "Docker Compose",
+    "backend": "FastAPI Uvicorn",
+    "database": "MongoDB 7.0 (Standalone)",
+    "benchmark_host": "Localhost"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "backup_id": "BC-BKP-20261025_181024",
+  "archive_path": "C:\\Users\\anura\\Desktop\\MyPC\\B-C\\backups\\backup_20261025_181024\\BC-BKP-20261025_181024.tar.gz",
+  "archive_size_bytes": 220922,
+  "archive_sha256": "20058ed39fd58d4a03dd00a525fd9d0a0792eff060b49d37b4a1bf78ffcc125b",
+  "encrypted": true,
+  "encrypted_path": "C:\\Users\\anura\\Desktop\\MyPC\\B-C\\backups\\backup_20261025_181024\\BC-BKP-20261025_181024.tar.tar.gz.enc",
+  "collections_backed_up": 36,
+  "documents_backed_up": 2862,
+  "duration_seconds": 0.406,
+  "freshness": {
+    "has_backup": true,
+    "backup_id": "BC-BKP-20261025_181024",
+    "created_at": "2026-10-25T18:10:24.139793+00:00",
+    "observed_age_seconds": 0,
+    "target_rpo_seconds": 3600,
+    "is_stale": false,
+    "status": "HEALTHY",
+    "archive_size_bytes": 220922,
+    "archive_path": "C:\\Users\\anura\\Desktop\\MyPC\\B-C\\backups\\backup_20261025_181024\\BC-BKP-20261025_181024.tar.gz"
+  }
+}

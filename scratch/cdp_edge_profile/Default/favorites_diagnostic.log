@@ -1,0 +1,19 @@
+2026-10-26 10:17:22.384: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile\Default
+2026-10-26 10:17:22.384: [INFO] Profiles total count: 1
+2026-10-26 10:17:22.384: [INFO] Profile: name=Profile 1 path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile\Default lastActive=null
+2026-10-26 10:17:22.384: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile\Default
+2026-10-26 10:17:22.384: [INFO] VisibilityChanged: 0
+2026-10-26 10:17:22.422: [INFO] OnDoneLoading sync enabled: 0
+2026-10-26 10:17:22.422: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 10:17:22.422: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 10:17:22.422: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 10:17:22.523: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-10-26 10:17:23.703: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-10-26 10:17:23.713: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 10:17:23.725: [INFO] Primary account changed.
+2026-10-26 10:17:23.725: [INFO] OnPrimaryAccountChanged PrimaryAccountChangeEvent::Type::kSet
+2026-10-26 10:17:23.736: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 10:17:23.757: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 10:17:38.949: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-26 10:17:38.979: [INFO] BookmarkBarPrefChanged showBar=0 showBarNTP=1
+2026-10-26 10:17:43.411: [INFO] Sync initialization duration: 19561ms

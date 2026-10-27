@@ -1,0 +1,5 @@
+2026/10/26-17:57:53.333 634c Creating DB C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_prof_1793017670070\Default\EdgeCoupons/coupons_data.db since it was missing.
+2026/10/26-17:57:53.362 634c Reusing MANIFEST C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_prof_1793017670070\Default\EdgeCoupons/coupons_data.db/MANIFEST-000001
+2026/10/26-17:58:14.092 5674 Level-0 table #5: started
+2026/10/26-17:58:14.098 5674 Level-0 table #5: 683284 bytes OK
+2026/10/26-17:58:14.100 5674 Delete type=0 #3

@@ -8,19 +8,35 @@ const iconMap = {
   'shopping-bag': ShoppingBag,
 };
 
-export function BenefitsSection({ content }) {
-  if (!content) return null;
-  const items = content.items || [];
+const defaultBenefits = [
+  {
+    icon: 'home',
+    title: 'Dormitory Network',
+    desc: 'Affordable, secure offline hostel stays for sports athletes, traveling students, and defense candidates across India.',
+  },
+  {
+    icon: 'activity',
+    title: 'Physiotherapy Clinics',
+    desc: 'Specialized sports injury recovery, physical therapy consultations, and posture care at certified partner clinics.',
+  },
+  {
+    icon: 'shopping-bag',
+    title: 'Sports Gear & Apparel',
+    desc: 'Authentic athletic gear, training apparel, and sports essentials with verified member-only discounts.',
+  },
+];
+
+export function BenefitsSection({ content = {} }) {
+  const heading = content?.heading || 'Everything You Need in One Unified Ecosystem';
+  const items = content?.items && content.items.length > 0 ? content.items : defaultBenefits;
 
   return (
     <div className="space-y-6 pt-4">
-      {content.heading && (
-        <div className="text-center">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-            {content.heading}
-          </h2>
-        </div>
-      )}
+      <div className="text-center">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+          {heading}
+        </h2>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {items.map((item, idx) => {

@@ -1,22 +1,7 @@
-"""Pydantic schemas for CMS Pages, Banners, and FAQs management."""
+"""Pydantic schemas for Promotional Banners and FAQs business content management."""
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Optional
 from pydantic import BaseModel, Field
-
-
-class PageSectionSchema(BaseModel):
-    id: str = Field(..., description="Unique section identifier (e.g. hero, benefits)")
-    type: str = Field(..., description="Section layout type (e.g. hero, benefits, banner, grid)")
-    enabled: bool = Field(default=True, description="Whether section is rendered on frontend")
-    order: int = Field(default=1, description="Display order sequence")
-    content: Dict[str, Any] = Field(default_factory=dict, description="Dynamic section content payload")
-
-
-class PageUpdateRequest(BaseModel):
-    title: str = Field(..., min_length=2, max_length=150, description="Page title")
-    meta: Optional[Dict[str, Any]] = Field(default_factory=dict, description="SEO and OpenGraph metadata")
-    sections: List[PageSectionSchema] = Field(default_factory=list, description="Ordered dynamic page sections")
-    active: bool = Field(default=True, description="Whether page is published")
 
 
 class BannerCreateRequest(BaseModel):

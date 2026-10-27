@@ -4,9 +4,20 @@ import { Check, CreditCard, Sparkles, ArrowRight } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 
-export function CardShowcaseSection({ content }) {
-  if (!content) return null;
-  const features = content.features || [];
+const defaultFeatures = [
+  '₹10 instant joining cashback credited into your Bigchamp wallet',
+  'Subsidized rates at offline dormitories & partner physiotherapy clinics',
+  'Weekly eligibility for exclusive ₹100 Cookey lucky draw rewards',
+  'Special 10% honor discount for Armed Forces, veterans & defense personnel',
+];
+
+export function CardShowcaseSection({ content = {} }) {
+  const heading = content?.heading || 'Your Bigchamp Digital Card';
+  const subheading = content?.subheading || 'Membership that pays for itself';
+  const features =
+    content?.features && content.features.length > 0 ? content.features : defaultFeatures;
+  const ctaText = content?.cta_text || 'Get Your Card (₹100)';
+  const ctaLink = content?.cta_link || '/membership';
 
   return (
     <div className="py-8">
@@ -16,11 +27,11 @@ export function CardShowcaseSection({ content }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center relative z-10">
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-500/20 text-accent-300 text-xs font-semibold">
-              <Sparkles className="w-3.5 h-3.5" /> {content.subheading || 'Membership that pays for itself'}
+              <Sparkles className="w-3.5 h-3.5" /> {subheading}
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-              {content.heading || 'Your Bigchamp Digital Card'}
+              {heading}
             </h2>
 
             <ul className="space-y-3 pt-2">
@@ -35,9 +46,9 @@ export function CardShowcaseSection({ content }) {
             </ul>
 
             <div className="pt-4">
-              <Link to={content.cta_link || '/register'}>
+              <Link to={ctaLink}>
                 <Button variant="accent" size="lg" rightIcon={<ArrowRight className="w-4 h-4" />}>
-                  {content.cta_text || 'Get Your Card'}
+                  {ctaText}
                 </Button>
               </Link>
             </div>

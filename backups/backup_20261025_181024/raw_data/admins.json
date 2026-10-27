@@ -1,0 +1,1 @@
+[{"_id": {"$oid": "6adc780c0070e2739bfdd142"}, "email": "admin@bigchamp.in", "password_hash": "$2b$12$djH7glimECP9wGpRezivCuLy7xO9JrOPn2FaJbZXryYrcS3qWsVI.", "name": "Super Admin", "role": "SUPER_ADMIN", "active": true, "created_at": {"$date": "2026-10-24T09:19:08.131Z"}, "last_login_at": {"$date": "2026-10-25T18:08:18.057Z"}, "updated_at": {"$date": "2026-10-25T18:08:18.057Z"}}]

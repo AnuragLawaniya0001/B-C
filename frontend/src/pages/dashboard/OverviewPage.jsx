@@ -25,9 +25,6 @@ export default function OverviewPage() {
   const hasMembership = user?.has_membership === true;
 
   const handleGetCardClick = () => {
-    toast('Membership Card purchase is launching in Prompt #6!', {
-      icon: '💎',
-    });
     navigate('/membership');
   };
 

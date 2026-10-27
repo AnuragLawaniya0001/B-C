@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import {
   ShoppingBag,
+  Search,
   User,
   Menu,
   Globe,
@@ -16,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useCartStore } from '../../store/cartStore';
+import { useLanguageStore } from '../../store/languageStore';
 import { MobileNav } from './MobileNav';
 
 export function Header() {
@@ -23,6 +25,7 @@ export function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const { language, toggleLanguage, t } = useLanguageStore();
 
   const { isAuthenticated, user, logout, fetchMe } = useAuthStore();
   const cartCount = useCartStore((state) => state.getCount());
@@ -64,6 +67,11 @@ export function Header() {
 
   return (
     <>
+      {/* Top Luxury Announcement Bar */}
+      <div className="bg-slate-950 text-slate-300 text-[11px] font-medium py-1.5 px-4 text-center border-b border-slate-800 tracking-wide">
+        <span>Free standard delivery across India on orders above ₹500 &bull; 100% Genuine Match-Grade Guarantee</span>
+      </div>
+
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -97,11 +105,29 @@ export function Header() {
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Language Selector */}
-              <div className="hidden sm:flex items-center gap-1 text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-md">
-                <Globe className="w-3.5 h-3.5 text-slate-400" />
-                <span>EN / हिन्दी</span>
-              </div>
+              {/* Search Shortcut Link */}
+              <Link
+                to="/store"
+                className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                aria-label="Search catalog"
+                title="Search sports equipment catalog"
+              >
+                <Search className="w-5 h-5" />
+              </Link>
+
+              {/* Language Selector Toggle */}
+              <button
+                type="button"
+                onClick={toggleLanguage}
+                className="hidden sm:flex items-center gap-1.5 text-xs font-medium text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-2.5 py-1.5 rounded-md transition-colors border border-slate-200 cursor-pointer"
+                title="Switch Language / भाषा बदलें"
+                aria-label="Toggle language"
+              >
+                <Globe className="w-3.5 h-3.5 text-primary-600" />
+                <span className={language === 'en' ? 'font-bold text-primary-700' : 'text-slate-500'}>EN</span>
+                <span className="text-slate-300">/</span>
+                <span className={language === 'hi' ? 'font-bold text-primary-700' : 'text-slate-500'}>हिन्दी</span>
+              </button>
 
               {/* Cart Icon with Counter */}
               <Link

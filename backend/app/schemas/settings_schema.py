@@ -19,6 +19,16 @@ class BusinessRulesSchema(BaseModel):
     partner_visibility: bool = Field(default=True, description="Whether partner dormitories and physio clinics are visible")
     default_dormitory_discount_percent: float = Field(default=15.0, ge=0.0, le=100.0)
     default_physio_discount_percent: float = Field(default=20.0, ge=0.0, le=100.0)
+    standard_delivery_charge_paise: int = Field(default=0, ge=0, description="Standard delivery charge in paise. Default 0 (Free).")
+    free_delivery_threshold_paise: int = Field(default=50000, ge=0, description="Subtotal threshold in paise for free delivery (e.g. 50000 = ₹500)")
+    default_member_discount_percent: float = Field(default=10.0, ge=0.0, le=100.0, description="Platform member discount percentage when product has no custom member_price")
+    min_order_value_paise: int = Field(default=0, ge=0, description="Minimum order subtotal in paise required to checkout")
+    max_items_per_order: int = Field(default=50, ge=1, le=500, description="Maximum total item quantity per order")
+    partner_default_commission_percent: float = Field(default=15.0, ge=0.0, le=100.0, description="Default partner commission percentage")
+    tax_percent: float = Field(default=0.0, ge=0.0, le=100.0, description="Default order tax/GST percentage")
+    referral_reward_paise: int = Field(default=5000, ge=0, description="Wallet reward in paise for referrer upon first order")
+    return_window_days: int = Field(default=7, ge=1, le=90, description="Max days after delivery to request return")
+    low_stock_threshold: int = Field(default=5, ge=0, le=1000, description="Product stock quantity threshold for low-stock alerts")
     payment_routing: Dict[str, Any] = Field(
         default_factory=lambda: {"gateway": "DEMO_SIMULATION", "test_mode": True, "notes": "Config only, live routing deferred"}
     )

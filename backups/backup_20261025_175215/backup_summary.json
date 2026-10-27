@@ -1,0 +1,1638 @@
+{
+  "success": true,
+  "backup_id": "BC-BKP-20261025_175215",
+  "archive_path": "C:\\Users\\anura\\Desktop\\MyPC\\B-C\\backups\\backup_20261025_175215\\BC-BKP-20261025_175215.tar.gz",
+  "archive_size_bytes": 215278,
+  "archive_sha256": "3b72673f03d5eaebb6a062b0eb415ca5c618e145d5f9611c9fe667e9060683e5",
+  "total_collections": 36,
+  "total_documents": 2764,
+  "duration_seconds": 0.377,
+  "manifest": {
+    "backup_id": "BC-BKP-20261025_175215",
+    "database": "bigchamp",
+    "mongo_version": "7.0.45",
+    "created_at": "2026-10-25T17:52:15.828192+00:00",
+    "total_collections": 36,
+    "total_documents": 2764,
+    "collections": {
+      "admin_audit_logs": {
+        "document_count": 256,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "created_at_-1",
+            "key": [
+              [
+                "created_at",
+                -1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "actor_email_1",
+            "key": [
+              [
+                "actor_email",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "resource_1",
+            "key": [
+              [
+                "resource",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "724fa97d6a74a324db267a485c1170dcdc9527cae157add8dbcde2f9cfc1ccab"
+      },
+      "admins": {
+        "document_count": 1,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "email_1",
+            "key": [
+              [
+                "email",
+                1
+              ]
+            ],
+            "unique": true
+          }
+        ],
+        "file_sha256": "edccd2713eff9b4f98327e0abf0740ff50bab8009b96c5b6b8e6f6b5a3a1cb2b"
+      },
+      "banners": {
+        "document_count": 3,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "position_1_active_1_order_1",
+            "key": [
+              [
+                "position",
+                1
+              ],
+              [
+                "active",
+                1
+              ],
+              [
+                "order",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "0b5ffb9526b724a77e8925660bdb8c74c71576900ee9ca1d35dd345a47d178f1"
+      },
+      "bookings": {
+        "document_count": 0,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "user_id_1_created_at_-1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "created_at",
+                -1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "partner_id_1_date_1",
+            "key": [
+              [
+                "partner_id",
+                1
+              ],
+              [
+                "date",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "categories": {
+        "document_count": 5,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "40ef5204d1858ba2317a0d2d2d892ae2d5f2e2473f4be75d4ad178358fc8887e"
+      },
+      "cookey_purchases": {
+        "document_count": 0,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "user_id_1_purchased_at_-1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "purchased_at",
+                -1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "cookey_reservations": {
+        "document_count": 4,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "user_id_1_status_1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "status",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "7b7f5acaac0dce9298ccac1cd74de9712cf48fbf209183bad77a4fbac2df1f05"
+      },
+      "coupon_redemptions": {
+        "document_count": 39,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "coupon_code_1_user_id_1",
+            "key": [
+              [
+                "coupon_code",
+                1
+              ],
+              [
+                "user_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "coupon_code_1_user_id_1_order_id_1",
+            "key": [
+              [
+                "coupon_code",
+                1
+              ],
+              [
+                "user_id",
+                1
+              ],
+              [
+                "order_id",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "redemption_key_1",
+            "key": [
+              [
+                "redemption_key",
+                1
+              ]
+            ],
+            "unique": true
+          }
+        ],
+        "file_sha256": "66e34d871aee01b20754ad462bcb5076ad8092f20dcf43fc886522a6b55b5575"
+      },
+      "coupons": {
+        "document_count": 55,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "code_1",
+            "key": [
+              [
+                "code",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "user_id_1_created_at_-1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "created_at",
+                -1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "applied_redemptions_1",
+            "key": [
+              [
+                "applied_redemptions",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "a71563dd5c08d361cb18df468914ce30851d02c252332737f77506d120010f87"
+      },
+      "faqs": {
+        "document_count": 10,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "category_1_order_1",
+            "key": [
+              [
+                "category",
+                1
+              ],
+              [
+                "order",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "active_1",
+            "key": [
+              [
+                "active",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "a87845fd0507bedc4477d2f303b32a8c47921f34e9d54ce03dee53953a3905be"
+      },
+      "inventory_logs": {
+        "document_count": 52,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "product_id_1_created_at_-1",
+            "key": [
+              [
+                "product_id",
+                1
+              ],
+              [
+                "created_at",
+                -1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "related_order_number_1",
+            "key": [
+              [
+                "related_order_number",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "idempotency_key_1",
+            "key": [
+              [
+                "idempotency_key",
+                1
+              ]
+            ],
+            "unique": true
+          }
+        ],
+        "file_sha256": "dc8230b14779e8708a7352da0c2cbfcd575bbce27d390fcdb22ec85b4061feb9"
+      },
+      "kyc_documents": {
+        "document_count": 6,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "user_id_1",
+            "key": [
+              [
+                "user_id",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "status_1",
+            "key": [
+              [
+                "status",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "cd4185f11f4cfe536c03b1b0e483bd6a34eb6ea43251e7523086e66016ce8343"
+      },
+      "lucky_draws": {
+        "document_count": 6,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "cycle_start_-1_cycle_end_-1",
+            "key": [
+              [
+                "cycle_start",
+                -1
+              ],
+              [
+                "cycle_end",
+                -1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "status_1",
+            "key": [
+              [
+                "status",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "d3a93865ff1d70f8e4bc44ae54e52061cb186cf3033dc23238d4601fc0dfdd13"
+      },
+      "membership_purchases": {
+        "document_count": 72,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "purchase_id_1",
+            "key": [
+              [
+                "purchase_id",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "user_id_1_created_at_-1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "created_at",
+                -1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "user_id_1_idempotency_key_1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "idempotency_key",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "provider_order_id_1",
+            "key": [
+              [
+                "provider_order_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "status_1",
+            "key": [
+              [
+                "status",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "2cf958eb31bc759256c91c1ea7585c37a899e8e96889a852ad63e5988d0624b2"
+      },
+      "memberships": {
+        "document_count": 11,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "user_id_1",
+            "key": [
+              [
+                "user_id",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "card_number_1",
+            "key": [
+              [
+                "card_number",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "status_1",
+            "key": [
+              [
+                "status",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "valid_till_1",
+            "key": [
+              [
+                "valid_till",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "6acc91099d2f41cb0bb36802c98669ffadabc072a48aa3148287ff3c83dc10fe"
+      },
+      "orders": {
+        "document_count": 480,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "user_id_1_created_at_-1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "created_at",
+                -1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "status_1",
+            "key": [
+              [
+                "status",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "order_number_1",
+            "key": [
+              [
+                "order_number",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "order_status_1",
+            "key": [
+              [
+                "order_status",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "payment_status_1",
+            "key": [
+              [
+                "payment_status",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "user_id_1_items.is_cookey_1_created_at_-1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "items.is_cookey",
+                1
+              ],
+              [
+                "created_at",
+                -1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "user_id_1_idempotency_key_1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "idempotency_key",
+                1
+              ]
+            ],
+            "unique": true
+          }
+        ],
+        "file_sha256": "f8a14d9dd88d41ba807712b0564578d577be88694f63a30dbc90340d75e59c27"
+      },
+      "otp_store": {
+        "document_count": 0,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "identifier_1",
+            "key": [
+              [
+                "identifier",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "created_at_1",
+            "key": [
+              [
+                "created_at",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "pages": {
+        "document_count": 9,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "slug_1",
+            "key": [
+              [
+                "slug",
+                1
+              ]
+            ],
+            "unique": true
+          }
+        ],
+        "file_sha256": "1b6d452b2ed9aa61581d34a988c5608ff157ea9f7c295509f86c0bbe306504fd"
+      },
+      "partner_commissions": {
+        "document_count": 112,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "partner_id_1_created_at_-1",
+            "key": [
+              [
+                "partner_id",
+                1
+              ],
+              [
+                "created_at",
+                -1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "source_id_1",
+            "key": [
+              [
+                "source_id",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "090ec4bd984445faf10960851f21a7f7930462e03c446442679a308329fc1a49"
+      },
+      "partner_settlements": {
+        "document_count": 46,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "partner_id_1_created_at_-1",
+            "key": [
+              [
+                "partner_id",
+                1
+              ],
+              [
+                "created_at",
+                -1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "payment_reference_1",
+            "key": [
+              [
+                "payment_reference",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "415adf860bb54bd49ff33f52584f65a8c1deb8d120a2d39672ebf38dd3925ad1"
+      },
+      "partner_users": {
+        "document_count": 2,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "email_1",
+            "key": [
+              [
+                "email",
+                1
+              ]
+            ],
+            "unique": true
+          }
+        ],
+        "file_sha256": "60a36e3c0ba9ec8ea33209b9d1c4730f5401c4430894b703640f4777609e5c01"
+      },
+      "partners": {
+        "document_count": 52,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "type_1_city_1",
+            "key": [
+              [
+                "type",
+                1
+              ],
+              [
+                "city",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "active_1",
+            "key": [
+              [
+                "active",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "89752a5710884d257a69df144a002d0223fbfa8160e5d83c2967bbc8f3418b41"
+      },
+      "payment_operations": {
+        "document_count": 275,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "operation_id_1",
+            "key": [
+              [
+                "operation_id",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "payment_id_1",
+            "key": [
+              [
+                "payment_id",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "order_id_1",
+            "key": [
+              [
+                "order_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "state_1",
+            "key": [
+              [
+                "state",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "active_claim_1",
+            "key": [
+              [
+                "active_claim",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "0142c2d82d274207ab3f6ad7291527075ecf1b1ae1f9698a7a7e390b0666c7fc"
+      },
+      "payment_webhook_events": {
+        "document_count": 39,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "event_id_1",
+            "key": [
+              [
+                "event_id",
+                1
+              ]
+            ],
+            "unique": true
+          }
+        ],
+        "file_sha256": "6c68c6285d0387f4c01ff3fc218f580cd19ab6719478289107023d20f91f6a6f"
+      },
+      "payments": {
+        "document_count": 387,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "payment_id_1",
+            "key": [
+              [
+                "payment_id",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "provider_order_id_1",
+            "key": [
+              [
+                "provider_order_id",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "provider_payment_id_1",
+            "key": [
+              [
+                "provider_payment_id",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "order_id_1",
+            "key": [
+              [
+                "order_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "order_number_1",
+            "key": [
+              [
+                "order_number",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "user_id_1_created_at_-1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "created_at",
+                -1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "status_1",
+            "key": [
+              [
+                "status",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "71df979396aac6feba135cbda47af3ffffc9b415acb6c0b6b8654010887a299c"
+      },
+      "products": {
+        "document_count": 55,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "slug_1",
+            "key": [
+              [
+                "slug",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "category_1_sport_1",
+            "key": [
+              [
+                "category",
+                1
+              ],
+              [
+                "sport",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "is_cookey_1",
+            "key": [
+              [
+                "is_cookey",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "featured_1",
+            "key": [
+              [
+                "featured",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "applied_deductions_1",
+            "key": [
+              [
+                "applied_deductions",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "active_1_featured_-1_created_at_-1",
+            "key": [
+              [
+                "active",
+                1
+              ],
+              [
+                "featured",
+                -1
+              ],
+              [
+                "created_at",
+                -1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "f33716d50c78f6e9bebd748cdaf98131788ed30771aaadf33b8cdf33e833932f"
+      },
+      "referrals": {
+        "document_count": 21,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "referrer_user_id_1",
+            "key": [
+              [
+                "referrer_user_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "referee_user_id_1",
+            "key": [
+              [
+                "referee_user_id",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "3d4e5f7158d9f7fb434e207b718d2012f2e6df65c78a85a1fd8a0cee14a60939"
+      },
+      "refunds": {
+        "document_count": 48,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "refund_id_1",
+            "key": [
+              [
+                "refund_id",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "order_number_1_created_at_-1",
+            "key": [
+              [
+                "order_number",
+                1
+              ],
+              [
+                "created_at",
+                -1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "user_id_1",
+            "key": [
+              [
+                "user_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "provider_refund_id_1",
+            "key": [
+              [
+                "provider_refund_id",
+                1
+              ]
+            ],
+            "unique": true
+          }
+        ],
+        "file_sha256": "9eb9fef3a6aff2c66fa11f9fd38f80683822f0f920514a3968f93f6033f4261c"
+      },
+      "scan_logs": {
+        "document_count": 8,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "partner_id_1_scanned_at_-1",
+            "key": [
+              [
+                "partner_id",
+                1
+              ],
+              [
+                "scanned_at",
+                -1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "fe91ab81a5240499348e933bc2c8ad7f4cc001109a41227253725412948bd9aa"
+      },
+      "settings": {
+        "document_count": 8,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "key_1",
+            "key": [
+              [
+                "key",
+                1
+              ]
+            ],
+            "unique": true
+          }
+        ],
+        "file_sha256": "32981afecb67d2d54a4a60b2c73ed1437ba52e2e6219a8d9eeedbb8688a1d99e"
+      },
+      "support_tickets": {
+        "document_count": 14,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "84e4d314def786192a41517546fab847087a2270598abeecf04d67e947362b7a"
+      },
+      "users": {
+        "document_count": 128,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "email_1",
+            "key": [
+              [
+                "email",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "mobile_1",
+            "key": [
+              [
+                "mobile",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "role_1",
+            "key": [
+              [
+                "role",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "created_at_1",
+            "key": [
+              [
+                "created_at",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "51f04e2abc2a416332984a44ade10aa32242529f544f56e798baa69384ae693d"
+      },
+      "wallet_operations": {
+        "document_count": 261,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "operation_id_1",
+            "key": [
+              [
+                "operation_id",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "user_id_1_idempotency_key_1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "idempotency_key",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "user_id_1_state_1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "state",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "state_1_created_at_1",
+            "key": [
+              [
+                "state",
+                1
+              ],
+              [
+                "created_at",
+                1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "7632f8da565bd930f6122d5b78b07c755b9166eadccb13ef82f2ef4d956ea3f0"
+      },
+      "wallet_recovery_logs": {
+        "document_count": 60,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "executed_at_-1",
+            "key": [
+              [
+                "executed_at",
+                -1
+              ]
+            ],
+            "unique": false
+          }
+        ],
+        "file_sha256": "c503d4733dcb2392dcc47c6f03c7835f884e5361121c8baede3de2804bfa02ef"
+      },
+      "wallet_transactions": {
+        "document_count": 191,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "user_id_1_created_at_-1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "created_at",
+                -1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "reason_1",
+            "key": [
+              [
+                "reason",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "transaction_id_1",
+            "key": [
+              [
+                "transaction_id",
+                1
+              ]
+            ],
+            "unique": true
+          },
+          {
+            "name": "user_id_1_idempotency_key_1",
+            "key": [
+              [
+                "user_id",
+                1
+              ],
+              [
+                "idempotency_key",
+                1
+              ]
+            ],
+            "unique": true
+          }
+        ],
+        "file_sha256": "d8f8d156993f2c201e1c639d97263502af8e0106aa364d3e210e833f5654a0e2"
+      },
+      "wallets": {
+        "document_count": 48,
+        "indexes": [
+          {
+            "name": "_id_",
+            "key": [
+              [
+                "_id",
+                1
+              ]
+            ],
+            "unique": false
+          },
+          {
+            "name": "user_id_1",
+            "key": [
+              [
+                "user_id",
+                1
+              ]
+            ],
+            "unique": true
+          }
+        ],
+        "file_sha256": "53d7dba95457edd4ee5cb486260481d802b0ad4685ca16c60702ae62480072a8"
+      }
+    }
+  }
+}

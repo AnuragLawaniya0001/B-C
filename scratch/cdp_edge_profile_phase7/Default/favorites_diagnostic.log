@@ -1,0 +1,29 @@
+2026-10-26 13:18:24.125: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase7\Default
+2026-10-26 13:18:24.125: [INFO] Profiles total count: 1
+2026-10-26 13:18:24.125: [INFO] Profile: name=Profile 1 path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase7\Default lastActive=null
+2026-10-26 13:18:24.125: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase7\Default
+2026-10-26 13:18:24.125: [INFO] VisibilityChanged: 0
+2026-10-26 13:18:24.144: [INFO] OnDoneLoading sync enabled: 0
+2026-10-26 13:18:24.144: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 13:18:24.144: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 13:18:24.144: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 13:18:24.148: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-10-26 13:18:33.521: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-10-26 13:18:33.524: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 13:18:33.527: [INFO] Primary account changed.
+2026-10-26 13:18:33.527: [INFO] OnPrimaryAccountChanged PrimaryAccountChangeEvent::Type::kSet
+2026-10-26 13:18:33.535: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 13:18:33.547: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 13:19:55.749: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase7\Default
+2026-10-26 13:19:55.749: [INFO] Profiles total count: 1
+2026-10-26 13:19:55.749: [INFO] Profile: name=Personal path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase7\Default lastActive=2026-10-26T13:18:24.131Z
+2026-10-26 13:19:55.749: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase7\Default
+2026-10-26 13:19:55.749: [INFO] MostRecentlyActiveProfile: name=Personal path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase7\Default lastActive=2026-10-26T13:18:24.131Z
+2026-10-26 13:19:55.749: [INFO] VisibilityChanged: 0
+2026-10-26 13:19:55.760: [INFO] OnDoneLoading sync enabled: 1
+2026-10-26 13:19:55.760: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 13:19:55.760: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 13:19:55.760: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 13:20:00.567: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-26 13:20:00.574: [INFO] BookmarkBarPrefChanged showBar=0 showBarNTP=1
+2026-10-26 13:20:15.750: [INFO] Sync initialization duration: 19987ms

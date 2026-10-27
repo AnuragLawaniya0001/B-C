@@ -1,0 +1,43 @@
+2026-10-26 12:24:47.121: [INFO][Sync] SyncState after authenticated was: FeatureNotSetup
+2026-10-26 12:24:47.180: [INFO][Sync] Try to start sync engine
+2026-10-26 12:24:47.181: [INFO][SyncManagerImpl::NudgeForInitialDownload] Initial download nudge for Encryption Keys
+2026-10-26 12:24:47.181: [INFO][SyncEngineBackend::LoadAndConnectNigoriController] Load and connect Nigori controller
+2026-10-26 12:24:47.181: [INFO][SyncEngineBackend::DoInitialize] Control Types added: Encryption Keys
+2026-10-26 12:24:47.181: [INFO][SyncManagerImpl::ConfigureSyncer] Types to download: Encryption Keys with reason: 3
+2026-10-26 12:24:47.181: [INFO][SyncSchedulerImpl::DoConfigurationSyncCycleJob] Configure job was blocked
+2026-10-26 12:24:47.244: [INFO][SyncAuthManager::SetLastAuthError] Current auth error: None
+2026-10-26 12:24:47.244: [INFO][SyncAuthManager::EdgeLogTokenErrorState] Token error with: None for account type: MSA
+2026-10-26 12:24:47.244: [INFO][Sync] Credentials changed for: EdgeSyncScopeNew
+2026-10-26 12:24:47.273: [INFO][SyncAuthManager::SetLastAuthError] Current auth error: None
+2026-10-26 12:24:47.273: [INFO][SyncAuthManager::EdgeLogTokenErrorState] Token error with: None for account type: MSA
+2026-10-26 12:24:47.273: [INFO][Sync] Credentials changed for: EdgeSyncKeyDataScope
+2026-10-26 12:24:47.273: [INFO][SyncEngineBackend::DoUpdateKeyDataCredentials] Update key data credentials
+2026-10-26 12:24:47.273: [INFO][SyncEngineBackend::DoUpdateCredentials] Update credentials
+2026-10-26 12:24:47.273: [INFO][SyncSchedulerImpl::DoConfigurationSyncCycleJob] Blocked types:  and types to download: Encryption Keys
+2026-10-26 12:25:24.689: [INFO][Sync] SyncState after authenticated was: FeatureNotSetup
+2026-10-26 12:25:24.750: [INFO][Sync] Try to start sync engine
+2026-10-26 12:25:24.751: [INFO][SyncManagerImpl::NudgeForInitialDownload] Initial download nudge for Encryption Keys
+2026-10-26 12:25:24.751: [INFO][SyncEngineBackend::LoadAndConnectNigoriController] Load and connect Nigori controller
+2026-10-26 12:25:24.751: [INFO][SyncEngineBackend::DoInitialize] Control Types added: Encryption Keys
+2026-10-26 12:25:24.751: [INFO][SyncManagerImpl::ConfigureSyncer] Types to download: Encryption Keys with reason: 3
+2026-10-26 12:25:24.751: [INFO][SyncSchedulerImpl::DoConfigurationSyncCycleJob] Configure job was blocked
+2026-10-26 12:25:24.853: [INFO][SyncAuthManager::SetLastAuthError] Current auth error: None
+2026-10-26 12:25:24.854: [INFO][SyncAuthManager::EdgeLogTokenErrorState] Token error with: None for account type: MSA
+2026-10-26 12:25:24.854: [INFO][Sync] Credentials changed for: EdgeSyncScopeNew
+2026-10-26 12:25:24.891: [INFO][SyncAuthManager::SetLastAuthError] Current auth error: None
+2026-10-26 12:25:24.892: [INFO][SyncAuthManager::EdgeLogTokenErrorState] Token error with: None for account type: MSA
+2026-10-26 12:25:24.892: [INFO][Sync] Credentials changed for: EdgeSyncKeyDataScope
+2026-10-26 12:25:24.892: [INFO][SyncEngineBackend::DoUpdateKeyDataCredentials] Update key data credentials
+2026-10-26 12:25:24.892: [INFO][SyncEngineBackend::DoUpdateCredentials] Update credentials
+2026-10-26 12:25:24.892: [INFO][SyncSchedulerImpl::DoConfigurationSyncCycleJob] Blocked types:  and types to download: Encryption Keys
+2026-10-26 12:25:28.223: [INFO][Sync] Started DataTypeManager configuration, reason: 4
+2026-10-26 12:25:28.223: [INFO][Sync] Configuring for: Extensions, Extension settings, Device Info, User Consents, Send Tab To Self, Web Apps, Encryption Keys, reason: 3, current state: 0
+2026-10-26 12:25:28.223: [WARN][Sync] Crypto error data types: 
+2026-10-26 12:25:28.223: [INFO][Sync] Configure, desired: Extensions, Extension settings, Device Info, User Consents, Send Tab To Self, Web Apps, Encryption Keys; Allow fail: 
+2026-10-26 12:25:28.224: [INFO][Sync] Loading: Extensions
+2026-10-26 12:25:28.224: [INFO][Sync] Loading: Extension settings
+2026-10-26 12:25:28.224: [INFO][Sync] Loading: Device Info
+2026-10-26 12:25:28.224: [INFO][Sync] Loading: User Consents
+2026-10-26 12:25:28.224: [INFO][Sync] Loading: Send Tab To Self
+2026-10-26 12:25:28.224: [INFO][Sync] Loading: Web Apps
+2026-10-26 12:25:28.225: [INFO][Sync] All data types are ready for configure.

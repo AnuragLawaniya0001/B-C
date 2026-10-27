@@ -11,9 +11,6 @@ export default function RegisterSuccessPage() {
   const navigate = useNavigate();
 
   const handleGetCardClick = () => {
-    toast('Membership Card purchase is launching in Prompt #6!', {
-      icon: '💎',
-    });
     navigate('/membership');
   };
 

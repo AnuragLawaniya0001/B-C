@@ -1,0 +1,128 @@
+Created At: 2026-10-26T22:13:12+05:30
+Completed At: 2026-10-26T22:13:12+05:30
+File Path: `file:///c:/Users/anura/Desktop/MyPC/B-C/admin/src/pages/StorefrontBuilderPage.jsx`
+Total Lines: 690
+Total Bytes: 29393
+Showing lines 1 to 120
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import React, { useState, useEffect } from 'react';
+2: import { Card } from '../components/ui/Card';
+3: import { Button } from '../components/ui/Button';
+4: import { Badge } from '../components/ui/Badge';
+5: import {
+6:   Layers,
+7:   Plus,
+8:   ArrowUp,
+9:   ArrowDown,
+10:   Edit2,
+11:   Trash2,
+12:   Eye,
+13:   CheckCircle2,
+14:   AlertCircle,
+15:   X,
+16:   RefreshCw,
+17:   Film,
+18:   Image as ImageIcon,
+19:   ExternalLink,
+20:   Sparkles,
+21:   ShoppingBag,
+22:   Sliders,
+23:   RotateCcw,
+24: } from 'lucide-react';
+25: import api from '../services/api';
+26: 
+27: const SECTION_TYPE_LABELS = {
+28:   hero_campaign: 'Hero Campaign (Video / Image Banner)',
+29:   collections_strip: 'Collections Circular Strip',
+30:   curated_products: 'Curated Products Carousel / Grid',
+31:   editorial_showcase: 'Editorial 3-Card Showcase',
+32:   seasonal_sale_banner: 'Seasonal Campaign / Video Banner',
+33:   athlete_testimonials: 'Athlete Testimonials & Reviews',
+34:   community_feed: 'Community & Athlete Photo Feed',
+35:   trust_pillars: 'Brand Trust & Guarantee Pillars',
+36: };
+37: 
+38: export default function StorefrontBuilderPage() {
+39:   const [sections, setSections] = useState([]);
+40:   const [loading, setLoading] = useState(true);
+41:   const [saving, setSaving] = useState(false);
+42:   const [statusMessage, setStatusMessage] = useState(null);
+43: 
+44:   // Available Media Assets (for Quick Picker)
+45:   const [mediaAssets, setMediaAssets] = useState([]);
+46:   const [showMediaPicker, setShowMediaPicker] = useState(false);
+47:   const [mediaPickerTarget, setMediaPickerTarget] = useState('media_url'); // 'media_url' | 'poster_url'
+48: 
+49:   // Edit / Create Section Modal State
+50:   const [isModalOpen, setIsModalOpen] = useState(false);
+51:   const [editingSection, setEditingSection] = useState(null);
+52:   const [formData, setFormData] = useState({
+53:     section_id: '',
+54:     title: '',
+55:     subtitle: '',
+56:     section_type: 'hero_campaign',
+57:     media_url: '',
+58:     poster_url: '',
+59:     media_type: 'image',
+60:     cta_text: 'Explore Collection',
+61:     cta_link: '/catalogue',
+62:     is_active: true,
+63:     display_order: 1,
+64:     items: [],
+65:   });
+66: 
+67:   // Fetch sections
+68:   const fetchSections = async () => {
+69:     try {
+70:       setLoading(true);
+71:       const res = await api.get('/admin/storefront/sections');
+72:       const data = res.data || res;
+73:       setSections(Array.isArray(data) ? data : []);
+74:     } catch (err) {
+75:       console.error('Failed to load storefront sections:', err);
+76:       setStatusMessage({ type: 'error', text: 'Failed to load storefront configuration.' });
+77:     } finally {
+78:       setLoading(false);
+79:     }
+80:   };
+81: 
+82:   // Fetch Media Assets for selection
+83:   const fetchMediaAssets = async () => {
+84:     try {
+85:       const res = await api.get('/media?include_archived=false');
+86:       const data = res.data || res;
+87:       setMediaAssets(Array.isArray(data) ? data : []);
+88:     } catch (err) {
+89:       console.error('Failed to load media for picker:', err);
+90:     }
+91:   };
+92: 
+93:   useEffect(() => {
+94:     fetchSections();
+95:     fetchMediaAssets();
+96:   }, []);
+97: 
+98:   // Open Edit Modal
+99:   const handleEdit = (section) => {
+100:     setEditingSection(section);
+101:     setFormData({
+102:       section_id: section.section_id,
+103:       title: section.title || '',
+104:       subtitle: section.subtitle || '',
+105:       section_type: section.section_type || 'hero_campaign',
+106:       media_url: section.media_url || '',
+107:       poster_url: section.poster_url || '',
+108:       media_type: section.media_type || 'image',
+109:       cta_text: section.cta_text || '',
+110:       cta_link: section.cta_link || '',
+111:       is_active: section.is_active !== false,
+112:       display_order: section.display_order || 1,
+113:       items: Array.isArray(section.items) ? section.items : [],
+114:     });
+115:     setIsModalOpen(true);
+116:   };
+117: 
+118:   // Open Create Modal
+119:   const handleCreate = () => {
+120:     setEditingSection(null);
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

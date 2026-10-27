@@ -1,0 +1,74 @@
+2026-10-26 11:42:09.348: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default
+2026-10-26 11:42:09.348: [INFO] Profiles total count: 1
+2026-10-26 11:42:09.348: [INFO] Profile: name=Profile 1 path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default lastActive=null
+2026-10-26 11:42:09.348: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default
+2026-10-26 11:42:09.348: [INFO] VisibilityChanged: 0
+2026-10-26 11:42:09.379: [INFO] OnDoneLoading sync enabled: 0
+2026-10-26 11:42:09.379: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 11:42:09.379: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 11:42:09.379: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 11:42:09.383: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-10-26 11:42:11.880: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-10-26 11:42:11.885: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 11:42:11.892: [INFO] Primary account changed.
+2026-10-26 11:42:11.892: [INFO] OnPrimaryAccountChanged PrimaryAccountChangeEvent::Type::kSet
+2026-10-26 11:42:11.918: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 11:42:11.942: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 11:42:33.647: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-26 11:42:33.669: [INFO] BookmarkBarPrefChanged showBar=0 showBarNTP=1
+2026-10-26 11:42:40.477: [INFO] Sync initialization duration: 28457ms
+2026-10-26 11:43:27.984: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default
+2026-10-26 11:43:27.984: [INFO] Profiles total count: 1
+2026-10-26 11:43:27.984: [INFO] Profile: name=Personal path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default lastActive=2026-10-26T11:42:09.360Z
+2026-10-26 11:43:27.984: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default
+2026-10-26 11:43:27.984: [INFO] MostRecentlyActiveProfile: name=Personal path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default lastActive=2026-10-26T11:42:09.360Z
+2026-10-26 11:43:27.984: [INFO] VisibilityChanged: 0
+2026-10-26 11:43:28.015: [INFO] OnDoneLoading sync enabled: 1
+2026-10-26 11:43:28.015: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 11:43:28.015: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 11:43:28.015: [INFO] BookmarksSnapshot Startup total=1 bar=0 other=1 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 11:43:28.136: [INFO] Sync initialization duration: 117ms
+2026-10-26 12:38:03.791: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default
+2026-10-26 12:38:03.791: [INFO] Profiles total count: 1
+2026-10-26 12:38:03.791: [INFO] Profile: name=Personal path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default lastActive=2026-10-26T11:42:09.360Z
+2026-10-26 12:38:03.791: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default
+2026-10-26 12:38:03.791: [INFO] MostRecentlyActiveProfile: name=Personal path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default lastActive=2026-10-26T11:42:09.360Z
+2026-10-26 12:38:03.791: [INFO] VisibilityChanged: 0
+2026-10-26 12:38:03.816: [INFO] OnDoneLoading sync enabled: 1
+2026-10-26 12:38:03.816: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 12:38:03.816: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 12:38:03.816: [INFO] BookmarksSnapshot Startup total=1 bar=0 other=1 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 12:38:03.888: [INFO] Sync initialization duration: 67ms
+2026-10-26 12:42:53.496: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default
+2026-10-26 12:42:53.496: [INFO] Profiles total count: 1
+2026-10-26 12:42:53.496: [INFO] Profile: name=Personal path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default lastActive=2026-10-26T12:38:03.800Z
+2026-10-26 12:42:53.496: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default
+2026-10-26 12:42:53.496: [INFO] MostRecentlyActiveProfile: name=Personal path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default lastActive=2026-10-26T12:38:03.800Z
+2026-10-26 12:42:53.496: [INFO] VisibilityChanged: 0
+2026-10-26 12:42:53.522: [INFO] OnDoneLoading sync enabled: 1
+2026-10-26 12:42:53.522: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 12:42:53.522: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 12:42:53.522: [INFO] BookmarksSnapshot Startup total=1 bar=0 other=1 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 12:42:53.596: [INFO] Sync initialization duration: 71ms
+2026-10-26 12:47:13.550: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default
+2026-10-26 12:47:13.550: [INFO] Profiles total count: 1
+2026-10-26 12:47:13.550: [INFO] Profile: name=Personal path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default lastActive=2026-10-26T12:42:53.507Z
+2026-10-26 12:47:13.550: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default
+2026-10-26 12:47:13.550: [INFO] MostRecentlyActiveProfile: name=Personal path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default lastActive=2026-10-26T12:42:53.507Z
+2026-10-26 12:47:13.550: [INFO] VisibilityChanged: 0
+2026-10-26 12:47:13.579: [INFO] OnDoneLoading sync enabled: 1
+2026-10-26 12:47:13.579: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 12:47:13.579: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 12:47:13.579: [INFO] BookmarksSnapshot Startup total=1 bar=0 other=1 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 12:47:13.652: [INFO] Sync initialization duration: 69ms
+2026-10-26 12:51:28.375: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default
+2026-10-26 12:51:28.375: [INFO] Profiles total count: 1
+2026-10-26 12:51:28.376: [INFO] Profile: name=Personal path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default lastActive=2026-10-26T12:47:13.558Z
+2026-10-26 12:51:28.376: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default
+2026-10-26 12:51:28.376: [INFO] MostRecentlyActiveProfile: name=Personal path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default lastActive=2026-10-26T12:47:13.558Z
+2026-10-26 12:51:28.376: [INFO] VisibilityChanged: 0
+2026-10-26 12:51:28.420: [INFO] OnDoneLoading sync enabled: 1
+2026-10-26 12:51:28.420: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 12:51:28.420: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 12:51:28.420: [INFO] BookmarksSnapshot Startup total=1 bar=0 other=1 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 12:51:28.507: [INFO] Sync initialization duration: 81ms

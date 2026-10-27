@@ -24,6 +24,9 @@ export const authService = {
 
   updateProfile: (data) =>
     api.patch('/users/me', data),
+
+  resetPassword: (identifier, new_password, otp) =>
+    api.post('/auth/reset-password', { identifier, new_password, otp }),
 };
 
 export default authService;

@@ -1,0 +1,82 @@
+2026-10-26 15:58:03.670: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default
+2026-10-26 15:58:03.670: [INFO] Profiles total count: 1
+2026-10-26 15:58:03.670: [INFO] Profile: name=Profile 1 path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default lastActive=null
+2026-10-26 15:58:03.670: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default
+2026-10-26 15:58:03.670: [INFO] VisibilityChanged: 0
+2026-10-26 15:58:03.694: [INFO] OnDoneLoading sync enabled: 0
+2026-10-26 15:58:03.694: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 15:58:03.694: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 15:58:03.694: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 15:58:03.754: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-10-26 15:58:06.340: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-10-26 15:58:06.342: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 15:58:06.345: [INFO] Primary account changed.
+2026-10-26 15:58:06.345: [INFO] OnPrimaryAccountChanged PrimaryAccountChangeEvent::Type::kSet
+2026-10-26 15:58:06.350: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 15:58:06.362: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 15:59:01.799: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default
+2026-10-26 15:59:01.799: [INFO] Profiles total count: 1
+2026-10-26 15:59:01.799: [INFO] Profile: name=Profile 1 path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default lastActive=null
+2026-10-26 15:59:01.799: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default
+2026-10-26 15:59:01.799: [INFO] VisibilityChanged: 0
+2026-10-26 15:59:01.814: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 15:59:01.814: [INFO] OnDoneLoading sync enabled: 0
+2026-10-26 15:59:01.814: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 15:59:01.814: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 15:59:01.814: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 15:59:01.829: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 15:59:01.838: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 15:59:02.264: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 15:59:02.266: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 15:59:02.267: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 15:59:02.273: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 15:59:02.276: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 15:59:02.279: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 15:59:02.280: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 5
+2026-10-26 15:59:02.282: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 5
+2026-10-26 15:59:02.963: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 5
+2026-10-26 15:59:02.969: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 5
+2026-10-26 15:59:03.617: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 5
+2026-10-26 15:59:04.202: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 5
+2026-10-26 15:59:04.204: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 6
+2026-10-26 15:59:04.205: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 6
+2026-10-26 15:59:06.443: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 6
+2026-10-26 15:59:06.444: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 6
+2026-10-26 15:59:06.651: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 6
+2026-10-26 15:59:08.273: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 6
+2026-10-26 15:59:08.275: [INFO] Sync initialization duration: ZERO
+2026-10-26 15:59:47.540: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default
+2026-10-26 15:59:47.540: [INFO] Profiles total count: 1
+2026-10-26 15:59:47.540: [INFO] Profile: name=Profile 1 path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default lastActive=2026-10-26T15:59:01.807Z
+2026-10-26 15:59:47.540: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default
+2026-10-26 15:59:47.540: [INFO] MostRecentlyActiveProfile: name=Profile 1 path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default lastActive=2026-10-26T15:59:01.807Z
+2026-10-26 15:59:47.540: [INFO] VisibilityChanged: 0
+2026-10-26 15:59:47.573: [INFO] OnDoneLoading sync enabled: 1
+2026-10-26 15:59:47.573: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 15:59:47.573: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 15:59:47.573: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 15:59:54.134: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-26 15:59:54.145: [INFO] BookmarkBarPrefChanged showBar=0 showBarNTP=1
+2026-10-26 15:59:59.627: [INFO] Sync initialization duration: 12050ms
+2026-10-26 16:00:40.407: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default
+2026-10-26 16:00:40.407: [INFO] Profiles total count: 1
+2026-10-26 16:00:40.407: [INFO] Profile: name=Profile 1 path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default lastActive=2026-10-26T15:59:47.556Z
+2026-10-26 16:00:40.407: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default
+2026-10-26 16:00:40.407: [INFO] MostRecentlyActiveProfile: name=Profile 1 path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default lastActive=2026-10-26T15:59:47.556Z
+2026-10-26 16:00:40.407: [INFO] VisibilityChanged: 0
+2026-10-26 16:00:40.424: [INFO] OnDoneLoading sync enabled: 1
+2026-10-26 16:00:40.424: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 16:00:40.424: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 16:00:40.424: [INFO] BookmarksSnapshot Startup total=1 bar=0 other=1 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 16:00:45.221: [INFO] Sync initialization duration: 4794ms
+2026-10-26 16:32:26.058: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default
+2026-10-26 16:32:26.058: [INFO] Profiles total count: 1
+2026-10-26 16:32:26.058: [INFO] Profile: name=Profile 1 path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default lastActive=2026-10-26T16:00:40.414Z
+2026-10-26 16:32:26.058: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default
+2026-10-26 16:32:26.058: [INFO] MostRecentlyActiveProfile: name=Profile 1 path=C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default lastActive=2026-10-26T16:00:40.414Z
+2026-10-26 16:32:26.058: [INFO] VisibilityChanged: 0
+2026-10-26 16:32:26.082: [INFO] OnDoneLoading sync enabled: 1
+2026-10-26 16:32:26.082: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 16:32:26.082: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 16:32:26.082: [INFO] BookmarksSnapshot Startup total=1 bar=0 other=1 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 16:32:26.150: [INFO] Sync initialization duration: 64ms

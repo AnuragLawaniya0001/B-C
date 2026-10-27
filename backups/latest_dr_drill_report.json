@@ -1,0 +1,24 @@
+{
+  "drill_id": "DR-DRILL-20261025_181024",
+  "timestamp": "2026-10-25T18:10:24.649545+00:00",
+  "status": "SUCCESS",
+  "archive_inspected": "C:\\Users\\anura\\Desktop\\MyPC\\B-C\\backups\\backup_20261025_181024\\BC-BKP-20261025_181024.tar.gz",
+  "target_database": "bigchamp_dr_restore_test",
+  "is_isolated_test_db": true,
+  "restored_collections_count": 36,
+  "restored_documents_count": 2862,
+  "financial_invariants_verified": true,
+  "recovery_time_objective": {
+    "target_rto_seconds": 900,
+    "observed_rto_seconds": 3.14,
+    "target_rto_met": true,
+    "performance_margin_seconds": 896.86
+  },
+  "recovery_point_objective": {
+    "target_rpo_seconds": 3600,
+    "observed_rpo_seconds": 0,
+    "target_rpo_met": true,
+    "backup_created_at": "2026-10-25T18:10:24.139793+00:00",
+    "backup_staleness": "HEALTHY"
+  }
+}

@@ -33,6 +33,18 @@ services:
       - REFRESH_TOKEN_EXPIRE_DAYS=7
       - QR_SIGNING_SECRET=super_secret_qr_signing_key_bigchamp_dev_1234567890
       - CORS_ORIGINS=["http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "http://localhost:3050", "http://localhost:80", "http://localhost", "http://127.0.0.1:3000", "http://127.0.0.1:3001", "http://127.0.0.1:3002", "http://127.0.0.1:3050", "http://127.0.0.1:80"]
+      - RAZORPAY_KEY_ID=rzp_test_Ts2QVBlOxhwFTu
+      - RAZORPAY_KEY_SECRET=gv4f7MHd9cG8tjKnb5gH8aeO
+      - RAZORPAY_WEBHOOK_SECRET=BigchampTestWebhookSecret123456
+      - PAYMENT_MODE=test
+      - CLOUDINARY_CLOUD_NAME=ibq3zgu8
+      - CLOUDINARY_API_KEY=211541897473636
+      - CLOUDINARY_API_SECRET=qEkjCpQ0HM94jNByRxIJiyKSz_s
+    volumes:
+      - ./backend:/app/backend
+      - ./scripts:/app/scripts
+      - ./backups:/app/backups
+      - uploads_data:/app/backend/uploads
     depends_on:
       - mongodb
     networks:
@@ -40,6 +52,7 @@ services:
 
 volumes:
   mongodb_data:
+  uploads_data:
 
 networks:
   bigchamp-network:

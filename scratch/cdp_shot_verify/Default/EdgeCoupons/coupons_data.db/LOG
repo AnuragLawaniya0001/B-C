@@ -1,0 +1,6 @@
+2026/10/26-22:02:30.240 25d8 Reusing MANIFEST C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default\EdgeCoupons/coupons_data.db/MANIFEST-000001
+2026/10/26-22:02:30.241 25d8 Recovering log #13
+2026/10/26-22:02:30.241 25d8 Reusing old log C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_shot_verify\Default\EdgeCoupons/coupons_data.db/000013.log 
+2026/10/26-22:02:33.508 55e8 Level-0 table #17: started
+2026/10/26-22:02:33.510 55e8 Level-0 table #17: 683444 bytes OK
+2026/10/26-22:02:33.512 55e8 Delete type=0 #13

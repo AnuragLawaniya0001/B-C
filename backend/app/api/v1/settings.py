@@ -4,6 +4,7 @@ from app.core.database import db
 router = APIRouter(prefix="/settings", tags=["settings"])
 
 WHITELISTED_PUBLIC_KEYS = [
+    "membership_settings",
     "business_rules",
     "membership_policy",
     "site_contact",
@@ -26,5 +27,12 @@ async def get_public_settings():
     for key in WHITELISTED_PUBLIC_KEYS:
         if key not in settings_dict:
             settings_dict[key] = None
+
+    if settings_dict.get("business_rules"):
+        from app.services.settings_service import DEFAULT_BUSINESS_RULES
+        settings_dict["business_rules"] = {**DEFAULT_BUSINESS_RULES, **settings_dict["business_rules"]}
+    elif settings_dict.get("business_rules") is None:
+        from app.services.settings_service import DEFAULT_BUSINESS_RULES
+        settings_dict["business_rules"] = dict(DEFAULT_BUSINESS_RULES)
 
     return settings_dict

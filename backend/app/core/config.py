@@ -23,6 +23,13 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 15
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     QR_SIGNING_SECRET: str = Field(..., description="Secret key for signing QR code payloads")
+    RAZORPAY_KEY_ID: str = Field(default="rzp_test_Ts2QVBlOxhwFTu", description="Razorpay Test Key ID")
+    RAZORPAY_KEY_SECRET: str = Field(default="gv4f7MHd9cG8tjKnb5gH8aeO", description="Razorpay Test Key Secret")
+    RAZORPAY_WEBHOOK_SECRET: str = Field(default="BigchampTestWebhookSecret123456", description="Razorpay Webhook Secret")
+    PAYMENT_MODE: str = Field(default="test", description="Payment mode: strictly 'test' in this phase")
+    CLOUDINARY_CLOUD_NAME: str = Field(default="ibq3zgu8", description="Cloudinary Cloud Name")
+    CLOUDINARY_API_KEY: str = Field(default="211541897473636", description="Cloudinary API Key")
+    CLOUDINARY_API_SECRET: str = Field(default="qEkjCpQ0HM94jNByRxIJiyKSz_s", description="Cloudinary API Secret")
     CORS_ORIGINS: List[str] = [
         "http://localhost:3000",
         "http://localhost:3001",

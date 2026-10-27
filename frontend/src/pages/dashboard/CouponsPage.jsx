@@ -1,26 +1,180 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { PageHeader } from '../../components/shared/PageHeader';
 import { Card } from '../../components/ui/Card';
-import { Ticket } from 'lucide-react';
+import { Button } from '../../components/ui/Button';
+import { EmptyState } from '../../components/ui/EmptyState';
+import {
+  Ticket,
+  Copy,
+  Check,
+  Calendar,
+  ShoppingBag,
+  Percent,
+  Clock,
+  Sparkles,
+  Loader2,
+  AlertCircle,
+} from 'lucide-react';
+import couponService from '../../services/couponService';
 
 export default function CouponsPage() {
+  const [coupons, setCoupons] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [copiedCode, setCopiedCode] = useState(null);
+
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const res = await couponService.getActiveCoupons();
+        setCoupons(res.items || []);
+      } catch (err) {
+        setError(err.response?.data?.detail || 'Failed to load promotional offers.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCoupons();
+  }, []);
+
+  const handleCopy = (code) => {
+    navigator.clipboard.writeText(code);
+    setCopiedCode(code);
+    setTimeout(() => setCopiedCode(null), 2000);
+  };
+
   return (
     <div className="space-y-6">
       <PageHeader
-        title="My Discount Coupons"
-        description="Exclusive vouchers for gear purchases and partner services."
+        title="Promotions & Discount Vouchers"
+        description="Exclusive member discounts, seasonal offers, and coupon codes for Bigchamp store orders."
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="p-4 border-dashed border-2 border-primary-200 bg-primary-50/40">
-          <div className="flex items-center gap-3">
-            <Ticket className="w-8 h-8 text-primary-900" />
-            <div>
-              <p className="font-bold text-slate-800">WELCOME10</p>
-              <p className="text-xs text-slate-500">10% off on your first store order</p>
-            </div>
+
+      {loading ? (
+        <div className="min-h-[40vh] flex items-center justify-center p-8">
+          <div className="text-center space-y-3">
+            <Loader2 className="w-8 h-8 animate-spin text-primary-600 mx-auto" />
+            <p className="text-sm text-slate-500 font-medium">Loading active offers...</p>
           </div>
+        </div>
+      ) : error ? (
+        <Card className="p-8 text-center space-y-3">
+          <AlertCircle className="w-10 h-10 text-rose-500 mx-auto" />
+          <h3 className="font-bold text-slate-800">Unable to load offers</h3>
+          <p className="text-xs text-slate-500">{error}</p>
         </Card>
-      </div>
+      ) : coupons.length === 0 ? (
+        <EmptyState
+          icon={Ticket}
+          title="No active coupons currently"
+          description="Check back soon for festival campaigns, member rewards, and seasonal sports gear vouchers."
+          action={
+            <Link to="/store">
+              <Button variant="primary" leftIcon={<ShoppingBag className="w-4 h-4" />}>
+                Explore Store
+              </Button>
+            </Link>
+          }
+        />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {coupons.map((c) => {
+            const isCopied = copiedCode === c.code;
+            const minOrder = c.min_order_paise ? (c.min_order_paise / 100).toFixed(0) : 0;
+            const maxCap = c.max_discount_paise ? (c.max_discount_paise / 100).toFixed(0) : null;
+            const discountDisplay =
+              c.discount_type === 'PERCENTAGE' || c.discount_type === 'PERCENT'
+                ? `${c.discount_value}% OFF`
+                : `₹${(c.discount_value / 100).toFixed(0)} OFF`;
+
+            return (
+              <Card
+                key={c._id || c.code}
+                className="overflow-hidden border-2 border-dashed border-primary-200 bg-white hover:border-primary-400 hover:shadow-md transition-all flex flex-col justify-between"
+              >
+                <div className="p-5 space-y-4">
+                  {/* Header Badge & Code */}
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-9 h-9 rounded-xl bg-primary-100 text-primary-800 flex items-center justify-center font-bold shrink-0">
+                        <Ticket className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="font-mono font-extrabold text-base text-slate-900 tracking-wider">
+                          {c.code}
+                        </h3>
+                        <p className="text-xs text-slate-500 truncate max-w-[160px]">{c.name}</p>
+                      </div>
+                    </div>
+
+                    <span className="px-2.5 py-1 rounded-full text-xs font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      {discountDisplay}
+                    </span>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                    {c.description || 'Applicable across sports apparel, gear, and training accessories.'}
+                  </p>
+
+                  {/* Terms & Rules */}
+                  <div className="space-y-1.5 pt-3 border-t border-slate-100 text-[11px] text-slate-500">
+                    <div className="flex items-center justify-between">
+                      <span>Min Order:</span>
+                      <span className="font-semibold text-slate-700">₹{minOrder}</span>
+                    </div>
+                    {maxCap && (
+                      <div className="flex items-center justify-between">
+                        <span>Max Discount Cap:</span>
+                        <span className="font-semibold text-slate-700">₹{maxCap}</span>
+                      </div>
+                    )}
+                    {c.end_date && (
+                      <div className="flex items-center justify-between text-slate-500">
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" /> Valid Till:
+                        </span>
+                        <span className="font-medium text-slate-700">
+                          {new Date(c.end_date).toLocaleDateString('en-IN', {
+                            day: 'numeric',
+                            month: 'short',
+                            year: 'numeric',
+                          })}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Card Footer Actions */}
+                <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    variant={isCopied ? 'primary' : 'secondary'}
+                    onClick={() => handleCopy(c.code)}
+                    className={`flex-1 font-bold ${
+                      isCopied ? 'bg-emerald-600 border-emerald-600 text-white' : ''
+                    }`}
+                    leftIcon={isCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                  >
+                    {isCopied ? 'Copied!' : 'Copy Code'}
+                  </Button>
+
+                  <Link to="/store">
+                    <Button size="sm" variant="primary" leftIcon={<ShoppingBag className="w-3.5 h-3.5" />}>
+                      Shop
+                    </Button>
+                  </Link>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

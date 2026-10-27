@@ -3,8 +3,13 @@ import { Link } from 'react-router-dom';
 import { Shield, ArrowRight } from 'lucide-react';
 import { Button } from '../ui/Button';
 
-export function ArmyBannerSection({ content }) {
-  if (!content) return null;
+export function ArmyBannerSection({ content = {} }) {
+  const heading = content?.heading || 'Defense Personnel — Extra 10% Off';
+  const desc =
+    content?.desc ||
+    'Verified Army & Defense personnel get an additional 10% discount on all purchases, services, and bookings.';
+  const ctaText = content?.cta_text || 'Learn More';
+  const ctaLink = content?.cta_link || '/army-offer';
 
   return (
     <div className="py-6">
@@ -16,18 +21,18 @@ export function ArmyBannerSection({ content }) {
           <div className="space-y-2">
             <span className="text-xs font-bold uppercase tracking-wider text-accent-400">Honoring Our Forces</span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              {content.heading || 'Defense Personnel — Extra 10% Off'}
+              {heading}
             </h2>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              {content.desc || 'Verified Army & Defense personnel get an additional 10% discount on everything.'}
+              {desc}
             </p>
           </div>
         </div>
 
         <div className="relative z-10 shrink-0">
-          <Link to={content.cta_link || '/army-offer'}>
+          <Link to={ctaLink}>
             <Button variant="accent" size="lg" rightIcon={<ArrowRight className="w-4 h-4" />}>
-              {content.cta_text || 'Learn More'}
+              {ctaText}
             </Button>
           </Link>
         </div>

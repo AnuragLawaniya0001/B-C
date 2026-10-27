@@ -23,16 +23,16 @@ export function Card({
 
   const shadows = {
     none: 'shadow-none',
-    sm: 'shadow-sm',
-    md: 'shadow-md',
-    lg: 'shadow-lg',
+    sm: 'shadow-md',
+    md: 'shadow-xl',
+    lg: 'shadow-2xl',
   };
 
   return (
     <div
       className={cn(
-        'bg-white rounded-xl',
-        border && 'border border-slate-200',
+        'bg-slate-900/80 backdrop-blur-xl rounded-2xl text-slate-100',
+        border && 'border border-white/10',
         paddings[padding],
         shadows[shadow],
         className
@@ -43,3 +43,5 @@ export function Card({
     </div>
   );
 }
+
+export default Card;

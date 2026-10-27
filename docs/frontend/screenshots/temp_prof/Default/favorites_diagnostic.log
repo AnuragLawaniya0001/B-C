@@ -1,0 +1,17 @@
+2026-10-26 09:52:00.925: [INFO] CurrentProfilePath: C:\Users\anura\Desktop\MyPC\B-C\docs\frontend\screenshots\temp_prof\Default
+2026-10-26 09:52:00.925: [INFO] Profiles total count: 1
+2026-10-26 09:52:00.926: [INFO] Profile: name=Profile 1 path=C:\Users\anura\Desktop\MyPC\B-C\docs\frontend\screenshots\temp_prof\Default lastActive=2026-10-26T09:52:00.910Z
+2026-10-26 09:52:00.926: [INFO] LastUsedProfileDir: C:\Users\anura\Desktop\MyPC\B-C\docs\frontend\screenshots\temp_prof\Default
+2026-10-26 09:52:00.926: [INFO] MostRecentlyActiveProfile: name=Profile 1 path=C:\Users\anura\Desktop\MyPC\B-C\docs\frontend\screenshots\temp_prof\Default lastActive=2026-10-26T09:52:00.910Z
+2026-10-26 09:52:00.926: [INFO] OnDoneLoading sync enabled: 0
+2026-10-26 09:52:00.926: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-26 09:52:00.926: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-26 09:52:00.926: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-10-26 09:52:00.929: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-10-26 09:52:01.126: [INFO] VisibilityChanged: 0
+2026-10-26 09:52:06.920: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-10-26 09:52:06.923: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 09:52:06.925: [INFO] Primary account changed.
+2026-10-26 09:52:06.925: [INFO] OnPrimaryAccountChanged PrimaryAccountChangeEvent::Type::kSet
+2026-10-26 09:52:06.933: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-26 09:52:06.951: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3

@@ -31,6 +31,8 @@ export const Button = React.forwardRef(
         'bg-primary-900 text-white hover:bg-primary-800 focus:ring-primary-600 shadow-sm',
       secondary:
         'bg-accent-500 text-white hover:bg-accent-600 focus:ring-accent-400 shadow-sm',
+      accent:
+        'bg-accent-500 text-white hover:bg-accent-600 focus:ring-accent-400 shadow-sm',
       outline:
         'border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 focus:ring-primary-500',
       danger:

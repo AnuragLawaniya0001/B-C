@@ -64,8 +64,20 @@ export function FeaturedProductsSection({ content }) {
             return (
               <Card key={p._id || p.slug} className="p-4 flex flex-col justify-between hover:shadow-lg transition-all duration-200 group">
                 <div className="space-y-3">
-                  <div className="w-full aspect-square rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 group-hover:scale-105 transition-transform">
-                    <Package className="w-12 h-12 text-slate-400" />
+                  <div className="w-full aspect-square rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 group-hover:scale-105 transition-transform overflow-hidden relative border border-slate-100">
+                    {p.images && p.images.length > 0 ? (
+                      <img
+                        src={p.images[0]}
+                        alt={p.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <Package className="w-12 h-12 text-slate-400" />
+                    )}
                   </div>
                   <div>
                     <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-slate-100 text-slate-600">

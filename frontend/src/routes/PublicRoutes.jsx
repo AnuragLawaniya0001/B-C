@@ -14,10 +14,16 @@ import CartPage from '../pages/checkout/CartPage';
 import CheckoutPage from '../pages/checkout/CheckoutPage';
 import CheckoutSuccessPage from '../pages/checkout/CheckoutSuccessPage';
 
+import TermsPage from '../pages/public/TermsPage';
+import PrivacyPage from '../pages/public/PrivacyPage';
+import RefundPolicyPage from '../pages/public/RefundPolicyPage';
+import ShippingPolicyPage from '../pages/public/ShippingPolicyPage';
+
 export const publicRoutes = [
   { path: '/', element: <HomePage /> },
   { path: '/store', element: <StorePage /> },
   { path: '/store/:slug', element: <ProductDetailPage /> },
+  { path: '/store/product/:slug', element: <ProductDetailPage /> },
   { path: '/cookey', element: <CookeyPage /> },
   { path: '/membership', element: <MembershipPage /> },
   { path: '/dormitory', element: <DormitoryPage /> },
@@ -25,6 +31,10 @@ export const publicRoutes = [
   { path: '/army-offer', element: <ArmyOfferPage /> },
   { path: '/about', element: <AboutPage /> },
   { path: '/contact', element: <ContactPage /> },
+  { path: '/terms', element: <TermsPage /> },
+  { path: '/privacy', element: <PrivacyPage /> },
+  { path: '/refund-policy', element: <RefundPolicyPage /> },
+  { path: '/shipping-policy', element: <ShippingPolicyPage /> },
   { path: '/cart', element: <CartPage /> },
   { path: '/checkout', element: <CheckoutPage /> },
   { path: '/checkout/success', element: <CheckoutSuccessPage /> },

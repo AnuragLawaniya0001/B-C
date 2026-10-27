@@ -61,8 +61,23 @@ async def update_setting_by_key(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 detail=f"Invalid business rules schema: {str(e)}",
             )
+    elif key == "membership_settings":
+        try:
+            from app.schemas.membership_schema import MembershipSettingsSchema
+            existing_doc = await db.settings.find_one({"key": "membership_settings"})
+            current_ver = existing_doc.get("value", {}).get("version", 0) if existing_doc else 0
+            if "version" not in value or value["version"] <= current_ver:
+                value["version"] = current_ver + 1
+            validated = MembershipSettingsSchema(**value)
+            value = validated.model_dump()
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=f"Invalid membership settings schema: {str(e)}",
+            )
 
     now = datetime.now(timezone.utc)
+    admin_email = current_admin.get("email", "admin")
     result = await db.settings.find_one_and_update(
         {"key": key},
         {
@@ -70,11 +85,23 @@ async def update_setting_by_key(
                 "key": key,
                 "value": value,
                 "updated_at": now,
-                "updated_by": current_admin.get("email", "admin"),
+                "updated_by": admin_email,
             }
         },
         upsert=True,
         return_document=True,
     )
+
+    try:
+        from app.services.audit_service import log_admin_action
+        await log_admin_action(
+            actor_email=admin_email,
+            action=f"UPDATE_SETTING_{key.upper()}",
+            resource="SETTING",
+            resource_id=key,
+            details={"key": key, "new_value": value},
+        )
+    except Exception:
+        pass
 
     return serialize_setting(result)

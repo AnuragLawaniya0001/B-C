@@ -8,6 +8,7 @@ from app.schemas.auth_schema import (
     OtpResponse,
     RefreshTokenRequest,
     RegisterRequest,
+    ResetPasswordRequest,
     SendOtpRequest,
     TokenResponse,
     UserResponse,
@@ -45,6 +46,16 @@ async def verify_otp(request: VerifyOtpRequest):
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     return MessageResponse(message="OTP verified")
+
+
+@router.post("/reset-password", response_model=MessageResponse, summary="Reset customer password")
+async def reset_password(request: ResetPasswordRequest):
+    """Reset customer password using verified OTP or direct OTP validation.
+    Rate limited to 5 attempts per 5 minutes per identifier.
+    """
+    check_rate_limit(f"reset_password:{request.identifier}", max_requests=5, window_seconds=300)
+    result = await auth_service.reset_password(request)
+    return MessageResponse(message=result["message"])
 
 
 @router.post("/register", response_model=TokenResponse, summary="Register customer account")

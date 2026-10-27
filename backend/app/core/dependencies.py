@@ -1,4 +1,4 @@
-"""FastAPI dependency providers for authentication and RBAC authorization."""
+from typing import Optional
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from app.core.database import get_db
@@ -66,11 +66,30 @@ async def get_current_user(payload: dict = Depends(get_token_payload)) -> dict:
             detail="Account is suspended",
         )
 
-    # Format user document with id as string
     user_dict = dict(user)
     user_dict["id"] = str(user_dict.get("_id", user_id))
     user_dict.pop("password_hash", None)
     return user_dict
+
+
+async def get_optional_current_user(creds: HTTPAuthorizationCredentials = Depends(security)) -> Optional[dict]:
+    """Extract current user if valid bearer token is provided, otherwise return None."""
+    if not creds or not creds.credentials:
+        return None
+    try:
+        payload = decode_token(creds.credentials)
+        if payload.get("type") != "access" or payload.get("role") != "USER":
+            return None
+        user_id = payload.get("sub")
+        user = await get_user_by_id(user_id)
+        if not user or not user.get("is_active", True):
+            return None
+        user_dict = dict(user)
+        user_dict["id"] = str(user_dict.get("_id", user_id))
+        user_dict.pop("password_hash", None)
+        return user_dict
+    except Exception:
+        return None
 
 
 async def get_current_member(current_user: dict = Depends(get_current_user)) -> dict:

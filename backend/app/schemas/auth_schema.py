@@ -43,6 +43,7 @@ class RegisterRequest(BaseModel):
     full_name: str = Field(..., min_length=2, max_length=100, description="Full name")
     email: Optional[str] = Field(default=None, description="Optional if identifier is mobile")
     mobile: Optional[str] = Field(default=None, description="Optional if identifier is email")
+    referral_code: Optional[str] = Field(default=None, description="Optional referral code of referring user")
 
     @field_validator("password")
     @classmethod
@@ -94,6 +95,22 @@ class UpdateProfileRequest(BaseModel):
     full_name: Optional[str] = Field(default=None, min_length=2, max_length=100)
     email: Optional[str] = Field(default=None)
     mobile: Optional[str] = Field(default=None)
+
+
+class ResetPasswordRequest(BaseModel):
+    model_config = ConfigDict(str_strip_whitespace=True)
+
+    identifier: str = Field(..., min_length=3, description="Email address or mobile number")
+    otp: Optional[str] = Field(default=None, description="Optional OTP code if not verified prior")
+    new_password: str = Field(..., min_length=8, description="New password")
+
+    @field_validator("new_password")
+    @classmethod
+    def check_password_strength(cls, v: str) -> str:
+        is_valid, msg = validate_password_strength(v)
+        if not is_valid:
+            raise ValueError(msg)
+        return v
 
 
 # Response Schemas

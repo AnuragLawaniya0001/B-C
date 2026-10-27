@@ -1,6 +1,7 @@
 """Core business logic service for authentication, registration, tokens, and profiles."""
 from datetime import datetime, timedelta, timezone
 from typing import Optional
+import uuid
 from bson import ObjectId
 
 from app.core.config import settings
@@ -12,8 +13,8 @@ from app.core.security import (
     hash_password,
     verify_password,
 )
-from app.schemas.auth_schema import RegisterRequest, UpdateProfileRequest
-from app.services.otp_service import generate_and_store_otp, _ensure_utc
+from app.schemas.auth_schema import RegisterRequest, UpdateProfileRequest, ResetPasswordRequest
+from app.services.otp_service import generate_and_store_otp, verify_otp, _ensure_utc
 from app.utils.response import (
     ForbiddenError,
     NotFoundError,
@@ -34,11 +35,21 @@ async def check_user_membership(user_id: str) -> bool:
     """Check if user has an active membership record in memberships collection."""
     db = get_db()
     obj_id = _to_object_id(user_id)
+    now = datetime.now(timezone.utc)
     membership = await db.memberships.find_one({
-        "$or": [{"user_id": user_id}, {"user_id": obj_id}],
+        "$or": [{"user_id": str(user_id)}, {"user_id": obj_id}],
         "is_active": True,
     })
-    return membership is not None
+    if not membership:
+        return False
+    valid_till = membership.get("valid_till")
+    if valid_till:
+        if isinstance(valid_till, datetime):
+            if valid_till.tzinfo is None:
+                valid_till = valid_till.replace(tzinfo=timezone.utc)
+            if now > valid_till:
+                return False
+    return True
 
 
 def _format_user_doc(doc: dict, has_membership: bool = False) -> dict:
@@ -70,10 +81,12 @@ async def get_admin_by_id(admin_id: str) -> Optional[dict]:
 
 
 async def get_partner_user_by_id(partner_user_id: str) -> Optional[dict]:
-    """Retrieve partner user by ID from partner_users collection."""
+    """Retrieve partner user by ID from partner_users or partners collection."""
     db = get_db()
     obj_id = _to_object_id(partner_user_id)
     doc = await db.partner_users.find_one({"$or": [{"_id": obj_id}, {"_id": partner_user_id}]})
+    if not doc:
+        doc = await db.partners.find_one({"$or": [{"_id": obj_id}, {"_id": partner_user_id}]})
     return doc
 
 
@@ -166,13 +179,35 @@ async def register_user(payload: RegisterRequest) -> dict:
     # 3. Hash password
     password_hash = hash_password(payload.password)
 
-    # 4. Insert user document
+    # 4. Generate user referral code and validate referring code if present
+    my_referral_code = f"BC{uuid.uuid4().hex[:6].upper()}"
+    referrer = None
+    referred_by_code = None
+    referred_by_user_id = None
+
+    if payload.referral_code:
+        clean_ref = payload.referral_code.strip().upper()
+        # Find referrer
+        ref_user = await db.users.find_one({"referral_code": clean_ref})
+        if ref_user and str(ref_user.get("_id")) != "":
+            # Anti-self referral (matching email or mobile)
+            if (email and ref_user.get("email") == email) or (mobile and ref_user.get("mobile") == mobile):
+                pass
+            else:
+                referrer = ref_user
+                referred_by_code = clean_ref
+                referred_by_user_id = str(ref_user["_id"])
+
+    # 5. Insert user document
     user_doc = {
         "email": email,
         "mobile": mobile,
         "full_name": payload.full_name,
         "password_hash": password_hash,
         "role": "USER",
+        "referral_code": my_referral_code,
+        "referred_by_code": referred_by_code,
+        "referred_by_user_id": referred_by_user_id,
         "kyc_status": "NOT_SUBMITTED",
         "is_army": False,
         "army_verified": False,
@@ -184,7 +219,22 @@ async def register_user(payload: RegisterRequest) -> dict:
     result = await db.users.insert_one(user_doc)
     user_id = str(result.inserted_id)
 
-    # 5. Generate tokens and return (has_membership: false for free user)
+    # 6. Record pending referral attribution if referrer exists
+    if referrer and referred_by_user_id:
+        await db.referrals.insert_one({
+            "referrer_user_id": referred_by_user_id,
+            "referrer_name": referrer.get("full_name", ""),
+            "referee_user_id": user_id,
+            "referee_name": payload.full_name,
+            "referral_code": referred_by_code,
+            "status": "PENDING",
+            "reward_amount_paise": 5000,
+            "qualifying_order_number": None,
+            "created_at": now,
+            "rewarded_at": None,
+        })
+
+    # 7. Generate tokens and return (has_membership: false for free user)
     access_token = create_access_token({"sub": user_id, "role": "USER"})
     refresh_token = create_refresh_token({"sub": user_id, "role": "USER"})
     print(f"Token issued for user {user_id}")
@@ -201,6 +251,7 @@ async def register_user(payload: RegisterRequest) -> dict:
             "mobile": mobile,
             "full_name": payload.full_name,
             "role": "USER",
+            "referral_code": my_referral_code,
             "kyc_status": "NOT_SUBMITTED",
             "is_army": False,
             "army_verified": False,
@@ -366,6 +417,34 @@ async def partner_login(email: str, password: str) -> dict:
 
     partner_user = await db.partner_users.find_one({"email": email})
     if not partner_user:
+        partner_doc = await db.partners.find_one({"email": email})
+        if partner_doc and partner_doc.get("password"):
+            is_active = partner_doc.get("status") in ("APPROVED", "ACTIVE")
+            if not is_active:
+                raise ForbiddenError("Partner account is pending approval or suspended")
+            if not verify_password(password, partner_doc.get("password")):
+                raise UnauthorizedError("Invalid credentials")
+            pu_id = str(partner_doc["_id"])
+            now = datetime.now(timezone.utc)
+            await db.partners.update_one({"_id": partner_doc["_id"]}, {"$set": {"last_login_at": now}})
+            access_token = create_access_token({"sub": pu_id, "role": "PARTNER", "partner_id": pu_id})
+            refresh_token = create_refresh_token({"sub": pu_id, "role": "PARTNER", "partner_id": pu_id})
+            return {
+                "access_token": access_token,
+                "refresh_token": refresh_token,
+                "token_type": "bearer",
+                "expires_in": settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+                "has_membership": None,
+                "user": {
+                    "id": pu_id,
+                    "email": partner_doc.get("email"),
+                    "full_name": partner_doc.get("contact_person") or partner_doc.get("business_name", "Partner User"),
+                    "role": "PARTNER",
+                    "partner_id": pu_id,
+                    "is_active": is_active,
+                    "created_at": partner_doc.get("created_at"),
+                },
+            }
         raise UnauthorizedError("Invalid credentials")
 
     is_active = partner_user.get("is_active", partner_user.get("active", True))
@@ -448,3 +527,43 @@ async def update_user_profile(user_id: str, updates: UpdateProfileRequest) -> di
 
     has_membership = await check_user_membership(user_id)
     return _format_user_doc(user, has_membership=has_membership)
+
+
+async def reset_password(payload: ResetPasswordRequest) -> dict:
+    """Reset customer password using verified OTP or direct OTP validation."""
+    db = get_db()
+    identifier = payload.identifier.strip()
+
+    user = await db.users.find_one({
+        "$or": [{"email": identifier}, {"mobile": identifier}]
+    })
+    if not user:
+        raise NotFoundError("No account found with this identifier")
+
+    if payload.otp:
+        await verify_otp(identifier, payload.otp.strip(), "RESET_PASSWORD")
+    else:
+        now = datetime.now(timezone.utc)
+        ten_minutes_ago = now - timedelta(minutes=10)
+        otp_record = await db.otp_store.find_one({
+            "identifier": identifier,
+            "purpose": "RESET_PASSWORD",
+            "used": True,
+        }, sort=[("created_at", -1)])
+
+        if not otp_record:
+            raise ValidationError("Please verify your email/mobile with OTP first.")
+
+        record_time = _ensure_utc(otp_record.get("verified_at") or otp_record.get("created_at", now))
+        if record_time < ten_minutes_ago:
+            raise ValidationError("OTP verification expired. Please request a new OTP.")
+
+    new_hash = hash_password(payload.new_password)
+    now = datetime.now(timezone.utc)
+    await db.users.update_one(
+        {"_id": user["_id"]},
+        {"$set": {"password_hash": new_hash, "updated_at": now}},
+    )
+
+    return {"message": "Password reset successfully. Please login with your new password."}
+

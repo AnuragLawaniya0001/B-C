@@ -27,9 +27,10 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Parse redirect and expired query params
+  // Parse redirect and expired query params (default to storefront '/')
   const searchParams = new URLSearchParams(location.search);
-  const redirectPath = searchParams.get('redirect') || '/dashboard';
+  const rawRedirect = searchParams.get('redirect');
+  const redirectPath = (!rawRedirect || rawRedirect === '/dashboard' || rawRedirect === '/dashboard/') ? '/' : rawRedirect;
   const isExpired = searchParams.get('expired') === '1';
 
   const {

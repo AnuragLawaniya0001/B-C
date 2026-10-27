@@ -19,12 +19,16 @@ import {
   CalendarDays,
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import { useSettingsStore } from '../../store/settingsStore';
 
 export function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, logout } = useAuthStore();
+  const { getBusinessRules } = useSettingsStore();
   const navigate = useNavigate();
 
+  const rules = getBusinessRules();
+  const cardFee = Math.round((rules.card_fee_paise || 10000) / 100);
   const hasMembership = user?.has_membership === true;
 
   const handleLogout = async () => {
@@ -36,7 +40,7 @@ export function DashboardLayout() {
   const handleLockedClick = (e, featureName) => {
     e.preventDefault();
     setSidebarOpen(false);
-    toast.error(`Get Bigchamp Card (₹100) to unlock ${featureName}!`, {
+    toast.error(`Get Bigchamp Card (₹${cardFee}) to unlock ${featureName}!`, {
       icon: '🔒',
     });
     navigate('/membership');
@@ -45,6 +49,7 @@ export function DashboardLayout() {
   const navItems = [
     { label: 'Overview', to: '/dashboard', icon: LayoutDashboard, end: true, locked: false },
     { label: 'My Orders', to: '/dashboard/orders', icon: Package, locked: false },
+    { label: 'Coupons & Vouchers', to: '/dashboard/coupons', icon: Ticket, locked: false },
     { label: 'Profile', to: '/dashboard/profile', icon: User, locked: false },
     { label: 'Settings', to: '/dashboard/settings', icon: Settings, locked: false },
     {

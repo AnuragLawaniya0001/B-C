@@ -6,6 +6,27 @@ async def seed_settings(db) -> dict:
     now = datetime.utcnow()
     settings_data = [
         {
+            "key": "membership_settings",
+            "value": {
+                "enabled": True,
+                "price_paise": 10000,
+                "validity_days": 334,
+                "renewal_policy": "EXTEND_FROM_EXPIRY",
+                "allow_renewal_while_active": True,
+                "allow_renewal_after_expiry": True,
+                "display_name": "Bigchamp Digital Membership Card",
+                "description": "Annual digital sports privilege pass with partner benefits, store discounts, and athletic community privileges.",
+                "benefits": [
+                    "Member-exclusive pricing across all Bigchamp store gear and apparel",
+                    "QR privilege check-in at affiliated sports dormitories and physio centers",
+                    "Priority access and participation in athletic community events",
+                    "Exclusive eligibility for upcoming Cookey and community offers",
+                ],
+                "version": 1,
+            },
+            "updated_at": now,
+        },
+        {
             "key": "business_rules",
             "value": {
                 "card_fee_paise": 10000,

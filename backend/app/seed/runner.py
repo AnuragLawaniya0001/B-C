@@ -36,11 +36,28 @@ async def create_indexes():
         await db.memberships.create_index("status")
         await db.memberships.create_index("valid_till")
 
+        # membership_purchases
+        await db.membership_purchases.create_index("purchase_id", unique=True)
+        await db.membership_purchases.create_index(
+            [("user_id", 1), ("idempotency_key", 1)],
+            unique=True,
+            partialFilterExpression={"idempotency_key": {"$type": "string"}},
+        )
+        await db.membership_purchases.create_index("provider_order_id")
+        await db.membership_purchases.create_index([("user_id", 1), ("created_at", -1)])
+        await db.membership_purchases.create_index("status")
+
         # wallets
         await db.wallets.create_index("user_id", unique=True)
 
         # wallet_transactions
+        await db.wallet_transactions.create_index("transaction_id", unique=True)
         await db.wallet_transactions.create_index([("user_id", 1), ("created_at", -1)])
+        await db.wallet_transactions.create_index(
+            [("user_id", 1), ("idempotency_key", 1)],
+            unique=True,
+            partialFilterExpression={"idempotency_key": {"$type": "string"}},
+        )
         await db.wallet_transactions.create_index("reason")
 
         # products
@@ -50,8 +67,19 @@ async def create_indexes():
         await db.products.create_index("featured")
 
         # orders
+        await db.orders.create_index("order_number", unique=True)
         await db.orders.create_index([("user_id", 1), ("created_at", -1)])
-        await db.orders.create_index("status")
+        await db.orders.create_index("order_status")
+        await db.orders.create_index("payment_status")
+        try:
+            await db.orders.drop_index("user_id_1_idempotency_key_1")
+        except Exception:
+            pass
+        await db.orders.create_index(
+            [("user_id", 1), ("idempotency_key", 1)],
+            unique=True,
+            partialFilterExpression={"idempotency_key": {"$type": "string"}},
+        )
 
         # cookey_purchases (7-day rule cooling check)
         await db.cookey_purchases.create_index([("user_id", 1), ("purchased_at", -1)])
@@ -91,6 +119,17 @@ async def create_indexes():
         # otp_store (with TTL for auto-cleanup)
         await db.otp_store.create_index("identifier")
         await db.otp_store.create_index("created_at", expireAfterSeconds=600)  # 10 min TTL
+
+        # Targeted query & sort optimizations (Phase 5.2)
+        await db.products.create_index([("active", 1), ("featured", -1), ("created_at", -1)])
+        await db.membership_purchases.create_index("purchase_id", unique=True)
+        await db.membership_purchases.create_index([("user_id", 1), ("created_at", -1)])
+        await db.partner_commissions.create_index([("partner_id", 1), ("created_at", -1)])
+        await db.partner_commissions.create_index("source_id")
+        await db.partner_settlements.create_index("payment_reference")
+        await db.partner_settlements.create_index([("partner_id", 1), ("created_at", -1)])
+        await db.referrals.create_index("referrer_user_id")
+        await db.referrals.create_index("referee_user_id")
 
         print("[SEED] Successfully verified/created all MongoDB collection indexes.")
     except Exception as e:

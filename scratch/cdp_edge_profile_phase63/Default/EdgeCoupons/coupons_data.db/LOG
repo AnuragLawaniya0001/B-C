@@ -1,0 +1,15 @@
+2026/10/26-18:21:37.220 9630 Reusing MANIFEST C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default\EdgeCoupons/coupons_data.db/MANIFEST-000001
+2026/10/26-18:21:37.222 9630 Recovering log #16
+2026/10/26-18:21:37.222 9630 Reusing old log C:\Users\anura\Desktop\MyPC\B-C\scratch\cdp_edge_profile_phase63\Default\EdgeCoupons/coupons_data.db/000016.log 
+2026/10/26-18:21:48.377 4974 Level-0 table #20: started
+2026/10/26-18:21:48.382 4974 Level-0 table #20: 683399 bytes OK
+2026/10/26-18:21:48.385 4974 Delete type=0 #16
+2026/10/26-18:21:48.386 4974 Compacting 4@0 + 1@1 files
+2026/10/26-18:21:48.404 4974 Generated table #21@0: 4 keys, 683399 bytes
+2026/10/26-18:21:48.404 4974 Compacted 4@0 + 1@1 files => 683399 bytes
+2026/10/26-18:21:48.406 4974 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/10/26-18:21:48.408 4974 Delete type=2 #8
+2026/10/26-18:21:48.408 4974 Delete type=2 #11
+2026/10/26-18:21:48.408 4974 Delete type=2 #14
+2026/10/26-18:21:48.408 4974 Delete type=2 #17
+2026/10/26-18:21:48.408 4974 Delete type=2 #20

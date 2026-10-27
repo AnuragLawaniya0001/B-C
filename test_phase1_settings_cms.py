@@ -149,56 +149,24 @@ def run_phase1_tests():
     print(f"  • Public settings verification: status={s}, card_fee={pub_rules.get('card_fee_paise')}")
 
     # -------------------------------------------------------------
-    # SECTION 3: CMS Pages Management & Persistence
+    # SECTION 3: Simplified Architecture — CMS Editor Removal & Read Compatibility
     # -------------------------------------------------------------
-    print("\n--- 3. CMS Pages Management & Persistence ---")
+    print("\n--- 3. CMS Pages Mutation Removal & Read-Only Compatibility ---")
 
-    # 3.1 Unauthenticated PUT page -> 401
-    s, d = http_request("PUT", f"{BASE_API}/pages/homepage", {"title": "New Title", "sections": []})
-    results["CMS Pages: Unauthenticated PUT rejected (401)"] = (s == 401)
-    print(f"  • Unauthenticated page update: status={s}")
+    # 3.1 Verify PUT /pages/homepage is removed (returns 405 Method Not Allowed)
+    s, d = http_request("PUT", f"{BASE_API}/pages/homepage", {"title": "New Title"}, token=admin_token)
+    results["CMS Architecture: Page mutation PUT /pages/{slug} removed (405)"] = (s == 405)
+    print(f"  • Page PUT mutation removed check: status={s} (expected 405)")
 
-    # 3.2 Customer token on PUT page -> 403
-    s, d = http_request("PUT", f"{BASE_API}/pages/homepage", {"title": "New Title", "sections": []}, token=cust_token)
-    results["CMS Pages: Customer token rejected with 403"] = (s == 403)
-    print(f"  • Customer token on page update: status={s}")
+    # 3.2 Verify read-only compatibility GET /pages
+    s, read_all = http_request("GET", f"{BASE_API}/pages")
+    results["CMS Architecture: Public GET /pages read-only compatibility (200)"] = (s == 200 and isinstance(read_all, list))
+    print(f"  • Read-only GET /pages check: status={s}, count={len(read_all) if isinstance(read_all, list) else 0}")
 
-    # 3.3 Admin updates homepage CMS content
-    test_title = "Bigchamp — India's Premier Sports Ecosystem"
-    page_payload = {
-        "title": test_title,
-        "meta": {
-            "title": test_title,
-            "description": "Dynamic CMS updated description for testing",
-            "og_image": "/images/og-home-updated.jpg"
-        },
-        "sections": [
-            {
-                "id": "hero",
-                "type": "hero",
-                "enabled": True,
-                "order": 1,
-                "content": {"headline": "India ka Pehla Sports Ecosystem", "cta": "Join Now"}
-            },
-            {
-                "id": "benefits",
-                "type": "benefits",
-                "enabled": True,
-                "order": 2,
-                "content": {"title": "Exclusive Member Privileges"}
-            }
-        ],
-        "active": True
-    }
-    s, page_res = http_request("PUT", f"{BASE_API}/pages/homepage", page_payload, token=admin_token)
-    results["CMS Pages: Admin updates homepage sections and metadata (200)"] = (s == 200 and page_res.get("title") == test_title)
-    print(f"  • Admin page update: status={s}, title='{page_res.get('title')}'")
-
-    # 3.4 Read back via public GET /pages/homepage
+    # 3.3 Verify read-only compatibility GET /pages/homepage
     s, read_page = http_request("GET", f"{BASE_API}/pages/homepage")
-    t3_4 = (s == 200 and read_page.get("title") == test_title and len(read_page.get("sections", [])) == 2)
-    results["CMS Pages: Public GET reflects persisted page changes"] = t3_4
-    print(f"  • Public page readback: status={s}, sections_count={len(read_page.get('sections', []))}")
+    results["CMS Architecture: Public GET /pages/homepage read-only compatibility (200)"] = (s == 200 and isinstance(read_page, dict))
+    print(f"  • Read-only GET /pages/homepage check: status={s}, title='{read_page.get('title') if isinstance(read_page, dict) else ''}'")
 
     # -------------------------------------------------------------
     # SECTION 4: Promotional Banners CRUD
