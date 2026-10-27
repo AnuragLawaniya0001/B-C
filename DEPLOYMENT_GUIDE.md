@@ -8,7 +8,7 @@ Is project ko VPS par deploy karna bilkul simple aur single command ho chuka hai
 
 | Service | Port | Description |
 |---|---|---|
-| **Ecosystem Portal / Gateway Hub** | `80` | Sabhi portals ka unified visual landing page |
+| **Ecosystem Portal / Gateway Hub** | `3080` | Sabhi portals ka unified visual landing page |
 | **Customer Storefront** | `3000` | Main E-commerce & User Website |
 | **Admin Console** | `3001` | Superadmin Dashboard & Controls |
 | **Offline Partner Portal** | `3002` | Gym / Partner Check-in System |
@@ -88,7 +88,7 @@ docker compose logs -f app
 
 Agar aapke VPS ka IP `123.45.67.89` hai, to:
 
-- **Ecosystem Hub (Landing Page):** `http://123.45.67.89/`
+- **Ecosystem Hub (Landing Page):** `http://123.45.67.89:3080/`
 - **Customer Storefront:** `http://123.45.67.89:3000/`
 - **Admin Console:** `http://123.45.67.89:3001/`
 - **Partner Check-in:** `http://123.45.67.89:3002/`
@@ -106,7 +106,7 @@ Local machine par bhi sabhi features pehle jaise perfectly kaam karenge:
 ```bash
 docker compose up -d
 ```
-Access: `http://localhost:3000`, `http://localhost:3001`, `http://localhost:80`.
+Access: `http://localhost:3000`, `http://localhost:3001`, `http://localhost:3080`.
 
 ### Option B: Bina Docker (Vite + Uvicorn Dev Server)
 - Backend:

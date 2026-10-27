@@ -17,7 +17,7 @@ services:
     container_name: bigchamp-app
     restart: unless-stopped
     ports:
-      - "80:80"       # Ecosystem Hub & Unified Gateway
+      - "3080:3080"   # Ecosystem Hub & Unified Gateway
       - "3050:3050"   # FastAPI Backend & Swagger Docs (/docs)
       - "3000:3000"   # Customer Frontend Website & App
       - "3001:3001"   # Admin Console Portal
