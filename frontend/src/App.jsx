@@ -101,7 +101,7 @@ export default function App() {
             <Route path="/membership" element={<MembershipPage />} />
             <Route path="/dormitory" element={<DormitoryPage />} />
             <Route path="/physio" element={<PhysioPage />} />
-            <Route path="/army-offer" element={<ArmyOfferPage />} />
+            <Route path="/army-offer" element={<Navigate to="/offers" replace />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/terms" element={<TermsPage />} />

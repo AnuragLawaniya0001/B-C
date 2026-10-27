@@ -130,22 +130,22 @@ export default function WalletPage() {
                 <span className="font-bold text-emerald-600">+₹{creditedRupees}</span>
               </div>
               <div className="py-2.5 flex justify-between items-center">
-                <span className="text-slate-500">Lifetime Debited</span>
-                <span className="font-bold text-rose-600">-₹{debitedRupees}</span>
+                <span className="text-slate-400">Lifetime Debited</span>
+                <span className="font-bold text-rose-400">-₹{debitedRupees}</span>
               </div>
               <div className="py-2.5 flex justify-between items-center">
-                <span className="text-slate-500">Total Transactions</span>
-                <span className="font-bold text-slate-900">{summary?.total_transactions || 0}</span>
+                <span className="text-slate-400">Total Transactions</span>
+                <span className="font-bold text-white">{summary?.total_transactions || 0}</span>
               </div>
             </Card>
           </div>
 
           {/* Transaction Ledger Table */}
-          <Card className="p-6 md:col-span-2 border border-slate-200 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <Card className="p-6 md:col-span-2 border border-white/10 space-y-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-2">
-                <History className="w-4 h-4 text-primary-600" />
-                <h3 className="font-bold text-slate-900 text-sm uppercase tracking-wider">
+                <History className="w-4 h-4 text-amber-400" />
+                <h3 className="font-bold text-white text-sm uppercase tracking-wider font-display">
                   Append-Only Transaction Ledger
                 </h3>
               </div>
@@ -157,13 +157,13 @@ export default function WalletPage() {
             {transactions.length === 0 ? (
               <div className="py-12 text-center space-y-2">
                 <Coins className="w-10 h-10 text-slate-300 mx-auto" />
-                <p className="text-sm font-bold text-slate-700">No transactions recorded yet</p>
+                <p className="text-sm font-bold text-white">No transactions recorded yet</p>
                 <p className="text-xs text-slate-400 max-w-sm mx-auto">
                   Transactions will appear here when administrative adjustments or authorized rewards are posted.
                 </p>
               </div>
             ) : (
-              <div className="divide-y divide-slate-100">
+              <div className="divide-y divide-white/10">
                 {transactions.map((txn) => {
                   const isCredit = txn.direction === 'CREDIT';
                   const amtRupees = (txn.amount_paise / 100).toFixed(2);
@@ -177,13 +177,13 @@ export default function WalletPage() {
                   });
 
                   return (
-                    <div key={txn.id || txn.transaction_id} className="py-3 flex items-center justify-between text-xs">
+                    <div key={txn.id || txn.transaction_id} className="py-3 flex items-center justify-between text-xs hover:bg-white/5 px-2 rounded-xl transition-colors">
                       <div className="flex items-start gap-3 min-w-0 pr-3">
                         <div
                           className={`p-2 rounded-xl shrink-0 mt-0.5 ${
                             isCredit
-                              ? 'bg-emerald-100 text-emerald-700'
-                              : 'bg-rose-100 text-rose-700'
+                              ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-500/30'
+                              : 'bg-rose-950/80 text-rose-400 border border-rose-500/30'
                           }`}
                         >
                           {isCredit ? (
@@ -194,17 +194,17 @@ export default function WalletPage() {
                         </div>
 
                         <div className="min-w-0">
-                          <p className="font-bold text-slate-900 truncate">{txn.reason}</p>
+                          <p className="font-bold text-white truncate">{txn.reason}</p>
                           <div className="flex flex-wrap items-center gap-2 mt-0.5 text-[11px] text-slate-400">
-                            <span className="font-mono text-slate-500 inline-flex items-center gap-1">
+                            <span className="font-mono text-slate-400 inline-flex items-center gap-1">
                               {txn.transaction_id}
                               <button
                                 type="button"
                                 onClick={() => handleCopy(txn.transaction_id)}
-                                className="hover:text-slate-700"
+                                className="hover:text-amber-400 cursor-pointer"
                                 title="Copy ID"
                               >
-                                {isCopied ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+                                {isCopied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                               </button>
                             </span>
                             <span>&bull;</span>
@@ -216,7 +216,7 @@ export default function WalletPage() {
                       <div className="text-right shrink-0">
                         <span
                           className={`font-extrabold text-sm ${
-                            isCredit ? 'text-emerald-600' : 'text-rose-600'
+                            isCredit ? 'text-emerald-400' : 'text-rose-400'
                           }`}
                         >
                           {isCredit ? '+' : '-'}₹{amtRupees}

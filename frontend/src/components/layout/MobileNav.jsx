@@ -30,11 +30,11 @@ export function MobileNav({ isOpen, onClose }) {
 
   const navLinks = [
     { label: 'Store', to: '/store' },
+    { label: 'Offers', to: '/offers' },
     { label: 'Cookey', to: '/cookey' },
     { label: 'Dormitory', to: '/dormitory' },
     { label: 'Physio', to: '/physio' },
     { label: 'Membership Card', to: '/membership' },
-    { label: 'Army Offer', to: '/army-offer' },
   ];
 
   const hasMembership = user?.has_membership === true;

@@ -30,7 +30,7 @@ export default function DormitoryPage() {
           <p className="text-xs text-slate-600 leading-relaxed">
             Active BIGCHAMP Digital Passholders enjoy subsidized daily and weekly stay rates at partner sports dormitories. Simply present your dynamic security QR code at the facility reception for immediate verification.
           </p>
-          <Link to="/dashboard/card" className="inline-flex items-center gap-1 text-xs font-bold text-primary-900 hover:text-accent-600">
+          <Link to="/card" className="inline-flex items-center gap-1 text-xs font-bold text-amber-400 hover:text-amber-300">
             View Your Digital Pass <ArrowRight className="w-3 h-3" />
           </Link>
         </Card>

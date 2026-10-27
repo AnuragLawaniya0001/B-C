@@ -43,7 +43,7 @@ export default function PhysioPage() {
           <p className="text-xs text-slate-600 leading-relaxed">
             Visiting an affiliated clinic? Present your signed BIGCHAMP QR pass on your mobile device at reception for instant eligibility check and privilege redemption.
           </p>
-          <Link to="/dashboard/card" className="inline-flex items-center gap-1 text-xs font-bold text-primary-900 hover:text-accent-600">
+          <Link to="/card" className="inline-flex items-center gap-1 text-xs font-bold text-amber-400 hover:text-amber-300">
             Open Digital Pass <ArrowRight className="w-3 h-3" />
           </Link>
         </Card>

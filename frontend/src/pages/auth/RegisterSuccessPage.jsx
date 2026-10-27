@@ -108,9 +108,9 @@ export default function RegisterSuccessPage() {
               Continue Shopping
             </Button>
           </Link>
-          <Link to="/dashboard" className="flex-1">
+          <Link to="/orders" className="flex-1">
             <Button variant="outline" className="w-full">
-              Go to Dashboard
+              View My Account
             </Button>
           </Link>
         </div>

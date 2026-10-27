@@ -258,15 +258,17 @@ export default function OffersCouponsPage() {
   };
 
   const handleDeleteCoupon = async (c) => {
-    if (!window.confirm(`Are you sure you want to delete coupon '${c.code}'?`)) return;
+    if (!window.confirm(`Are you sure you want to permanently delete coupon '${c.code}'?`)) return;
 
     try {
       setActionLoading(true);
-      await api.delete(`/coupons/${c._id || c.code}?hard_delete=true`);
-      showFeedback('success', `Coupon '${c.code}' deleted.`);
-      fetchCoupons();
+      const identifier = c.code || c._id;
+      await api.delete(`/coupons/${encodeURIComponent(identifier)}?hard_delete=true`);
+      setCoupons((prev) => prev.filter((item) => item.code !== c.code && item._id !== c._id));
+      showFeedback('success', `Coupon '${c.code}' deleted successfully.`);
+      await fetchCoupons();
     } catch (err) {
-      showFeedback('error', 'Failed to delete coupon');
+      showFeedback('error', err.response?.data?.detail || 'Failed to delete coupon');
     } finally {
       setActionLoading(false);
     }

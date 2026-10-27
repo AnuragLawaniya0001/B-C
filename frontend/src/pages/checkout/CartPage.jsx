@@ -422,7 +422,7 @@ export default function CartPage() {
                         <div>
                           <span className="font-mono font-bold text-primary-900">{c.code}</span>
                           <span className="text-slate-500 ml-1.5 font-medium">
-                            {c.discount_percent}% off (min ₹{c.min_order_rupees})
+                            {c.discount_display || (c.discount_percent ? `${c.discount_percent}% off` : 'Discount offer')} (min ₹{c.min_order_rupees || 0})
                           </span>
                         </div>
                         <button

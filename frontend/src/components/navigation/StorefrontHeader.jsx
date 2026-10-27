@@ -90,7 +90,6 @@ export function StorefrontHeader() {
     { label: 'Offers', path: '/offers', badge: '15% OFF' },
     { label: 'Membership', path: '/membership' },
     { label: 'Cookey', path: '/cookey' },
-    { label: 'Army Offer', path: '/army-offer' },
     { label: 'Dormitory', path: '/dormitory' },
     { label: 'Physio', path: '/physio' },
     { label: 'About', path: '/about' },

@@ -49,6 +49,21 @@ DEFAULT_COUPONS = [
         "times_used": 0,
         "active": True,
     },
+    {
+        "code": "ARMY10",
+        "name": "Armed Forces & Veterans Privilege — 10% Extra OFF",
+        "description": "Special 10% privilege discount honoring Indian Armed Forces personnel, Veterans, and Police.",
+        "discount_type": "PERCENTAGE",
+        "discount_value": 10.0,
+        "min_order_paise": 50000,       # ₹500
+        "max_discount_paise": 100000,   # Max ₹1,000 cap
+        "applicable_categories": [],
+        "applicable_product_ids": [],
+        "total_usage_limit": 5000,
+        "per_user_limit": 5,
+        "times_used": 0,
+        "active": True,
+    },
 ]
 
 
@@ -70,12 +85,23 @@ def get_id_or_code_query(identifier: str) -> dict:
 
 
 async def ensure_default_coupons():
-    count = await db.coupons.count_documents({})
-    if count == 0:
-        now = datetime.now(timezone.utc)
-        for c in DEFAULT_COUPONS:
-            doc = {**c, "created_at": now, "updated_at": now}
-            await db.coupons.update_one({"code": c["code"]}, {"$setOnInsert": doc}, upsert=True)
+    """Seed initial default coupons once during platform bootstrap only.
+    Will NEVER re-insert coupons that an administrator has intentionally deleted.
+    """
+    settings_doc = await db.settings.find_one({"_id": "global_settings"}) or {}
+    if settings_doc.get("coupons_seeded"):
+        return
+
+    now = datetime.now(timezone.utc)
+    for c in DEFAULT_COUPONS:
+        doc = {**c, "created_at": now, "updated_at": now}
+        await db.coupons.update_one({"code": c["code"]}, {"$setOnInsert": doc}, upsert=True)
+
+    await db.settings.update_one(
+        {"_id": "global_settings"},
+        {"$set": {"coupons_seeded": True}},
+        upsert=True,
+    )
 
 
 @router.get("", summary="List offers and coupons")
@@ -89,7 +115,7 @@ async def get_coupons(
 ):
     """Retrieve promotional coupons and discount rules."""
     await ensure_default_coupons()
-    query = {}
+    query = {"is_deleted": {"$ne": True}}
     if active is not None:
         query["active"] = active
     if discount_type:
@@ -113,8 +139,8 @@ async def get_coupons(
 @router.get("/{id_or_code}", summary="Get coupon details by code or ID")
 async def get_coupon_by_id_or_code(id_or_code: str):
     """Retrieve single coupon document by code or ID."""
-    await ensure_default_coupons()
     query = get_id_or_code_query(id_or_code)
+    query["is_deleted"] = {"$ne": True}
     doc = await db.coupons.find_one(query)
     if not doc:
         raise HTTPException(status_code=404, detail=f"Coupon '{id_or_code}' not found")
@@ -248,7 +274,7 @@ async def toggle_coupon_active(
 @router.delete("/{id_or_code}", summary="Delete or archive coupon (Admin)")
 async def delete_coupon(
     id_or_code: str,
-    hard_delete: bool = Query(False, description="If true, permanently delete record; otherwise soft-deactivate"),
+    hard_delete: bool = Query(True, description="If true, permanently delete record; otherwise soft-deactivate"),
     current_admin: dict = Depends(get_current_admin),
 ):
     """Remove coupon from database or soft-archive."""
@@ -264,7 +290,7 @@ async def delete_coupon(
     now = datetime.now(timezone.utc)
     await db.coupons.update_one(
         {"_id": existing["_id"]},
-        {"$set": {"active": False, "updated_at": now, "updated_by": current_admin.get("email", "admin")}},
+        {"$set": {"active": False, "is_deleted": True, "updated_at": now, "updated_by": current_admin.get("email", "admin")}},
     )
     return {"message": f"Coupon '{existing.get('code')}' archived", "archived": True}
 

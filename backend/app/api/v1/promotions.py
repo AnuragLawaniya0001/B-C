@@ -9,6 +9,7 @@ from app.schemas.promotion_schema import (
     PromotionalPopupCreateRequest,
     PromotionalPopupUpdateRequest,
 )
+from app.services.coupon_service import compute_coupon_status
 
 router = APIRouter(prefix="/promotions", tags=["promotions"])
 
@@ -132,54 +133,63 @@ async def delete_popup(
 
 @router.get("/offers", summary="Get all current promotions and offers (Public)")
 async def get_current_offers():
-    """Retrieve verified active promotions, coupons, and club privileges for /offers page."""
-    now = datetime.now(timezone.utc)
-
-    # 1. Active Marketing Coupons from db.coupons (exclude test artifacts)
+    """Retrieve verified active promotions, coupons, and rules for /offers page."""
+    # 1. Active Marketing Coupons from db.coupons (exclude internal test artifacts)
     coupons = []
     c_cursor = db.coupons.find({
         "active": True,
-        "discount_percent": {"$gt": 0},
         "code": {"$not": {"$regex": "^(PAYTEST|CRASHCP|LIMIT1)"}}
-    })
+    }).sort("created_at", -1)
+
     async for c in c_cursor:
+        st = compute_coupon_status(c)
+        if st != "ACTIVE":
+            continue
+
+        disc_type = c.get("discount_type", "PERCENTAGE")
+        disc_val = float(c.get("discount_value", 0))
+        if disc_type == "PERCENTAGE":
+            discount_display = f"{int(disc_val) if disc_val.is_integer() else disc_val}% OFF"
+            discount_percent = disc_val
+        else:
+            discount_display = f"₹{int(disc_val / 100)} OFF"
+            discount_percent = 0
+
+        min_paise = c.get("min_order_paise", 0) or 0
+        max_paise = c.get("max_discount_paise")
+
         coupons.append({
+            "id": str(c.get("_id", "")),
             "code": c.get("code"),
-            "discount_percent": c.get("discount_percent", 0),
-            "max_discount_paise": c.get("max_discount_paise", 0),
-            "min_order_value_paise": c.get("min_order_value_paise", 0),
+            "name": c.get("name") or c.get("code"),
             "description": c.get("description", "Store promotion discount"),
+            "discount_type": disc_type,
+            "discount_value": disc_val,
+            "discount_display": discount_display,
+            "discount_percent": discount_percent,
+            "min_order_paise": min_paise,
+            "min_order_rupees": int(min_paise / 100),
+            "max_discount_paise": max_paise,
+            "max_discount_rupees": int(max_paise / 100) if max_paise else None,
+            "applicable_categories": c.get("applicable_categories", []),
+            "end_date": c.get("end_date").isoformat() if hasattr(c.get("end_date"), "isoformat") else c.get("end_date"),
+            "status": st,
         })
 
     # 2. Public business rules from settings
     settings_doc = await db.settings.find_one({"_id": "global_settings"}) or {}
     rules = settings_doc.get("business_rules", {})
 
+    free_thresh_paise = rules.get("free_delivery_threshold_paise", 50000)
+    std_deliv_paise = rules.get("standard_delivery_charge_paise", 4000)
+
     offers = {
         "coupons": coupons,
-        "membership": {
-            "title": "BIGCHAMP Annual Passholder Privilege",
-            "fee_paise": rules.get("card_fee_paise", 10000),
-            "validity_days": rules.get("card_validity_days", 334),
-            "cashback_percent": rules.get("joining_cashback_percent", 10.0),
-            "member_discount_percent": rules.get("default_member_discount_percent", 15.0),
-            "link": "/membership",
-        },
-        "cookey": {
-            "title": "Cookey Weekly Draw Pass",
-            "price_paise": rules.get("cookey_price_paise", 10000),
-            "limit_per_week": rules.get("cookey_max_per_week", 1),
-            "link": "/cookey",
-        },
-        "defense": {
-            "title": "Armed Forces & Veterans Privilege",
-            "discount_percent": rules.get("army_extra_discount_percent", 10.0),
-            "description": "Extra 10% discount on all certified athletic gear for verified defense personnel.",
-            "link": "/army-offer",
-        },
         "shipping": {
-            "free_threshold_paise": rules.get("free_delivery_threshold_paise", 50000),
-            "standard_delivery_paise": rules.get("standard_delivery_charge_paise", 4000),
+            "free_threshold_paise": free_thresh_paise,
+            "free_delivery_threshold_rupees": int(free_thresh_paise / 100),
+            "standard_delivery_paise": std_deliv_paise,
+            "standard_delivery_fee_rupees": int(std_deliv_paise / 100),
         },
     }
 

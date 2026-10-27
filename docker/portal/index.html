@@ -291,7 +291,7 @@
   <main>
     <div class="grid">
       <!-- 1. Customer Frontend -->
-      <a href="http://localhost:3000" target="_blank" class="card primary-card">
+      <a href="http://localhost:3000" data-port="3000" target="_blank" class="card primary-card">
         <div class="card-top">
           <div class="card-icon primary-icon">🛒</div>
           <span class="port-pill">:3000</span>
@@ -308,7 +308,7 @@
       </a>
 
       <!-- 2. Admin Console -->
-      <a href="http://localhost:3001" target="_blank" class="card admin-card">
+      <a href="http://localhost:3001" data-port="3001" target="_blank" class="card admin-card">
         <div class="card-top">
           <div class="card-icon admin-icon">⚙️</div>
           <span class="port-pill">:3001</span>
@@ -325,7 +325,7 @@
       </a>
 
       <!-- 3. Partner Portal -->
-      <a href="http://localhost:3002" target="_blank" class="card partner-card">
+      <a href="http://localhost:3002" data-port="3002" target="_blank" class="card partner-card">
         <div class="card-top">
           <div class="card-icon partner-icon">🏥</div>
           <span class="port-pill">:3002</span>
@@ -342,7 +342,7 @@
       </a>
 
       <!-- 4. Backend API & Swagger Docs -->
-      <a href="http://localhost:3050/docs" target="_blank" class="card backend-card">
+      <a href="http://localhost:3050/docs" data-port="3050" data-path="/docs" target="_blank" class="card backend-card">
         <div class="card-top">
           <div class="card-icon backend-icon">⚡</div>
           <span class="port-pill">:3050 /docs</span>
@@ -365,6 +365,17 @@
   </footer>
 
   <script>
+    // Automatically bind cards to current host (works seamlessly on localhost, VPS IP, or custom domain)
+    (function bindDynamicHost() {
+      const host = window.location.hostname;
+      const protocol = window.location.protocol;
+      document.querySelectorAll('a[data-port]').forEach(el => {
+        const port = el.getAttribute('data-port');
+        const path = el.getAttribute('data-path') || '';
+        el.href = `${protocol}//${host}:${port}${path}`;
+      });
+    })();
+
     // Live ping API health
     async function checkHealth() {
       const bulb = document.getElementById('api-status-bulb');
@@ -379,17 +390,8 @@
           text.textContent = 'API Error';
         }
       } catch (err) {
-        // Fallback check direct port 3050
-        try {
-          const direct = await fetch('http://localhost:3050/api/v1/health');
-          if (direct.ok) {
-            bulb.className = 'status-bulb online';
-            text.textContent = 'API Live';
-          }
-        } catch {
-          bulb.className = 'status-bulb';
-          text.textContent = 'Connecting...';
-        }
+        bulb.className = 'status-bulb';
+        text.textContent = 'Connecting...';
       }
     }
     checkHealth();

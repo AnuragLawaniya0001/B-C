@@ -243,7 +243,7 @@ export default function CheckoutSuccessPage() {
 
       {/* Bottom Navigation Actions */}
       <div className="flex flex-col sm:flex-row gap-3 pt-2">
-        <Link to="/dashboard/orders" className="flex-1">
+        <Link to="/orders" className="flex-1">
           <Button variant="primary" className="w-full" rightIcon={<ArrowRight className="w-4 h-4" />}>
             View in Order History
           </Button>
