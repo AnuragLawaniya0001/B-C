@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
-import HomePage from '../pages/public/HomePage';
+import LandingPage from '../pages/public/LandingPage';
 import StorePage from '../pages/public/StorePage';
 import ProductDetailPage from '../pages/public/ProductDetailPage';
 import CookeyPage from '../pages/public/CookeyPage';
@@ -20,7 +19,7 @@ import RefundPolicyPage from '../pages/public/RefundPolicyPage';
 import ShippingPolicyPage from '../pages/public/ShippingPolicyPage';
 
 export const publicRoutes = [
-  { path: '/', element: <HomePage /> },
+  { path: '/', element: <LandingPage /> },
   { path: '/store', element: <StorePage /> },
   { path: '/store/:slug', element: <ProductDetailPage /> },
   { path: '/store/product/:slug', element: <ProductDetailPage /> },

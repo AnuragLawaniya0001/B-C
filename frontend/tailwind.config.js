@@ -38,7 +38,8 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
-        display: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+        display: ['Syne', '"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+        syne: ['Syne', 'sans-serif'],
       },
       boxShadow: {
         'glow-accent': '0 0 25px -5px rgba(249, 115, 22, 0.3)',

@@ -1,21 +1,18 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { PublicLayout } from './components/layout/PublicLayout';
+import { LandingLayout } from './components/layout/LandingLayout';
+import { EcommerceLayout } from './components/layout/EcommerceLayout';
 import { ProtectedRoute } from './routes/ProtectedRoute';
 import { AuthBootstrap } from './components/auth/AuthBootstrap';
 import { Loader } from './components/ui/Loader';
 
-// Lazy-loaded Public pages
-const HomePage = lazy(() => import('./pages/public/HomePage'));
-const StorePage = lazy(() => import('./pages/public/StorePage'));
-const ProductDetailPage = lazy(() => import('./pages/public/ProductDetailPage'));
+// Lazy-loaded Business / Landing pages
+const LandingPage = lazy(() => import('./pages/public/LandingPage'));
 const CookeyPage = lazy(() => import('./pages/public/CookeyPage'));
 const MembershipPage = lazy(() => import('./pages/public/MembershipPage'));
 const DormitoryPage = lazy(() => import('./pages/public/DormitoryPage'));
 const PhysioPage = lazy(() => import('./pages/public/PhysioPage'));
-const ArmyOfferPage = lazy(() => import('./pages/public/ArmyOfferPage'));
-const OffersPage = lazy(() => import('./pages/public/OffersPage'));
 const AboutPage = lazy(() => import('./pages/public/AboutPage'));
 const ContactPage = lazy(() => import('./pages/public/ContactPage'));
 const TermsPage = lazy(() => import('./pages/public/TermsPage'));
@@ -23,6 +20,15 @@ const PrivacyPage = lazy(() => import('./pages/public/PrivacyPage'));
 const RefundPolicyPage = lazy(() => import('./pages/public/RefundPolicyPage'));
 const ShippingPolicyPage = lazy(() => import('./pages/public/ShippingPolicyPage'));
 const NotFoundPage = lazy(() => import('./pages/public/NotFoundPage'));
+
+// Lazy-loaded E-Commerce Shopping pages
+const CinematicCommercePage = lazy(() => import('./pages/public/CinematicCommercePage'));
+const StorePage = lazy(() => import('./pages/public/StorePage'));
+const ProductDetailPage = lazy(() => import('./pages/public/ProductDetailPage'));
+const OffersPage = lazy(() => import('./pages/public/OffersPage'));
+const CartPage = lazy(() => import('./pages/checkout/CartPage'));
+const CheckoutPage = lazy(() => import('./pages/checkout/CheckoutPage'));
+const CheckoutSuccessPage = lazy(() => import('./pages/checkout/CheckoutSuccessPage'));
 
 // Lazy-loaded Auth pages
 const LoginPage = lazy(() => import('./pages/auth/LoginPage'));
@@ -33,7 +39,7 @@ const KycPage = lazy(() => import('./pages/auth/KycPage'));
 const RegisterSuccessPage = lazy(() => import('./pages/auth/RegisterSuccessPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/auth/ForgotPasswordPage'));
 
-// Lazy-loaded Dashboard pages
+// Lazy-loaded Customer Dashboard pages
 const OverviewPage = lazy(() => import('./pages/dashboard/OverviewPage'));
 const CardPage = lazy(() => import('./pages/dashboard/CardPage'));
 const WalletPage = lazy(() => import('./pages/dashboard/WalletPage'));
@@ -42,11 +48,6 @@ const OrdersPage = lazy(() => import('./pages/dashboard/OrdersPage'));
 const CouponsPage = lazy(() => import('./pages/dashboard/CouponsPage'));
 const ProfilePage = lazy(() => import('./pages/dashboard/ProfilePage'));
 const SettingsPage = lazy(() => import('./pages/dashboard/SettingsPage'));
-
-// Lazy-loaded Checkout pages
-const CartPage = lazy(() => import('./pages/checkout/CartPage'));
-const CheckoutPage = lazy(() => import('./pages/checkout/CheckoutPage'));
-const CheckoutSuccessPage = lazy(() => import('./pages/checkout/CheckoutSuccessPage'));
 
 function PageLoader() {
   return (
@@ -89,14 +90,18 @@ export default function App() {
 
       <Suspense fallback={<PageLoader />}>
         <Routes>
-          {/* Public Storefront Routes with Storefront Header and Footer */}
-          <Route element={<PublicLayout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/store" element={<StorePage />} />
-            <Route path="/catalogue" element={<StorePage />} />
-            <Route path="/offers" element={<OffersPage />} />
-            <Route path="/store/:slug" element={<ProductDetailPage />} />
-            <Route path="/store/product/:slug" element={<ProductDetailPage />} />
+          {/* =========================================================================
+              1. CINEMATIC BRAND LANDING PAGE (HOLYWOOD 60/120FPS CANVAS SCRUBBER)
+              Dedicated full-screen experience with video-frame timeline, HUD & direct portal
+              ========================================================================= */}
+          <Route path="/" element={<LandingPage />} />
+
+          {/* =========================================================================
+              2. BUSINESS / CORPORATE ECOSYSTEM ROUTES (SERVICES & LEGAL)
+              Uses LandingLayout: LandingHeader (Business Navbar) + LandingFooter
+              ========================================================================= */}
+          <Route element={<LandingLayout />}>
+            {/* Corporate & Vertical Services */}
             <Route path="/cookey" element={<CookeyPage />} />
             <Route path="/membership" element={<MembershipPage />} />
             <Route path="/dormitory" element={<DormitoryPage />} />
@@ -109,26 +114,45 @@ export default function App() {
             <Route path="/refund-policy" element={<RefundPolicyPage />} />
             <Route path="/shipping-policy" element={<ShippingPolicyPage />} />
 
-            {/* Auth routes wrapped in public header/footer */}
+            {/* Auth routes */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/register/verify-otp" element={<VerifyOtpPage />} />
             <Route path="/register/password" element={<PasswordPage />} />
             <Route path="/register/kyc" element={<KycPage />} />
-            {/* Legacy membership-pay route redirected to register success */}
             <Route
               path="/register/membership-pay"
               element={<Navigate to="/register/success" replace />}
             />
             <Route path="/register/success" element={<RegisterSuccessPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          </Route>
+
+          {/* =========================================================================
+              3. CINEMATIC SPORTS COMMERCE EXPERIENCE ("BIRTH OF A LEGEND")
+              Standalone full-viewport immersive experience with embedded HUD & post-story store
+              ========================================================================= */}
+          <Route path="/store" element={<CinematicCommercePage />} />
+          <Route path="/cinematic" element={<CinematicCommercePage />} />
+
+          {/* =========================================================================
+              4. DEDICATED E-COMMERCE SHOPPING ROUTES (CATALOG & CHECKOUT)
+              Uses EcommerceLayout: Pure Shopping Navbar (Categories, Search, Cart, Deals) + Shopping Footer
+              ========================================================================= */}
+          <Route element={<EcommerceLayout />}>
+            {/* Catalog Filter Hub */}
+            <Route path="/catalogue" element={<StorePage />} />
+            <Route path="/shop" element={<Navigate to="/store" replace />} />
+            <Route path="/offers" element={<OffersPage />} />
+            <Route path="/store/:slug" element={<ProductDetailPage />} />
+            <Route path="/store/product/:slug" element={<ProductDetailPage />} />
 
             {/* Cart & Checkout */}
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
 
-            {/* Authenticated Customer Account Single Pages (Inside PublicLayout) */}
+            {/* Customer Account Pages */}
             <Route
               path="/orders"
               element={
@@ -242,7 +266,7 @@ export default function App() {
               }
             />
 
-            {/* Legacy Dashboard URLs gracefully redirected to single pages */}
+            {/* Legacy Dashboard URL redirects */}
             <Route
               path="/dashboard"
               element={

@@ -37,6 +37,14 @@ import {
 import api from '../services/api';
 
 const SECTION_METADATA = {
+  cinematic_story: {
+    name: 'Cinematic Story: Birth of a Legend',
+    position: 'Top of Storefront (Cinematic Hero)',
+    positionBadge: 'Interactive Story #0',
+    description: '8-scene scroll-scrubbed cinematic narrative of the English Willow cricket bat from raw wood to stadium impact.',
+    badgeColor: 'bg-amber-50 text-amber-700 border-amber-200',
+    icon: Film,
+  },
   hero_campaign: {
     name: 'Hero Campaign Banner',
     position: 'Top of Homepage (Above the Fold)',
@@ -969,9 +977,154 @@ export default function StorefrontBuilderPage() {
               </div>
 
               {/* =========================================================================
-                  SPECIALIZED INTERFACE: CURATED PRODUCTS SECTION (#3 See What's New Today)
+                  SPECIALIZED INTERFACE: CINEMATIC STORY (BIRTH OF A LEGEND)
                   ========================================================================= */}
-              {formData.section_type === 'curated_products' ? (
+              {formData.section_type === 'cinematic_story' ? (
+                <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-200 space-y-5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="font-bold text-xs uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
+                        <Film className="w-4 h-4 text-amber-600" /> Cinematic 4D Experience: Birth of a Legend
+                      </span>
+                      <p className="text-[11px] text-slate-600 mt-0.5">
+                        Manage master video, 8-scene timeline, text overlays, intro, and Scene 8 purchase product.
+                      </p>
+                    </div>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300">
+                      240 Frames &bull; 8 Scenes
+                    </span>
+                  </div>
+
+                  {/* 1. Master Video & Frame Status */}
+                  <div className="bg-white p-3.5 rounded-lg border border-slate-200 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-slate-800">Master Cinematic Video</label>
+                      <span className="text-[11px] font-mono text-emerald-600 font-bold flex items-center gap-1">
+                        <Check className="w-3.5 h-3.5" /> 240 WebP Frames Optimized
+                      </span>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-3 items-start">
+                      <div className="w-40 h-24 bg-black rounded-lg overflow-hidden shrink-0 shadow-sm border border-slate-200">
+                        <video
+                          src={formData.media_url || '/media/cinematic/master.mp4'}
+                          className="w-full h-full object-cover"
+                          controls
+                          muted
+                        />
+                      </div>
+                      <div className="flex-1 w-full space-y-2">
+                        <input
+                          type="text"
+                          value={formData.media_url || '/media/cinematic/master.mp4'}
+                          onChange={(e) => setFormData({ ...formData, media_url: e.target.value })}
+                          placeholder="/media/cinematic/master.mp4"
+                          className="w-full text-xs font-mono px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                        />
+                        <div className="flex items-center gap-2 text-[11px] text-slate-500 font-mono">
+                          <span>Desktop: 1280x720 (5.3MB)</span>
+                          <span>&bull;</span>
+                          <span>Mobile: 540x960 9:16 (3.2MB)</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 2. Intro & Controls Configuration */}
+                  <div className="bg-white p-3.5 rounded-lg border border-slate-200 space-y-3">
+                    <label className="text-xs font-bold text-slate-800 block">Intro &amp; Skip Controls</label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <span className="text-[11px] text-slate-600 block mb-1">Intro Headline</span>
+                        <input
+                          type="text"
+                          value={formData.config?.intro?.title || 'Birth of a Legend'}
+                          onChange={(e) => setFormData({
+                            ...formData,
+                            config: {
+                              ...formData.config,
+                              intro: { ...formData.config?.intro, title: e.target.value }
+                            }
+                          })}
+                          className="w-full text-xs px-3 py-1.5 rounded-lg border border-slate-300"
+                        />
+                      </div>
+                      <div>
+                        <span className="text-[11px] text-slate-600 block mb-1">Skip Button Label</span>
+                        <input
+                          type="text"
+                          value={formData.config?.skip_button_text || 'Skip to Store'}
+                          onChange={(e) => setFormData({
+                            ...formData,
+                            config: { ...formData.config, skip_button_text: e.target.value }
+                          })}
+                          className="w-full text-xs px-3 py-1.5 rounded-lg border border-slate-300"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 3. 8-Scene Story Timeline Editor */}
+                  <div className="bg-white p-3.5 rounded-lg border border-slate-200 space-y-3">
+                    <label className="text-xs font-bold text-slate-800 block">8-Scene Narrative &amp; Overlays</label>
+                    <div className="space-y-2.5 max-h-80 overflow-y-auto pr-1">
+                      {(formData.config?.scenes || [
+                        { id: 1, title: 'THE ORIGIN', headline: 'EVERY LEGEND HAS A BEGINNING.' },
+                        { id: 2, title: 'THE CRAFTSMANSHIP', headline: 'CRAFTED WITH PRECISION.' },
+                        { id: 3, title: 'THE TRANSFORMATION', headline: 'PERFECTION IN EVERY GRAIN.' },
+                        { id: 4, title: 'THE IDENTITY', headline: 'MADE FOR YOUR GAME.' },
+                        { id: 5, title: 'THE IMPACT', headline: '', is_climax: true },
+                        { id: 6, title: 'THE STADIUM', headline: 'NOW THE GAME BEGINS.' },
+                        { id: 7, title: 'THE HERO', headline: 'ENGLISH WILLOW.' },
+                        { id: 8, title: 'PURCHASE MOMENT', headline: 'YOUR GAME. YOUR LEGACY.' },
+                      ]).map((sc, sIdx) => (
+                        <div key={sc.id} className="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-xs space-y-1.5">
+                          <div className="flex items-center justify-between">
+                            <span className="font-bold text-slate-800">Scene 0{sc.id} &bull; {sc.title}</span>
+                            <span className="text-[10px] font-mono text-slate-500">
+                              {sc.is_climax ? 'Climax Strike' : 'Text Overlay Active'}
+                            </span>
+                          </div>
+                          {!sc.is_climax ? (
+                            <input
+                              type="text"
+                              value={sc.headline}
+                              onChange={(e) => {
+                                const newScenes = [...(formData.config?.scenes || [])];
+                                if (newScenes[sIdx]) {
+                                  newScenes[sIdx].headline = e.target.value;
+                                  setFormData({ ...formData, config: { ...formData.config, scenes: newScenes } });
+                                }
+                              }}
+                              className="w-full text-xs px-2.5 py-1 rounded border border-slate-300 bg-white"
+                            />
+                          ) : (
+                            <span className="text-[11px] text-slate-400 italic">No text per spec — visual climax impact</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 4. Scene 8 Hero Product Link */}
+                  <div className="bg-white p-3.5 rounded-lg border border-slate-200 space-y-2">
+                    <label className="text-xs font-bold text-slate-800 block">Scene 8 Linked Product</label>
+                    <p className="text-[11px] text-slate-500">
+                      Product fetched from database and rendered inside the Scene 8 Purchase Moment card.
+                    </p>
+                    <input
+                      type="text"
+                      value={formData.config?.product_slug || 'english-willow-cricket-bat'}
+                      onChange={(e) => setFormData({
+                        ...formData,
+                        config: { ...formData.config, product_slug: e.target.value }
+                      })}
+                      placeholder="english-willow-cricket-bat"
+                      className="w-full text-xs font-mono px-3 py-2 rounded-lg border border-slate-300"
+                    />
+                  </div>
+                </div>
+              ) : formData.section_type === 'curated_products' ? (
                 <div className="p-4 bg-blue-50/50 rounded-xl border border-blue-200 space-y-4">
                   <div className="flex items-center justify-between">
                     <div>

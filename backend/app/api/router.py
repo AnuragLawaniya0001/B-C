@@ -19,6 +19,7 @@ from app.api.v1.wallet import router as wallet_router
 from app.api.v1.payments import router as payments_router
 from app.api.v1.membership import router as membership_router
 from app.api.v1.admin_membership import router as admin_membership_router
+from app.api.v1.admin_users import router as admin_users_router
 from app.api.v1.partners import router as partners_router
 from app.api.v1.referrals import router as referrals_router
 from app.api.v1.finance import router as finance_router
@@ -41,6 +42,7 @@ api_router.include_router(admin_settings_router, prefix="/v1")
 api_router.include_router(admin_metrics_router, prefix="/v1")
 api_router.include_router(membership_router, prefix="/v1")
 api_router.include_router(admin_membership_router, prefix="/v1")
+api_router.include_router(admin_users_router, prefix="/v1")
 api_router.include_router(pages_router, prefix="/v1")
 api_router.include_router(banners_router, prefix="/v1")
 api_router.include_router(faqs_router, prefix="/v1")

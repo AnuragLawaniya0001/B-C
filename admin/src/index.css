@@ -4,6 +4,190 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900;
+    background-color: #02050b;
+    color: #f1f5f9;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
+
+  /* Headings inherit Syne display by default if font-black or font-bold */
+  h1, h2, h3 {
+    letter-spacing: -0.015em;
+  }
+}
+
+/* Custom Scrollbar for sleek dark cockpit */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #02050b;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 158, 11, 0.4);
+}
+
+/* Radiant Golden Gradient Utility */
+.g-gold {
+  background: linear-gradient(135deg, #fef08a 0%, #fbbf24 45%, #ea580c 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  display: inline-block;
+  filter: drop-shadow(0 2px 10px rgba(245, 158, 11, 0.4));
+}
+
+/* Golden Radiant Button */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 11px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b, #ea580c);
+  color: #02050b !important;
+  border: 0;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.35);
+}
+.btn-gold:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 26px rgba(245, 158, 11, 0.5);
+}
+.btn-gold:active {
+  transform: scale(0.98);
+}
+
+/* Dark Glass Tile */
+.glass-card {
+  background: rgba(6, 11, 22, 0.82) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.glass-card:hover {
+  border-color: rgba(245, 158, 11, 0.35) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.1);
+}
+
+/* =========================================================================
+   DARK COCKPIT SYSTEM OVERRIDES
+   Automatically converts legacy light-mode utility containers to dark luxury
+   ========================================================================= */
+
+/* Cards, Modals, Popovers and Table containers */
+.bg-white {
+  background-color: rgba(6, 11, 24, 0.88) !important;
+  color: #f1f5f9;
+}
+
+/* Light gray panels, tab bars, filter containers */
+.bg-slate-50,
+.bg-slate-100 {
+  background-color: rgba(10, 18, 34, 0.75) !important;
+}
+
+.bg-slate-200 {
+  background-color: rgba(18, 30, 52, 0.6) !important;
+}
+
+/* Subtle borders */
+.border-slate-200,
+.border-slate-100,
+.border-slate-300 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.border-slate-200\/80,
+.border-slate-200\/60 {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Primary text to crisp white */
+.text-slate-900,
+.text-slate-800 {
+  color: #ffffff !important;
+}
+
+/* Secondary descriptions */
+.text-slate-700,
+.text-slate-600 {
+  color: #94a3b8 !important;
+}
+
+/* Muted metadata */
+.text-slate-500 {
+  color: #64748b !important;
+}
+
+/* Table styling for dark theme */
+table {
+  color: #f1f5f9;
+}
+
+thead, th {
+  background-color: rgba(10, 18, 34, 0.95) !important;
+  color: #cbd5e1 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+tbody tr {
+  border-color: rgba(255, 255, 255, 0.05) !important;
+  transition: background-color 0.15s ease;
+}
+
+tbody tr:hover {
+  background-color: rgba(245, 158, 11, 0.04) !important;
+}
+
+/* Form inputs & select dropdowns */
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not(.btn-gold),
+select,
+textarea {
+  background-color: rgba(4, 9, 18, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):focus,
+select:focus,
+textarea:focus {
+  border-color: #fbbf24 !important;
+  box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.25) !important;
+  outline: none !important;
+}
+
+select option {
+  background-color: #060b16 !important;
+  color: #ffffff !important;
+}
+
+/* Light badge pills converted to luminous dark tags */
+.bg-blue-50 {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+}
+.bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+}
+.bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.15) !important;
+}
+.bg-purple-50 {
+  background-color: rgba(168, 85, 247, 0.15) !important;
+}
+.bg-rose-50, .bg-red-50 {
+  background-color: rgba(244, 63, 94, 0.15) !important;
 }

@@ -1,0 +1,109 @@
+{
+  "video_file": "/media/cinematic/master.mp4",
+  "total_frames": 240,
+  "fps": 24.0,
+  "duration_seconds": 10.0,
+  "aspect_ratio": "16:9",
+  "desktop": {
+    "pattern": "/media/cinematic/desktop/frame_{index:03d}.webp",
+    "width": 1280,
+    "height": 720
+  },
+  "mobile": {
+    "pattern": "/media/cinematic/mobile/frame_{index:03d}.webp",
+    "width": 540,
+    "height": 960
+  },
+  "scenes": [
+    {
+      "id": 1,
+      "title": "THE ORIGIN",
+      "headline": "EVERY LEGEND HAS A BEGINNING.",
+      "subtitle": "Raw, hand-selected cleft of English Willow bathed in single golden light.",
+      "start_frame": 0,
+      "end_frame": 22,
+      "start_time": 0.0,
+      "end_time": 0.92,
+      "keyframe": "/media/cinematic/keyframes/scene_1.jpg"
+    },
+    {
+      "id": 2,
+      "title": "THE CRAFTSMANSHIP",
+      "headline": "CRAFTED WITH PRECISION.",
+      "subtitle": "Drawknives and chisels carve razor-thin willow ribbons in slow-motion artisan dedication.",
+      "start_frame": 23,
+      "end_frame": 46,
+      "start_time": 0.96,
+      "end_time": 1.92,
+      "keyframe": "/media/cinematic/keyframes/scene_2.jpg"
+    },
+    {
+      "id": 3,
+      "title": "THE TRANSFORMATION",
+      "headline": "PERFECTION IN EVERY GRAIN.",
+      "subtitle": "Polished blade face reveals straight, flawless natural willow growth grains.",
+      "start_frame": 47,
+      "end_frame": 70,
+      "start_time": 1.96,
+      "end_time": 2.92,
+      "keyframe": "/media/cinematic/keyframes/scene_3.jpg"
+    },
+    {
+      "id": 4,
+      "title": "THE IDENTITY",
+      "headline": "MADE FOR YOUR GAME.",
+      "subtitle": "Multi-piece cane handle with premium chevron grip and metallic gold BIGCHAMP branding.",
+      "start_frame": 71,
+      "end_frame": 95,
+      "start_time": 2.96,
+      "end_time": 3.96,
+      "keyframe": "/media/cinematic/keyframes/scene_4.jpg"
+    },
+    {
+      "id": 5,
+      "title": "THE IMPACT",
+      "headline": "",
+      "subtitle": "",
+      "is_climax": true,
+      "start_frame": 96,
+      "end_frame": 122,
+      "start_time": 4.0,
+      "end_time": 5.08,
+      "keyframe": "/media/cinematic/keyframes/scene_5.jpg"
+    },
+    {
+      "id": 6,
+      "title": "THE STADIUM",
+      "headline": "NOW THE GAME BEGINS.",
+      "subtitle": "Blinding arena floodlights power up as the green championship pitch awaits.",
+      "start_frame": 123,
+      "end_frame": 151,
+      "start_time": 5.12,
+      "end_time": 6.29,
+      "keyframe": "/media/cinematic/keyframes/scene_6.jpg"
+    },
+    {
+      "id": 7,
+      "title": "THE HERO",
+      "headline": "ENGLISH WILLOW.",
+      "subtitle": "BUILT FOR THE NEXT LEGEND.",
+      "start_frame": 152,
+      "end_frame": 200,
+      "start_time": 6.33,
+      "end_time": 8.33,
+      "keyframe": "/media/cinematic/keyframes/scene_7.jpg"
+    },
+    {
+      "id": 8,
+      "title": "PURCHASE MOMENT",
+      "headline": "YOUR GAME. YOUR LEGACY.",
+      "subtitle": "Own the official match-certified bat crafted for professional tournament performance.",
+      "start_frame": 201,
+      "end_frame": 239,
+      "start_time": 8.37,
+      "end_time": 9.96,
+      "keyframe": "/media/cinematic/keyframes/scene_8.jpg",
+      "is_purchase": true
+    }
+  ]
+}

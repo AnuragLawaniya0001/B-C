@@ -17,6 +17,8 @@ services:
     container_name: bigchamp-app
     restart: unless-stopped
     ports:
+      - "80:80"       # Standard HTTP for Domains (bigchamp.in, bcpanel.bigchamp.com, partner.bigchamp.in)
+      - "443:443"     # Standard HTTPS for SSL
       - "3080:3080"   # Ecosystem Hub & Unified Gateway
       - "3050:3050"   # FastAPI Backend & Swagger Docs (/docs)
       - "3000:3000"   # Customer Frontend Website & App

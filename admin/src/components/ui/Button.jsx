@@ -24,19 +24,21 @@ export const Button = React.forwardRef(
     ref
   ) => {
     const baseStyles =
-      'inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none active:scale-[0.98] transition-transform duration-75';
+      'inline-flex items-center justify-center font-bold rounded-xl transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-[#02050b] disabled:opacity-50 disabled:cursor-not-allowed select-none active:scale-[0.98] cursor-pointer';
 
     const variants = {
       primary:
-        'bg-primary-900 text-white hover:bg-primary-800 focus:ring-primary-600 shadow-sm',
+        'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 font-black hover:brightness-110 focus:ring-amber-400 shadow-md shadow-amber-500/20 border-0',
       secondary:
-        'bg-accent-500 text-white hover:bg-accent-600 focus:ring-accent-400 shadow-sm',
+        'bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 focus:ring-amber-400',
       outline:
-        'border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 focus:ring-primary-500',
+        'border border-white/15 bg-white/5 text-slate-200 hover:bg-white/10 hover:border-white/30 focus:ring-white/20',
       danger:
-        'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 shadow-sm',
+        'bg-rose-600/20 text-rose-300 border border-rose-500/30 hover:bg-rose-600/30 focus:ring-rose-500',
       ghost:
-        'text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:ring-slate-400',
+        'text-slate-400 hover:text-white hover:bg-white/5 focus:ring-white/10',
+      gold:
+        'btn-gold',
     };
 
     const sizes = {

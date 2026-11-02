@@ -4,69 +4,101 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { toast } from 'react-hot-toast';
-import { Mail, Phone, ArrowRight, Sparkles } from 'lucide-react';
-import { Card } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
+import {
+  User,
+  Mail,
+  Phone,
+  Lock,
+  Eye,
+  EyeOff,
+  ArrowRight,
+  ShoppingBag,
+  Gift,
+} from 'lucide-react';
 import { authService } from '../../services/authService';
+import { useAuthStore } from '../../store/authStore';
 
-const emailSchema = z.object({
-  identifier: z.string().email('Please enter a valid email address'),
-});
-
-const mobileSchema = z.object({
-  identifier: z
-    .string()
-    .regex(/^[6-9]\d{9}$/, 'Please enter a valid 10-digit Indian mobile number'),
-});
+const registrationSchema = z
+  .object({
+    full_name: z
+      .string()
+      .min(2, 'Full name must be at least 2 characters')
+      .max(100, 'Full name is too long'),
+    mobile: z
+      .string()
+      .regex(/^[6-9]\d{9}$/, 'Enter a valid 10-digit Indian mobile number (e.g. 9876543210)'),
+    email: z
+      .string()
+      .email('Enter a valid email address (e.g. name@example.com)'),
+    password: z
+      .string()
+      .min(6, 'Password must be at least 6 characters long'),
+    confirmPassword: z.string().min(1, 'Please confirm your password'),
+    referral_code: z.string().optional(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
 
 export default function RegisterPage() {
-  const [channel, setChannel] = useState('email'); // 'email' | 'mobile'
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showReferralInput, setShowReferralInput] = useState(false);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
-  const currentSchema = channel === 'email' ? emailSchema : mobileSchema;
+  const { setAuth } = useAuthStore();
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(currentSchema),
+    resolver: zodResolver(registrationSchema),
+    defaultValues: {
+      full_name: '',
+      mobile: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      referral_code: '',
+    },
   });
-
-  const handleChannelSwitch = (newChannel) => {
-    setChannel(newChannel);
-    reset({ identifier: '' });
-  };
 
   const onSubmit = async (data) => {
     setLoading(true);
-    const identifier = data.identifier.trim();
 
     try {
-      const response = await authService.sendOtp(identifier, 'REGISTER');
-      const devOtp = response.data.dev_otp || response.data.mock_otp;
+      const payload = {
+        full_name: data.full_name.trim(),
+        email: data.email.trim().toLowerCase(),
+        mobile: data.mobile.trim(),
+        password: data.password,
+        referral_code: data.referral_code?.trim() || undefined,
+      };
 
-      // Store temp registration state for next steps
-      localStorage.setItem(
-        'bc_reg_tmp',
-        JSON.stringify({
-          identifier,
-          channel,
-          devOtp,
-        })
-      );
+      const response = await authService.register(payload);
+      const resData = response.data || response;
+      const user = resData.user;
+      const accessToken = resData.access_token || resData.token;
+      const refreshToken = resData.refresh_token;
 
-      if (devOtp) {
-        toast.success(`OTP Sent! (Dev Code: ${devOtp})`, { duration: 6000 });
-      } else {
-        toast.success('Verification OTP has been sent successfully!');
+      if (user && accessToken) {
+        setAuth(user, accessToken, refreshToken);
       }
 
-      navigate('/register/verify-otp');
+      toast.success(`Account created! Welcome to BIGCHAMP, ${user?.full_name || 'Champion'}!`, {
+        duration: 5000,
+      });
+
+      // Navigate to store or welcome page
+      navigate('/store', { replace: true });
     } catch (err) {
-      const msg = err.response?.data?.detail || 'Failed to send OTP. Please try again.';
+      const msg =
+        err.response?.data?.detail ||
+        err.message ||
+        'Registration failed. Please check your details and try again.';
       toast.error(msg);
     } finally {
       setLoading(false);
@@ -74,124 +106,261 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center p-4 sm:p-6 bg-slate-50/50">
-      <Card className="w-full max-w-[420px] p-6 sm:p-8 shadow-lg border-slate-200 bg-white">
+    <div className="min-h-[85vh] flex items-center justify-center p-4 sm:p-6 py-10 relative z-10">
+      <div className="w-full max-w-[500px] p-6 sm:p-9 rounded-3xl bg-[#030712]/90 backdrop-blur-2xl border border-white/15 shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_40px_rgba(0,240,255,0.08)] text-white relative overflow-hidden">
+        {/* Subtle top ambient glow */}
+        <div className="absolute top-0 right-0 w-44 h-44 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+
         {/* Brand Header */}
         <div className="text-center mb-6">
-          <Link to="/" className="inline-block group mb-2">
-            <span className="text-3xl font-black tracking-tight text-primary-900 group-hover:opacity-90 transition-opacity">
-              BIG<span className="text-accent-500">CHAMP</span>
-            </span>
+          <Link to="/" className="inline-flex items-center gap-3 group mb-3">
+            <img
+              src="/assets/logo_emblem.png"
+              alt="BIGCHAMP Winged Crest"
+              className="h-10 w-auto filter drop-shadow-[0_2px_12px_rgba(0,240,255,0.4)] group-hover:scale-105 transition-transform"
+            />
+            <div className="flex flex-col text-left">
+              <span className="font-extrabold text-2xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-slate-300 font-display italic leading-tight">
+                BIGCHAMP
+              </span>
+              <span className="text-[9px] font-mono uppercase tracking-[0.25em] text-cyan-400 -mt-0.5 font-bold">
+                Sports Commerce
+              </span>
+            </div>
           </Link>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>100% Free Registration</span>
-          </div>
-          <h1 className="text-xl font-bold text-slate-900">Create your account</h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Join the sports and fitness ecosystem.
+
+          <h1 className="font-syne font-black text-2xl text-white tracking-tight">
+            Create Customer Account
+          </h1>
+          <p className="text-xs text-slate-400 mt-1">
+            Free sports shopping account. Track orders, explore gear, and enjoy member offers.
           </p>
         </div>
 
-        {/* Channel Toggle (Email / Mobile) */}
-        <div className="flex p-1 bg-slate-100 rounded-xl mb-5">
-          <button
-            type="button"
-            onClick={() => handleChannelSwitch('email')}
-            className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-semibold rounded-lg transition-all ${
-              channel === 'email'
-                ? 'bg-white text-slate-900 shadow-xs'
-                : 'text-slate-500 hover:text-slate-800'
-            }`}
-          >
-            <Mail className="w-4 h-4" />
-            <span>Email</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => handleChannelSwitch('mobile')}
-            className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-semibold rounded-lg transition-all ${
-              channel === 'mobile'
-                ? 'bg-white text-slate-900 shadow-xs'
-                : 'text-slate-500 hover:text-slate-800'
-            }`}
-          >
-            <Phone className="w-4 h-4" />
-            <span>Mobile</span>
-          </button>
-        </div>
-
-        {/* Send OTP Form */}
+        {/* Direct Registration Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {channel === 'email' ? (
-            <div className="space-y-1.5">
-              <label
-                htmlFor="email-identifier"
-                className="block text-sm font-medium text-slate-700"
-              >
-                Email Address <span className="text-red-500">*</span>
-              </label>
+          {/* Full Name */}
+          <div className="space-y-1">
+            <label className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
+              Full Name
+            </label>
+            <div className="relative">
               <input
-                id="email-identifier"
-                type="email"
-                placeholder="athlete@example.com"
-                className={`w-full px-3.5 py-2 text-sm rounded-lg border bg-white transition-colors placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                  errors.identifier
-                    ? 'border-red-400 text-red-900 focus:border-red-500 focus:ring-red-200'
-                    : 'border-slate-300 text-slate-900 focus:border-primary-600 focus:ring-primary-100'
+                type="text"
+                placeholder="e.g. Rahul Sharma"
+                className={`w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border bg-[#050b14] text-white placeholder-slate-500 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400/30 ${
+                  errors.full_name
+                    ? 'border-red-500 focus:border-red-500'
+                    : 'border-white/15 focus:border-cyan-400'
                 }`}
-                {...register('identifier')}
+                {...register('full_name')}
               />
-              {errors.identifier && (
-                <p className="text-xs text-red-600">{errors.identifier.message}</p>
-              )}
+              <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
-          ) : (
-            <div className="space-y-1.5">
-              <label
-                htmlFor="mobile-identifier"
-                className="block text-sm font-medium text-slate-700"
-              >
-                Mobile Number <span className="text-red-500">*</span>
-              </label>
-              <div className="flex rounded-lg border border-slate-300 bg-white overflow-hidden focus-within:border-primary-600 focus-within:ring-2 focus-within:ring-primary-100 focus-within:ring-offset-1">
-                <span className="inline-flex items-center px-3 text-sm font-semibold text-slate-500 bg-slate-50 border-r border-slate-200">
-                  +91
-                </span>
+            {errors.full_name && (
+              <p className="text-red-400 text-[11px] mt-0.5">{errors.full_name.message}</p>
+            )}
+          </div>
+
+          {/* Mobile Number */}
+          <div className="space-y-1">
+            <label className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
+              Mobile Number
+            </label>
+            <div className="relative flex">
+              <span className="inline-flex items-center px-3 rounded-l-xl border border-r-0 border-white/15 bg-white/5 text-slate-300 text-xs font-mono font-bold">
+                +91
+              </span>
+              <div className="relative flex-1">
                 <input
-                  id="mobile-identifier"
                   type="tel"
                   maxLength={10}
                   placeholder="9876543210"
-                  className="w-full px-3.5 py-2 text-sm bg-transparent border-0 focus:outline-none placeholder:text-slate-400 text-slate-900"
-                  {...register('identifier')}
+                  className={`w-full pl-10 pr-4 py-2.5 text-sm rounded-r-xl border bg-[#050b14] text-white placeholder-slate-500 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400/30 ${
+                    errors.mobile
+                      ? 'border-red-500 focus:border-red-500'
+                      : 'border-white/15 focus:border-cyan-400'
+                  }`}
+                  {...register('mobile')}
                 />
+                <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
-              {errors.identifier && (
-                <p className="text-xs text-red-600">{errors.identifier.message}</p>
+            </div>
+            {errors.mobile && (
+              <p className="text-red-400 text-[11px] mt-0.5">{errors.mobile.message}</p>
+            )}
+          </div>
+
+          {/* Email Address */}
+          <div className="space-y-1">
+            <label className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
+              Email Address
+            </label>
+            <div className="relative">
+              <input
+                type="email"
+                placeholder="rahul.sharma@example.com"
+                className={`w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border bg-[#050b14] text-white placeholder-slate-500 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400/30 ${
+                  errors.email
+                    ? 'border-red-500 focus:border-red-500'
+                    : 'border-white/15 focus:border-cyan-400'
+                }`}
+                {...register('email')}
+              />
+              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+            {errors.email && (
+              <p className="text-red-400 text-[11px] mt-0.5">{errors.email.message}</p>
+            )}
+          </div>
+
+          {/* Password & Confirm Password Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Password */}
+            <div className="space-y-1">
+              <label className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Min 6 chars"
+                  className={`w-full pl-10 pr-10 py-2.5 text-sm rounded-xl border bg-[#050b14] text-white placeholder-slate-500 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400/30 ${
+                    errors.password
+                      ? 'border-red-500 focus:border-red-500'
+                      : 'border-white/15 focus:border-cyan-400'
+                  }`}
+                  {...register('password')}
+                />
+                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="text-red-400 text-[11px] mt-0.5">{errors.password.message}</p>
               )}
             </div>
-          )}
 
-          <Button
+            {/* Confirm Password */}
+            <div className="space-y-1">
+              <label className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
+                Confirm
+              </label>
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  placeholder="Re-enter"
+                  className={`w-full pl-10 pr-10 py-2.5 text-sm rounded-xl border bg-[#050b14] text-white placeholder-slate-500 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400/30 ${
+                    errors.confirmPassword
+                      ? 'border-red-500 focus:border-red-500'
+                      : 'border-white/15 focus:border-cyan-400'
+                  }`}
+                  {...register('confirmPassword')}
+                />
+                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                  tabIndex={-1}
+                >
+                  {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+              {errors.confirmPassword && (
+                <p className="text-red-400 text-[11px] mt-0.5">{errors.confirmPassword.message}</p>
+              )}
+            </div>
+          </div>
+
+          {/* Referral Code (Optional accordion) */}
+          <div className="pt-1">
+            {!showReferralInput ? (
+              <button
+                type="button"
+                onClick={() => setShowReferralInput(true)}
+                className="text-[11px] font-mono text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1 cursor-pointer"
+              >
+                <Gift className="w-3.5 h-3.5" />
+                <span>Have a referral code? (Optional)</span>
+              </button>
+            ) : (
+              <div className="space-y-1">
+                <label className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-300 flex items-center justify-between">
+                  <span>Referral Code (Optional)</span>
+                  <button
+                    type="button"
+                    onClick={() => setShowReferralInput(false)}
+                    className="text-[10px] text-slate-400 hover:text-white"
+                  >
+                    Hide
+                  </button>
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. BC123ABC"
+                  className="w-full px-4 py-2 text-xs rounded-xl border border-white/15 bg-[#050b14] text-white uppercase placeholder-slate-500 focus:border-cyan-400 focus:outline-none"
+                  {...register('referral_code')}
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Account Tier Distinction Pill */}
+          <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10 space-y-1 text-left">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+                <ShoppingBag className="w-3.5 h-3.5" />
+                <span>Normal Customer Account</span>
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-400/10 text-cyan-400 font-bold border border-cyan-400/20">
+                100% Free
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400">
+              Immediate access to sports catalog, orders, and free express shipping above ₹500. VIP Athlete Pass can be activated anytime from your account.
+            </p>
+          </div>
+
+          {/* Submit Button */}
+          <button
             type="submit"
-            variant="primary"
-            className="w-full mt-2"
-            isLoading={loading}
-            rightIcon={<ArrowRight className="w-4 h-4" />}
+            disabled={loading}
+            className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-cyan-400 via-sky-500 to-cyan-500 text-slate-950 font-syne font-black text-sm uppercase tracking-wider shadow-[0_0_20px_rgba(0,240,255,0.4)] hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
           >
-            Send Verification Code
-          </Button>
+            {loading ? (
+              <span className="flex items-center gap-2">
+                <span className="w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
+                <span>Creating Account...</span>
+              </span>
+            ) : (
+              <>
+                <span>Create Account</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
+          </button>
         </form>
 
-        {/* Footer info */}
-        <div className="mt-6 pt-5 border-t border-slate-100 text-center text-xs text-slate-600">
-          Already have an account?{' '}
-          <Link to="/login" className="text-primary-900 font-bold hover:underline">
-            Sign In
-          </Link>
+        {/* Footer / Login Link */}
+        <div className="text-center mt-6 pt-5 border-t border-white/10">
+          <p className="text-xs text-slate-400">
+            Already have an account?{' '}
+            <Link
+              to="/login"
+              className="text-cyan-400 hover:text-cyan-300 font-bold hover:underline ml-1 inline-flex items-center gap-0.5"
+            >
+              Sign In here &rarr;
+            </Link>
+          </p>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

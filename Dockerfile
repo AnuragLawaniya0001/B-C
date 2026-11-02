@@ -65,7 +65,7 @@ COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # 3000: Customer Frontend
 # 3001: Admin Console
 # 3002: Partner Portal
-EXPOSE 80 3050 3000 3001 3002
+EXPOSE 80 443 3050 3000 3001 3002 3080
 
 # Start Supervisord to manage both Uvicorn and Nginx
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

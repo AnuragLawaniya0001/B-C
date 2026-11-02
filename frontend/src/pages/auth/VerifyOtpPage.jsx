@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { ShieldCheck, ArrowRight, RefreshCw, KeyRound } from 'lucide-react';
-import { Card } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
 import { authService } from '../../services/authService';
 
 export default function VerifyOtpPage() {
@@ -29,10 +27,8 @@ export default function VerifyOtpPage() {
       return;
     }
 
-    // Auto-focus first input
     inputsRef.current[0]?.focus();
 
-    // 60-second cooldown countdown
     const timer = setInterval(() => {
       setCooldown((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
@@ -41,7 +37,6 @@ export default function VerifyOtpPage() {
   }, [identifier, navigate]);
 
   const handleChange = (index, value) => {
-    // Only accept numeric digit
     const digit = value.replace(/\D/g, '').slice(-1);
     const newOtp = [...otpValues];
     newOtp[index] = digit;
@@ -61,17 +56,16 @@ export default function VerifyOtpPage() {
 
   const handlePaste = (e) => {
     e.preventDefault();
-    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
-    if (!pasted) return;
+    const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+    if (!pastedData) return;
 
     const newOtp = [...otpValues];
-    for (let i = 0; i < pasted.length; i++) {
-      newOtp[i] = pasted[i];
+    for (let i = 0; i < pastedData.length; i++) {
+      newOtp[i] = pastedData[i];
     }
     setOtpValues(newOtp);
-
-    const nextIndex = Math.min(pasted.length, 5);
-    inputsRef.current[nextIndex]?.focus();
+    const focusIndex = Math.min(pastedData.length, 5);
+    inputsRef.current[focusIndex]?.focus();
   };
 
   const handleResend = async () => {
@@ -80,29 +74,21 @@ export default function VerifyOtpPage() {
     setErrorMsg('');
 
     try {
-      const res = await authService.sendOtp(identifier, 'REGISTER');
-      const newDevOtp = res.data.dev_otp || res.data.mock_otp;
-
-      // Update stored registration temp data with new dev OTP
-      localStorage.setItem(
-        'bc_reg_tmp',
-        JSON.stringify({
-          ...regData,
-          devOtp: newDevOtp,
-        })
-      );
-
-      setCooldown(60);
-      setOtpValues(['', '', '', '', '', '']);
-      inputsRef.current[0]?.focus();
+      const response = await authService.sendOtp(identifier, 'REGISTER');
+      const newDevOtp = response.data.dev_otp || response.data.mock_otp;
 
       if (newDevOtp) {
         toast.success(`New OTP sent! (Dev Code: ${newDevOtp})`, { duration: 6000 });
+        const updated = { ...regData, devOtp: newDevOtp };
+        localStorage.setItem('bc_reg_tmp', JSON.stringify(updated));
       } else {
-        toast.success('A new verification code has been sent!');
+        toast.success('A fresh verification code has been dispatched.');
       }
+      setCooldown(60);
+      setOtpValues(['', '', '', '', '', '']);
+      inputsRef.current[0]?.focus();
     } catch (err) {
-      const msg = err.response?.data?.detail || 'Failed to resend OTP.';
+      const msg = err.response?.data?.detail || 'Failed to resend OTP. Please wait a moment.';
       toast.error(msg);
     } finally {
       setResending(false);
@@ -112,7 +98,8 @@ export default function VerifyOtpPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const fullOtp = otpValues.join('');
-    if (fullOtp.length !== 6) {
+
+    if (fullOtp.length < 6) {
       setErrorMsg('Please enter all 6 digits of your verification code.');
       setShake(true);
       setTimeout(() => setShake(false), 500);
@@ -138,26 +125,49 @@ export default function VerifyOtpPage() {
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center p-4 sm:p-6 bg-slate-50/50">
-      <Card className="w-full max-w-[440px] p-6 sm:p-8 shadow-lg border-slate-200 bg-white">
+    <div className="min-h-[80vh] flex items-center justify-center p-4 sm:p-6 py-10 relative z-10">
+      <div
+        className={`w-full max-w-[440px] p-7 sm:p-9 rounded-3xl bg-[#060b16]/85 backdrop-blur-2xl border border-white/15 shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_35px_rgba(245,158,11,0.1)] text-white relative overflow-hidden ${
+          shake ? 'animate-bounce' : ''
+        }`}
+      >
+        <div className="absolute top-0 right-0 w-36 h-36 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
         {/* Header */}
         <div className="text-center mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-primary-50 text-primary-900 mx-auto flex items-center justify-center mb-3">
-            <KeyRound className="w-6 h-6" />
-          </div>
-          <h1 className="text-xl font-bold text-slate-900">Verify your code</h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            We sent a 6-digit verification code to
+          <Link to="/" className="inline-flex items-center gap-2.5 group mb-3">
+            <img
+              src="/assets/logo.png"
+              alt="Bigchamp Brand Crest"
+              className="h-9 w-auto filter drop-shadow-[0_2px_10px_rgba(245,158,11,0.5)] group-hover:scale-105 transition-transform"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+            <div className="flex flex-col text-left">
+              <span className="font-syne font-black text-xl tracking-[1.5px] text-white flex items-center gap-1 leading-none">
+                BIG<span className="text-amber-400">CHAMP</span>
+              </span>
+              <span className="text-[9px] font-mono tracking-[1.5px] uppercase text-slate-400 mt-0.5">
+                Born to Win
+              </span>
+            </div>
+          </Link>
+
+          <h1 className="font-syne font-black text-2xl text-white tracking-tight">
+            Verify Your Code
+          </h1>
+          <p className="text-xs text-slate-400 mt-1">
+            We sent a 6-digit code to <span className="font-bold text-amber-400">{identifier}</span>
           </p>
-          <p className="text-sm font-bold text-primary-900 mt-0.5">{identifier}</p>
         </div>
 
         {/* Development Mode Helper Banner */}
         {devOtp && (
-          <div className="mb-5 p-3 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-between text-xs text-amber-800">
+          <div className="mb-5 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-xs text-amber-300">
             <div>
-              <span className="font-bold">Dev Mode OTP: </span>
-              <span className="font-mono text-sm tracking-widest bg-amber-100 px-2 py-0.5 rounded font-bold">
+              <span className="font-bold">Dev Code: </span>
+              <span className="font-mono text-sm tracking-widest bg-amber-500/20 px-2 py-0.5 rounded font-bold text-amber-200">
                 {devOtp}
               </span>
             </div>
@@ -167,7 +177,7 @@ export default function VerifyOtpPage() {
                 const digits = devOtp.split('').slice(0, 6);
                 setOtpValues(digits);
               }}
-              className="text-xs font-semibold text-amber-900 underline hover:opacity-80"
+              className="text-xs font-bold text-amber-400 underline hover:text-amber-300 cursor-pointer"
             >
               Auto-fill
             </button>
@@ -176,82 +186,59 @@ export default function VerifyOtpPage() {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* 6 Digit Inputs */}
-          <div
-            className={`flex justify-between gap-2 sm:gap-3 ${
-              shake ? 'animate-bounce' : ''
-            }`}
-          >
-            {otpValues.map((val, idx) => (
+          <div className="flex justify-between gap-2" onPaste={handlePaste}>
+            {otpValues.map((digit, idx) => (
               <input
                 key={idx}
                 ref={(el) => (inputsRef.current[idx] = el)}
                 type="text"
                 inputMode="numeric"
                 maxLength={1}
-                value={val}
+                value={digit}
                 onChange={(e) => handleChange(idx, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(idx, e)}
-                onPaste={handlePaste}
-                className={`w-11 sm:w-12 h-13 sm:h-14 text-center text-xl font-bold rounded-xl border bg-slate-50/50 transition-all focus:bg-white focus:outline-none focus:ring-2 ${
-                  errorMsg
-                    ? 'border-red-400 text-red-900 focus:ring-red-200'
-                    : 'border-slate-300 text-slate-900 focus:border-primary-600 focus:ring-primary-100'
-                }`}
+                className="w-11 h-14 sm:w-12 sm:h-14 text-center font-mono text-xl font-black rounded-xl border border-white/20 bg-[#02050b]/80 text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400 transition-all"
               />
             ))}
           </div>
 
-          {/* Error Message */}
           {errorMsg && (
-            <p className="text-xs font-medium text-center text-red-600">{errorMsg}</p>
+            <p className="text-xs text-center text-red-400 font-medium">{errorMsg}</p>
           )}
 
-          {/* Submit Button */}
-          <Button
+          <button
             type="submit"
-            variant="primary"
-            className="w-full"
-            isLoading={loading}
-            rightIcon={<ArrowRight className="w-4 h-4" />}
+            disabled={loading}
+            className="w-full py-3.5 px-6 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-orange-500 text-slate-950 font-syne font-black text-xs uppercase tracking-wider shadow-lg shadow-amber-500/30 hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
           >
-            Verify & Continue
-          </Button>
-
-          {/* Resend Cooldown */}
-          <div className="text-center pt-2">
-            {cooldown > 0 ? (
-              <p className="text-xs text-slate-500">
-                Resend code in{' '}
-                <span className="font-semibold text-slate-700">{cooldown}s</span>
-              </p>
+            {loading ? (
+              <span className="inline-block w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
             ) : (
-              <button
-                type="button"
-                onClick={handleResend}
-                disabled={resending}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary-900 hover:text-primary-700 hover:underline disabled:opacity-50"
-              >
-                <RefreshCw
-                  className={`w-3.5 h-3.5 ${resending ? 'animate-spin' : ''}`}
-                />
-                <span>Resend verification code</span>
-              </button>
+              <>
+                <span>Confirm &amp; Proceed</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
             )}
-          </div>
+          </button>
         </form>
 
-        {/* Change Identifier */}
-        <div className="mt-6 pt-5 border-t border-slate-100 text-center text-xs text-slate-500">
-          Incorrect details?{' '}
-          <Link
-            to="/register"
-            className="text-primary-900 font-semibold hover:underline"
-          >
-            Change identifier
-          </Link>
+        {/* Resend Option */}
+        <div className="mt-6 pt-5 border-t border-white/10 text-center text-xs text-slate-400">
+          {cooldown > 0 ? (
+            <span>Resend available in <strong className="text-amber-400 font-mono">{cooldown}s</strong></span>
+          ) : (
+            <button
+              type="button"
+              onClick={handleResend}
+              disabled={resending}
+              className="text-amber-400 font-bold hover:underline inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${resending ? 'animate-spin' : ''}`} />
+              <span>Resend Verification Code</span>
+            </button>
+          )}
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

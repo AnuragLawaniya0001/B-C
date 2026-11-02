@@ -44,6 +44,16 @@ class Settings(BaseSettings):
         "http://127.0.0.1:3050",
         "http://127.0.0.1:3080",
         "http://127.0.0.1:80",
+        "http://bigchamp.in",
+        "https://bigchamp.in",
+        "http://www.bigchamp.in",
+        "https://www.bigchamp.in",
+        "http://bcpanel.bigchamp.com",
+        "https://bcpanel.bigchamp.com",
+        "http://partner.bigchamp.in",
+        "https://partner.bigchamp.in",
+        "http://api.bigchamp.in",
+        "https://api.bigchamp.in",
     ]
 
     @field_validator("CORS_ORIGINS", mode="before")

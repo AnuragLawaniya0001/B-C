@@ -31,3 +31,8 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Temporary scratch & capture files
+scratch/
+sample_frames/
+

@@ -128,53 +128,54 @@ async def send_otp(identifier: str, purpose: str) -> dict:
 
 
 async def register_user(payload: RegisterRequest) -> dict:
-    """Register a new customer account (Free User).
+    """Register a new customer account (Free / Normal User).
     Flow:
-    1. Verify identifier was OTP-verified within last 10 minutes
-    2. Check email / mobile not already taken
-    3. Hash password
-    4. Insert user document
-    5. NOTE: Free users do NOT get a wallet created upon registration.
-       Wallet is created only upon membership card purchase (Prompt #6).
-    6. Return tokens + user profile + has_membership: False
+    1. Check identifier / email / mobile inputs
+    2. If OTP-based verification was performed, mark OTP record used
+    3. Ensure email / mobile are not already registered
+    4. Hash password
+    5. Insert user document with role: 'USER' and has_membership: False
+    6. Return JWT access/refresh tokens + user profile
     """
     db = get_db()
     now = datetime.now(timezone.utc)
     ten_minutes_ago = now - timedelta(minutes=10)
 
-    # 1. Verify OTP record in otp_store was verified within last 10 min
-    otp_record = await db.otp_store.find_one({
-        "identifier": payload.identifier,
-        "purpose": "REGISTER",
-        "used": True,
-    }, sort=[("created_at", -1)])
+    # 1. Determine and validate email and mobile
+    email = payload.email.strip().lower() if payload.email else None
+    mobile = payload.mobile.strip() if payload.mobile else None
+    identifier = payload.identifier.strip() if payload.identifier else (email or mobile)
 
-    if not otp_record:
-        raise ValidationError("Please verify your email/mobile with OTP first.")
+    if not email and identifier and "@" in identifier:
+        email = identifier.lower()
+    if not mobile and identifier and "@" not in identifier:
+        mobile = identifier
 
-    # Check verification / creation time within last 10 min
-    record_time = _ensure_utc(otp_record.get("verified_at") or otp_record.get("created_at", now))
-    if record_time < ten_minutes_ago:
-        raise ValidationError("OTP verification expired. Please verify OTP again.")
+    if not email and not mobile:
+        raise ValidationError("Please provide a valid email or mobile number.")
 
-    # 2. Determine and validate email and mobile
-    email = payload.email
-    mobile = payload.mobile
+    # If identifier has an active OTP in otp_store, check it (optional OTP verification)
+    if payload.identifier:
+        otp_record = await db.otp_store.find_one({
+            "identifier": payload.identifier,
+            "purpose": "REGISTER",
+            "used": True,
+        }, sort=[("created_at", -1)])
+        if otp_record:
+            record_time = _ensure_utc(otp_record.get("verified_at") or otp_record.get("created_at", now))
+            if record_time < ten_minutes_ago:
+                raise ValidationError("OTP verification expired. Please verify OTP again.")
 
-    if not email and "@" in payload.identifier:
-        email = payload.identifier
-    if not mobile and "@" not in payload.identifier:
-        mobile = payload.identifier
-
+    # 2. Check for duplicate accounts
     if email:
         existing_email = await db.users.find_one({"email": email})
         if existing_email:
-            raise ValidationError("Email already registered")
+            raise ValidationError("Email is already registered. Please sign in instead.")
 
     if mobile:
         existing_mobile = await db.users.find_one({"mobile": mobile})
         if existing_mobile:
-            raise ValidationError("Mobile number already registered")
+            raise ValidationError("Mobile number is already registered. Please sign in instead.")
 
     # 3. Hash password
     password_hash = hash_password(payload.password)

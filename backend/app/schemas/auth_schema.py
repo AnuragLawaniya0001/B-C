@@ -38,19 +38,18 @@ class VerifyOtpRequest(BaseModel):
 class RegisterRequest(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True)
 
-    identifier: str = Field(..., min_length=3, description="Email address or mobile number verified via OTP")
-    password: str = Field(..., min_length=8, description="Password with min 8 chars, 1 upper, 1 lower, 1 digit")
+    identifier: Optional[str] = Field(default=None, description="Optional email or mobile identifier")
+    password: str = Field(..., min_length=6, description="Password with min 6 characters")
     full_name: str = Field(..., min_length=2, max_length=100, description="Full name")
-    email: Optional[str] = Field(default=None, description="Optional if identifier is mobile")
-    mobile: Optional[str] = Field(default=None, description="Optional if identifier is email")
+    email: Optional[str] = Field(default=None, description="Email address")
+    mobile: Optional[str] = Field(default=None, description="Mobile number")
     referral_code: Optional[str] = Field(default=None, description="Optional referral code of referring user")
 
     @field_validator("password")
     @classmethod
     def check_password_strength(cls, v: str) -> str:
-        is_valid, msg = validate_password_strength(v)
-        if not is_valid:
-            raise ValueError(msg)
+        if not v or len(v.strip()) < 6:
+            raise ValueError("Password must be at least 6 characters")
         return v
 
     @field_validator("full_name")

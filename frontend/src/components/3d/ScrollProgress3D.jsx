@@ -30,7 +30,7 @@ export function ScrollProgress3D() {
       aria-hidden="true"
     >
       <div
-        className="h-full bg-gradient-to-r from-amber-500 via-yellow-400 to-orange-500 shadow-[0_0_12px_rgba(245,158,11,0.85)] transition-transform duration-75 ease-out origin-left"
+        className="h-full bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500 shadow-[0_0_12px_rgba(0,240,255,0.85)] transition-transform duration-75 ease-out origin-left"
         style={{ transform: `scaleX(${scrollProgress})` }}
       />
     </div>
