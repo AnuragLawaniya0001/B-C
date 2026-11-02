@@ -35,11 +35,13 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     ENV=development \
     PORT=3050
 
-# Install Nginx, Supervisor, and networking curl
+# Install Nginx, Supervisor, networking curl, and Certbot for SSL
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx \
     supervisor \
     curl \
+    certbot \
+    python3-certbot-nginx \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Python backend dependencies
