@@ -90,22 +90,22 @@ export function AdminLayout() {
       >
         <div className="flex flex-col h-full overflow-hidden">
           {/* Header */}
-          <div className="h-16 px-3.5 flex items-center justify-between border-b border-white/10 shrink-0">
+          <div className="h-16 px-4 flex items-center justify-between border-b border-white/10 shrink-0">
             {!collapsed ? (
-              <Link to="/dashboard" className="flex items-center gap-2 group min-w-0">
+              <Link to="/dashboard" className="flex items-center gap-2 group">
                 <img
                   src="/assets/logo.png"
                   alt="Bigchamp Crest"
-                  className="h-7 w-auto filter drop-shadow-[0_2px_10px_rgba(245,158,11,0.5)] group-hover:scale-105 transition-transform shrink-0"
+                  className="h-6 w-auto filter drop-shadow-[0_2px_10px_rgba(245,158,11,0.5)] group-hover:scale-105 transition-transform shrink-0"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                   }}
                 />
-                <div className="flex items-center gap-1.5 min-w-0">
-                  <span className="font-syne font-black text-base tracking-wider text-white">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-syne font-black text-sm tracking-wider text-white">
                     BIG<span className="text-amber-400">CHAMP</span>
                   </span>
-                  <span className="px-1.5 py-0.5 rounded bg-amber-400/10 border border-amber-400/30 text-amber-400 text-[8px] font-black uppercase tracking-wider shrink-0">
+                  <span className="px-1 py-0.5 rounded bg-amber-400/10 border border-amber-400/30 text-amber-400 text-[8px] font-black uppercase tracking-wider shrink-0">
                     ADMIN
                   </span>
                 </div>
