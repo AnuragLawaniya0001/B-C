@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { CinematicCanvasScrubber } from '../../components/cinematic/CinematicCanvasScrubber';
-import { CinematicIntroOverlay } from '../../components/cinematic/CinematicIntroOverlay';
+import { StoreHeroCarousel } from '../../components/store/StoreHeroCarousel';
 import { SportsMarquee } from '../../components/home/SportsMarquee';
 import { SportsCategoriesSection } from '../../components/home/SportsCategoriesSection';
 import { FeaturedProductsSection } from '../../components/home/FeaturedProductsSection';
@@ -10,7 +9,6 @@ import { TrustPillarsSection } from '../../components/home/TrustPillarsSection';
 import { CinematicHeader } from '../../components/navigation/CinematicHeader';
 import { CinematicFooter } from '../../components/navigation/CinematicFooter';
 import { useLenisScroll } from '../../hooks/useLenisScroll';
-import api from '../../services/api';
 
 export function CinematicCommercePage() {
   // Butter-smooth inertial scrolling
@@ -19,10 +17,6 @@ export function CinematicCommercePage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const [batProduct, setBatProduct] = useState(null);
-  const [, setActiveScene] = useState({ id: 1, title: 'THE ORIGIN' });
-  const [, setIsStoryActive] = useState(true);
-
   // If URL has search or category filters, redirect directly to catalog
   useEffect(() => {
     if (searchParams.get('category') || searchParams.get('search') || searchParams.get('sort')) {
@@ -30,67 +24,18 @@ export function CinematicCommercePage() {
     }
   }, [searchParams, navigate]);
 
-  // Fetch live Willow Bat product from MongoDB (Never hardcode ₹4,500)
-  useEffect(() => {
-    let isMounted = true;
-    api
-      .get('/products/english-willow-cricket-bat')
-      .then((res) => {
-        if (isMounted && res.data) {
-          setBatProduct(res.data);
-        }
-      })
-      .catch(() => {
-        api
-          .get('/products?category=GEARS&limit=5')
-          .then((res) => {
-            if (isMounted && Array.isArray(res.data) && res.data.length > 0) {
-              const willowBat =
-                res.data.find(
-                  (p) =>
-                    p.slug?.includes('willow') ||
-                    p.name?.toLowerCase().includes('willow') ||
-                    p.name?.toLowerCase().includes('bat')
-                ) || res.data[0];
-              setBatProduct(willowBat);
-            }
-          })
-          .catch((err) => console.error('Error fetching bat product:', err));
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  const handleSkipStory = useCallback(() => {
-    const storeSection = document.getElementById('shop-storefront');
-    if (storeSection) {
-      storeSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, []);
-
   return (
-    <div className="relative min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-cyan-400 selection:text-slate-950">
+    <div className="relative min-h-screen w-full bg-slate-950 text-slate-100 font-sans antialiased selection:bg-cyan-400 selection:text-slate-950 overflow-x-hidden">
       {/* ── 1. SINGLE UNIFIED MASTER COMMERCE HEADER ──
-          Clean, elegant, fixed navigation (Products, Categories, Deals, VIP Pass, Search, Cart, Account) */}
+          Clean, elegant, fixed navigation (Store, Categories, Stays, Medical, Offers, Membership) */}
       <CinematicHeader />
 
-      {/* ── 2. HERO: CINEMATIC PRE-STORY INTRO OVERLAY ── */}
-      <CinematicIntroOverlay
-        onSkip={handleSkipStory}
-      />
+      {/* ── 2. HERO: FULL-VIEWPORT MASTER SPORTS PHOTO CAROUSEL (4 Auto-Rotating Commercial Banners) ──
+          100% edge-to-edge, full width, zero border, zero margin, cinematic sports photography */}
+      <StoreHeroCarousel />
 
-      {/* ── 3. HERO: 8-SCENE MASTER 4D FRAME-BY-FRAME CANVAS SCRUBBER ── */}
-      <CinematicCanvasScrubber
-        product={batProduct}
-        onSceneChange={setActiveScene}
-        onStoryActiveChange={setIsStoryActive}
-        onSkip={handleSkipStory}
-      />
-
-      {/* ── 4. POST-STORY STOREFRONT SECTION ── */}
-      <div id="shop-storefront" className="relative z-30 bg-slate-950">
+      {/* ── 3. STOREFRONT MERCHANDISING SECTIONS (ORIGINAL LAYOUT & STYLING) ── */}
+      <div id="shop-storefront" className="relative z-30 w-full bg-slate-950">
         {/* Section A: Horizontal Sports Marquee */}
         <SportsMarquee />
 

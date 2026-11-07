@@ -129,8 +129,8 @@ export default function App() {
           </Route>
 
           {/* =========================================================================
-              3. CINEMATIC SPORTS COMMERCE EXPERIENCE ("BIRTH OF A LEGEND")
-              Standalone full-viewport immersive experience with embedded HUD & post-story store
+              3. CINEMATIC SPORTS COMMERCE EXPERIENCE (STOREFRONT)
+              Standalone master store experience with full-viewport Hero Carousel & storefront
               ========================================================================= */}
           <Route path="/store" element={<CinematicCommercePage />} />
           <Route path="/cinematic" element={<CinematicCommercePage />} />
